@@ -4,8 +4,7 @@ import { JsonApiModel } from '../models/jsonapi-model';
 import { request } from '../utils/http';
 import { ModelType } from '../types/model-type';
 import { JsonApiModelConfig } from '../interfaces/json-api-model-config';
-
-const base = 'https://core-v2.bulbthings.com';
+import BulbThings from '..';
 
 function parseResource<T extends JsonApiModel>(
     resource: JSONAPI.ResourceObject,
@@ -64,6 +63,7 @@ function parseResource<T extends JsonApiModel>(
 }
 
 async function findAll<T extends JsonApiModel>(
+    bulb: BulbThings,
     modelType: ModelType<T>,
     options?: JsonApiOptions
 ): Promise<{ meta?: any; data: T[] }> {
@@ -74,7 +74,7 @@ async function findAll<T extends JsonApiModel>(
         modelType
     ) as JsonApiModelConfig).endpoint;
 
-    const res = await request('GET', `${base}/${endpoint}`, {
+    const res = await request('GET', `${bulb.basePath}/${endpoint}`, {
         params: options
     });
 
@@ -93,6 +93,7 @@ async function findAll<T extends JsonApiModel>(
 }
 
 async function findById<T extends JsonApiModel>(
+    bulb: BulbThings,
     modelType: ModelType<T>,
     id: string,
     options?: JsonApiOptions
@@ -103,7 +104,7 @@ async function findById<T extends JsonApiModel>(
         modelType
     ) as JsonApiModelConfig).endpoint;
 
-    const res = await request('GET', `${base}/${endpoint}/${id}`, {
+    const res = await request('GET', `${bulb.basePath}/${endpoint}/${id}`, {
         params: options
     });
 
@@ -122,33 +123,31 @@ async function findById<T extends JsonApiModel>(
 }
 
 export class Resource<T extends JsonApiModel> {
-    constructor(private modelType: ModelType<T>) {}
+    constructor(
+        private bulbthings: BulbThings,
+        private modelType: ModelType<T>
+    ) {}
 
     async findAll(options?: JsonApiOptions) {
-        return findAll(this.modelType, options);
+        return findAll(this.bulbthings, this.modelType, options);
     }
 
     async findById(id: string, options?: JsonApiOptions) {
-        return findById(this.modelType, id, options);
+        return findById(this.bulbthings, this.modelType, id, options);
     }
 }
 
 export class ReadonlyResource<T extends JsonApiModel> {
-    constructor(private modelType: ModelType<T>) {}
+    constructor(
+        private bulbthings: BulbThings,
+        private modelType: ModelType<T>
+    ) {}
 
     async findAll(options?: JsonApiOptions) {
-        return findAll(this.modelType, options);
+        return findAll(this.bulbthings, this.modelType, options);
     }
 
     async findById(id: string, options?: JsonApiOptions) {
-        return findById(this.modelType, id, options);
-    }
-}
-
-export class ReadonlyCollection<T extends JsonApiModel> {
-    constructor(private modelType: ModelType<T>) {}
-
-    async findAll(options?: JsonApiOptions) {
-        return findAll(this.modelType, options);
+        return findById(this.bulbthings, this.modelType, id, options);
     }
 }
