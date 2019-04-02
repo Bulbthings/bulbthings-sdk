@@ -4,7 +4,7 @@
 
 ### package.json
 
-In `dependencies`, put `"bulbthings-jsonapi": "https://cb76b2588e677ad6f2a2010a610f2dffd534f609@github.com/Bulbthings/bulbthings-javascript-sdk.git#0.1.0",`
+In `dependencies`, put `"bulbthings-javascript-sdk": "https://cb76b2588e677ad6f2a2010a610f2dffd534f609@github.com/Bulbthings/bulbthings-javascript-sdk.git#0.1.0",`
 
 Update version accordingly.
 
