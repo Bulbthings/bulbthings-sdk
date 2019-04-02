@@ -1,7 +1,7 @@
 import { BelongsTo } from '../decorators/belongs-to';
 import { JsonApiModel } from './jsonapi-model';
 import { EntityType } from './entity-type';
-import { JsonApiModelConfig } from '../decorators/json-api-model-config';
+import { JsonApiModelConfig } from '../decorators/json-api-model';
 
 @JsonApiModelConfig({
     endpoint: 'entities'

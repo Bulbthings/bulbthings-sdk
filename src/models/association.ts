@@ -1,30 +1,37 @@
-// @JsonApiModelConfig({
-//     type: 'associations'
-// })
-// export class Association extends BaseModel {
-//     @Attribute()
-//     associationTypeId: string;
+import { BelongsTo } from '../decorators/belongs-to';
+import { JsonApiModel } from './jsonapi-model';
+import { AssociationType } from './association-type';
+import { Entity } from './entity';
+import { Period } from '../interfaces/period';
+import { JsonApiModelConfig } from '../decorators/json-api-model';
+import { Attribute } from '../decorators/attribute';
+import { periodConverter } from '../converters/period';
 
-//     @Attribute()
-//     sourceEntityId: string;
+@JsonApiModelConfig({
+    endpoint: 'associations'
+})
+export class Association extends JsonApiModel {
+    // @Attribute()
+    associationTypeId: string;
 
-//     @Attribute()
-//     targetEntityId: string;
+    // @Attribute()
+    sourceEntityId: string;
 
-//     @Attribute(<AttributeDecoratorOptions>{
-//         converter: periodConverter
-//     })
-//     period: Period;
+    // @Attribute()
+    targetEntityId: string;
 
-//     @Attribute()
-//     ratio: number;
+    @Attribute({ converter: periodConverter })
+    period: Period;
 
-//     @BelongsTo()
-//     associationtype: AssociationType;
+    // @Attribute()
+    ratio: number;
 
-//     @BelongsTo()
-//     source: Entity;
+    @BelongsTo()
+    associationtype: AssociationType;
 
-//     @BelongsTo()
-//     target: Entity;
-// }
+    @BelongsTo()
+    source: Entity;
+
+    @BelongsTo()
+    target: Entity;
+}

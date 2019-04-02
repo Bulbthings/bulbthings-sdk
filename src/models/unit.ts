@@ -1,22 +1,28 @@
-// @JsonApiModelConfig({
-//     type: 'units'
-// })
-// export class Unit extends BaseModel {
-//     @Attribute()
-//     code: string;
+import { Period } from '../interfaces/period';
+import { JsonApiModel } from '../models/jsonapi-model';
+import { Entity } from '../models/entity';
+import { BelongsTo } from '../decorators/belongs-to';
+import { JsonApiModelConfig } from '../decorators/json-api-model';
 
-//     @Attribute()
-//     symbol: string;
+@JsonApiModelConfig({
+    endpoint: 'units'
+})
+export class Unit extends JsonApiModel {
+    // @Attribute()
+    code: string;
 
-//     @Attribute()
-//     label: string;
+    // @Attribute()
+    symbol: string;
 
-//     @Attribute()
-//     isConstant: boolean;
+    // @Attribute()
+    label: string;
 
-//     @Attribute()
-//     isBaseUnit: boolean;
+    // @Attribute()
+    isConstant: boolean;
 
-//     // @BelongsTo()
-//     // unittype: UnitType;
-// }
+    // @Attribute()
+    isBaseUnit: boolean;
+
+    // @BelongsTo()
+    // unittype: UnitType;
+}

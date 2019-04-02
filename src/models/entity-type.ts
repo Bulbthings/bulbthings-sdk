@@ -1,7 +1,7 @@
 import { JsonApiModel } from './jsonapi-model';
 import { HasMany } from '../decorators/has-many';
 import { AttributeType } from './attribute-type';
-import { JsonApiModelConfig } from '../decorators/json-api-model-config';
+import { JsonApiModelConfig } from '../decorators/json-api-model';
 
 @JsonApiModelConfig({
     endpoint: 'entitytypes'

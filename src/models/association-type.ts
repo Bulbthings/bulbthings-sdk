@@ -1,22 +1,25 @@
-// @JsonApiModelConfig({
-//     type: 'associationtypes'
-// })
-// export class AssociationType extends BaseModel {
-//     @Attribute()
-//     sourceEntityTypeId: string;
+import { JsonApiModel } from './jsonapi-model';
+import { JsonApiModelConfig } from '../decorators/json-api-model';
 
-//     @Attribute()
-//     targetEntityTypeId: string;
+@JsonApiModelConfig({
+    endpoint: 'associationtypes'
+})
+export class AssociationType extends JsonApiModel {
+    // @Attribute()
+    sourceEntityTypeId: string;
 
-//     @Attribute()
-//     name: string;
+    // @Attribute()
+    targetEntityTypeId: string;
 
-//     @Attribute()
-//     sourceIsShared: boolean;
+    // @Attribute()
+    name: string;
 
-//     @Attribute()
-//     targetIsShared: boolean;
+    // @Attribute()
+    sourceIsShared: boolean;
 
-//     @Attribute()
-//     meta: any;
-// }
+    // @Attribute()
+    targetIsShared: boolean;
+
+    // @Attribute()
+    meta: any;
+}

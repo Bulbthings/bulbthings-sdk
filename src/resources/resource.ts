@@ -13,6 +13,12 @@ function parseResource<T extends JsonApiModel>(
     includedResources: { [id: string]: JSONAPI.ResourceObject }
 ): T {
     const model = new type(resource);
+    // Parse 'Attribute' fields
+    model.getMetadata('Attribute').forEach(a => {
+        if (model[a.propertyName] && a.converter) {
+            model[a.propertyName] = a.converter.parse(model[a.propertyName]);
+        }
+    });
     if (resource.relationships) {
         // Parse 'BelongsTo' relationships
         model
@@ -33,7 +39,7 @@ function parseResource<T extends JsonApiModel>(
                     );
                 }
             });
-        // parse HasMany
+        // Parse 'HasMany' relationships
         model
             .getMetadata('HasMany')
             .filter(p => resource.relationships[p.propertyName] !== undefined)
@@ -124,5 +130,25 @@ export class Resource<T extends JsonApiModel> {
 
     async findById(id: string, options?: JsonApiOptions) {
         return findById(this.modelType, id, options);
+    }
+}
+
+export class ReadonlyResource<T extends JsonApiModel> {
+    constructor(private modelType: ModelType<T>) {}
+
+    async findAll(options?: JsonApiOptions) {
+        return findAll(this.modelType, options);
+    }
+
+    async findById(id: string, options?: JsonApiOptions) {
+        return findById(this.modelType, id, options);
+    }
+}
+
+export class ReadonlyCollection<T extends JsonApiModel> {
+    constructor(private modelType: ModelType<T>) {}
+
+    async findAll(options?: JsonApiOptions) {
+        return findAll(this.modelType, options);
     }
 }

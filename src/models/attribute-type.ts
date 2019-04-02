@@ -1,5 +1,5 @@
 import { JsonApiModel } from './jsonapi-model';
-import { JsonApiModelConfig } from '../decorators/json-api-model-config';
+import { JsonApiModelConfig } from '../decorators/json-api-model';
 
 @JsonApiModelConfig({
     endpoint: 'attributetypes'

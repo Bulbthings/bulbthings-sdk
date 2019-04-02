@@ -1,33 +1,39 @@
-// @JsonApiModelConfig({
-//     type: 'measurements'
-// })
-// export class Measurement extends BaseModel {
-//     @Attribute()
-//     sourceEntityId: string;
+import { Period } from '../interfaces/period';
+import { JsonApiModel } from '../models/jsonapi-model';
+import { Entity } from '../models/entity';
+import { BelongsTo } from '../decorators/belongs-to';
+import { JsonApiModelConfig } from '../decorators/json-api-model';
+import { Attribute } from '../decorators/attribute';
+import { periodConverter } from '../converters/period';
 
-//     @Attribute()
-//     targetEntityId: string;
+@JsonApiModelConfig({
+    endpoint: 'measurements'
+})
+export class Measurement extends JsonApiModel {
+    // @Attribute()
+    sourceEntityId: string;
 
-//     @Attribute()
-//     attributeTypeId: string;
+    // @Attribute()
+    targetEntityId: string;
 
-//     @Attribute()
-//     value: any;
+    // @Attribute()
+    attributeTypeId: string;
 
-//     @Attribute()
-//     isAbsolute: boolean;
+    // @Attribute()
+    value: any;
 
-//     @Attribute(<AttributeDecoratorOptions>{
-//         converter: periodConverter
-//     })
-//     period: Period;
+    // @Attribute()
+    isAbsolute: boolean;
 
-//     @Attribute()
-//     unitId: string;
+    @Attribute({ converter: periodConverter })
+    period: Period;
 
-//     @BelongsTo()
-//     source: Entity;
+    // @Attribute()
+    unitId: string;
 
-//     @BelongsTo()
-//     target: Entity;
-// }
+    @BelongsTo()
+    source: Entity;
+
+    @BelongsTo()
+    target: Entity;
+}
