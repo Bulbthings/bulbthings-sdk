@@ -22,7 +22,6 @@ export async function create<T extends JsonApiModel>(
         type: endpoint,
         attributes: data
     });
-    console.log('model', model);
     const body = { data: stringifyModel(model, modelType) };
     const res: JSONAPI.SingleResourceDoc = await request(
         'POST',
@@ -30,6 +29,5 @@ export async function create<T extends JsonApiModel>(
         { body }
     );
     const created = parseResource(res.data, modelType, {});
-    console.log('created', created);
     return created;
 }

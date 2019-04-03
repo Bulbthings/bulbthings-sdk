@@ -1,5 +1,8 @@
 # BulbThings JavaScript SDK
 
+## Documentation
+(Work in progress) See full documentation (here)[https://core-v2.bulbthings.com]
+
 ## Installation
 
 ### package.json
@@ -40,7 +43,7 @@ const entity = await bulbthings.entities.findById('1', {
 });
 ```
 
-### TODO: Create
+### Create
 
 ```typescript
 const created = await bulbthings.measurements.create({
@@ -74,7 +77,7 @@ created.value = 'edited';
 await created.save();
 ```
 
-### TODO: Delete
+### Delete
 
 ```typescript
 await bulbthings.entities.deleteById(entity.id);
