@@ -1,15 +1,16 @@
 # BulbThings JavaScript SDK
 
 ## Documentation
-(Work in progress) See full documentation (here)[https://core-v2.bulbthings.com]
+
+(Work in progress) See full documentation [here](https://core-v2.bulbthings.com)
 
 ## Installation
 
 ### package.json
 
-In `dependencies`, put `"bulbthings-javascript-sdk": "https://cb76b2588e677ad6f2a2010a610f2dffd534f609@github.com/Bulbthings/bulbthings-javascript-sdk.git#0.1.0",`
+In `dependencies`, put `"bulbthings-javascript-sdk": "https://cb76b2588e677ad6f2a2010a610f2dffd534f609@github.com/Bulbthings/bulbthings-javascript-sdk.git#0.2.0",`
 
-Update version accordingly.
+See the latest version number in the [releases](https://github.com/Bulbthings/bulbthings-javascript-sdk/releases).
 
 ### TODO: npm package
 
