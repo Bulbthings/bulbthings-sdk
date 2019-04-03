@@ -10,25 +10,25 @@ import { periodConverter } from '../converters/period';
     endpoint: 'measurements'
 })
 export class Measurement extends JsonApiModel {
-    // @Attribute()
+    @Attribute()
     sourceEntityId: string;
 
-    // @Attribute()
+    @Attribute()
     targetEntityId: string;
 
-    // @Attribute()
+    @Attribute()
     attributeTypeId: string;
 
-    // @Attribute()
+    @Attribute()
     value: any;
 
-    // @Attribute()
+    @Attribute()
     isAbsolute: boolean;
 
     @Attribute({ converter: periodConverter })
     period: Period;
 
-    // @Attribute()
+    @Attribute()
     unitId: string;
 
     @BelongsTo()

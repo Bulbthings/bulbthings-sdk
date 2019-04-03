@@ -1,17 +1,18 @@
 import { JsonApiModel } from './jsonapi-model';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
+import { Attribute } from '../decorators/attribute';
 
 @JsonApiModelConfig({
     endpoint: 'attributetypes'
 })
 export class AttributeType extends JsonApiModel {
-    // @Attribute()
+    @Attribute()
     entityTypeId: string;
 
-    // @Attribute()
+    @Attribute()
     name: string;
 
-    // @Attribute()
+    @Attribute()
     jsonSchema: {
         title: string;
         category: string;
@@ -28,9 +29,9 @@ export class AttributeType extends JsonApiModel {
         format?: 'date-time' | 'time' | 'date';
     };
 
-    // @Attribute()
+    @Attribute()
     unitId: string;
 
-    // @Attribute()
+    @Attribute()
     timeSeriesOptions: object;
 }

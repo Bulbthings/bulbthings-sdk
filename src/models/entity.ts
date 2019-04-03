@@ -1,4 +1,5 @@
 import { BelongsTo } from '../decorators/belongs-to';
+import { Attribute } from '../decorators/attribute';
 import { JsonApiModel } from './jsonapi-model';
 import { EntityType } from './entity-type';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
@@ -7,16 +8,16 @@ import { JsonApiModelConfig } from '../decorators/json-api-model';
     endpoint: 'entities'
 })
 export class Entity extends JsonApiModel {
-    // @Attribute()
+    @Attribute()
     parentId: string;
 
-    // @Attribute()
+    @Attribute()
     entityTypeId: string;
 
-    // @Attribute()
+    @Attribute()
     attributes: object;
 
-    // @Attribute()
+    @Attribute()
     quantity: number;
 
     @BelongsTo()

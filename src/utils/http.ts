@@ -1,6 +1,5 @@
-// Using ES6 modules with Babel or TypeScript
 import fetch from 'cross-fetch';
-import * as qs from 'qs';
+import qs from 'qs';
 import { JsonApiOptions } from '../interfaces/json-api-options';
 
 interface HttpHeaders {
@@ -33,16 +32,16 @@ export const request = async (
             }
         });
 
+        // TODO: better error management
         if (res.status >= 400) {
             console.error(await res.json());
             throw new Error('Bad response from server');
         }
 
-        const data = await res.json();
+        const text = await res.text();
 
-        return data;
-
-        // console.log(data);
+        // Check if body is empty or not
+        return text.length ? JSON.parse(text) : {};
     } catch (err) {
         console.error(err);
     }

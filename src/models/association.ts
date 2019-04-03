@@ -11,19 +11,19 @@ import { periodConverter } from '../converters/period';
     endpoint: 'associations'
 })
 export class Association extends JsonApiModel {
-    // @Attribute()
+    @Attribute()
     associationTypeId: string;
 
-    // @Attribute()
+    @Attribute()
     sourceEntityId: string;
 
-    // @Attribute()
+    @Attribute()
     targetEntityId: string;
 
     @Attribute({ converter: periodConverter })
     period: Period;
 
-    // @Attribute()
+    @Attribute()
     ratio: number;
 
     @BelongsTo()

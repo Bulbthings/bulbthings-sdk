@@ -1,4 +1,3 @@
-import { Period } from '../interfaces/period';
 import { JsonApiModel } from '../models/jsonapi-model';
 import { Entity } from '../models/entity';
 import { AttributeType } from '../models/attribute-type';
@@ -10,22 +9,22 @@ import { JsonApiModelConfig } from '../decorators/json-api-model';
     endpoint: 'timeseries'
 })
 export class TimeSeries extends JsonApiModel {
-    // @Attribute()
+    @Attribute()
     entityId: string;
 
-    // @Attribute()
+    @Attribute()
     attributeTypeId: string;
 
     @Attribute()
     time: Date;
 
-    // @Attribute()
+    @Attribute()
     value: any;
 
-    // @Attribute()
+    @Attribute()
     delta: any;
 
-    // @BelongsTo()
+    @BelongsTo()
     entity: Entity;
 
     @BelongsTo()

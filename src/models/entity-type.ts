@@ -1,5 +1,6 @@
 import { JsonApiModel } from './jsonapi-model';
 import { HasMany } from '../decorators/has-many';
+import { Attribute } from '../decorators/attribute';
 import { AttributeType } from './attribute-type';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 
@@ -7,19 +8,19 @@ import { JsonApiModelConfig } from '../decorators/json-api-model';
     endpoint: 'entitytypes'
 })
 export class EntityType extends JsonApiModel {
-    // @Attribute()
+    @Attribute()
     parentId: string;
 
-    // @Attribute()
+    @Attribute()
     path: string[];
 
-    // @Attribute()
+    @Attribute()
     name: string;
 
-    // @Attribute()
+    @Attribute()
     label: string;
 
-    // @Attribute()
+    @Attribute()
     description: string;
 
     @HasMany(AttributeType)

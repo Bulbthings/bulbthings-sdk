@@ -1,25 +1,26 @@
 import { JsonApiModel } from './jsonapi-model';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
+import { Attribute } from '../decorators/attribute';
 
 @JsonApiModelConfig({
     endpoint: 'associationtypes'
 })
 export class AssociationType extends JsonApiModel {
-    // @Attribute()
+    @Attribute()
     sourceEntityTypeId: string;
 
-    // @Attribute()
+    @Attribute()
     targetEntityTypeId: string;
 
-    // @Attribute()
+    @Attribute()
     name: string;
 
-    // @Attribute()
+    @Attribute()
     sourceIsShared: boolean;
 
-    // @Attribute()
+    @Attribute()
     targetIsShared: boolean;
 
-    // @Attribute()
+    @Attribute()
     meta: any;
 }
