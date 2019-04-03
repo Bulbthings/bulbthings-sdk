@@ -1,6 +1,6 @@
 # BulbThings JavaScript SDK
 
-## Documentation
+## Documentation
 
 (Work in progress) See full documentation [here](https://core-v2.bulbthings.com)
 
@@ -59,7 +59,7 @@ const created = await bulbthings.measurements.create({
 });
 ```
 
-### TODO: Refresh
+### TODO: Refresh
 
 ```typescript
 await created.refresh({
@@ -67,7 +67,7 @@ await created.refresh({
 });
 ```
 
-### TODO: Update
+### TODO: Update
 
 ```typescript
 const updated = await bulbthings.measurements.update(created.id, {
