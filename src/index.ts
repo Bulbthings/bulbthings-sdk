@@ -29,13 +29,7 @@ export default class BulbThings {
     }
 
     set basePath(path: string) {
-        if (path.endsWith('bulbthings.com')) {
-            this._basePath = path;
-        } else {
-            console.error(
-                `Invalid path "${path}" must belong to bulbthings.com domain`
-            );
-        }
+        this._basePath = path;
     }
 
     constructor(private apiToken?: string) {
