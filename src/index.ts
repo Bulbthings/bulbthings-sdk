@@ -13,7 +13,7 @@ import {
 
 export default class BulbThings {
     entities = new Resource<Entity>(this, Entity);
-    entityType = new Resource<EntityType>(this, EntityType);
+    entityTypes = new Resource<EntityType>(this, EntityType);
     attributeTypes = new Resource<AttributeType>(this, AttributeType);
     measurements = new Resource<Measurement>(this, Measurement);
     associations = new Resource<Association>(this, Association);
