@@ -1,9 +1,9 @@
 import { JsonApiOptions } from '../interfaces/json-api-options';
 import { JsonApiModel } from '../models/jsonapi-model';
 import { ModelType } from '../types/model-type';
-import { findAll, findById } from './find';
-import { create } from './create';
-import { deleteById } from './delete';
+import { findAll, findById } from '../utils/find';
+import { create } from '../utils/create';
+import { deleteById } from '../utils/delete';
 import BulbThings from '..';
 
 export class Resource<T extends JsonApiModel> {

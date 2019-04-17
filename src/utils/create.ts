@@ -1,7 +1,6 @@
 import * as JSONAPI from 'jsonapi-typescript';
-import { JsonApiOptions } from '../interfaces/json-api-options';
 import { JsonApiModel } from '../models/jsonapi-model';
-import { request } from '../utils/http';
+import { request } from './http';
 import { ModelType } from '../types/model-type';
 import { JsonApiModelConfig } from '../interfaces/json-api-model-config';
 import BulbThings from '..';

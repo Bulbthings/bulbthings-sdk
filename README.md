@@ -85,3 +85,54 @@ await bulbthings.entities.deleteById(entity.id);
 // Shortcut method:
 await entity.delete();
 ```
+
+## Time Series
+
+### Get a report
+
+#### Options
+
+```typescript
+interface TimeSeriesOptions extends Omit<JsonApiOptions, 'page'> {
+    from: Date;
+    to: Date;
+    attributeTypeId: string;
+    alignmentPeriod:
+        | 'second'
+        | 'minute'
+        | 'hour'
+        | 'day'
+        | 'week'
+        | 'month'
+        | 'quarter'
+        | 'year';
+    alignmentMethod: 'first' | 'last' | 'count' | 'sum' | 'avg' | 'min' | 'max';
+    filter: string;
+    useDelta?: boolean;
+    unitCode?: string;
+}
+```
+
+#### Examples
+
+Example: Get the drivers ranked according to their average driver score during the last week:
+
+```typescript
+const data = await bulbthings.timeSeries.getReport({
+    from: moment()
+        .subtract(1, 'week')
+        .toDate(),
+    to: new Date(),
+    attributeTypeId: `${driverScoreAttributeTypeId}`,
+    alignmentPeriod: 'week',
+    alignmentMethod: 'avg',
+    fields: {
+        timeSeries: ['time', 'as(value,"avgScore")']
+    },
+    filter: `eq(sourceEntityId, targetEntityId)`,
+    sort: ['-value'],
+    include: ['targetEntity']
+});
+
+const driversWithScore = data.map(d => ({ driver: d.targetEntity, avgScore }));
+```

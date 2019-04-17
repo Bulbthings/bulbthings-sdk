@@ -10,23 +10,20 @@ import { JsonApiModelConfig } from '../decorators/json-api-model';
 })
 export class TimeSeries extends JsonApiModel {
     @Attribute()
-    entityId: string;
-
-    @Attribute()
-    attributeTypeId: string;
-
-    @Attribute()
     time: Date;
+
+    @Attribute()
+    sourceEntityId: string;
+
+    @Attribute()
+    targetEntityId: string;
 
     @Attribute()
     value: any;
 
-    @Attribute()
-    delta: any;
+    @BelongsTo()
+    sourceEntity: Entity;
 
     @BelongsTo()
-    entity: Entity;
-
-    @BelongsTo()
-    attributetype: AttributeType;
+    targetEntity: Entity;
 }
