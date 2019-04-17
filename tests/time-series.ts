@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import BulbThings from '../src';
+import { BulbThings } from '../src';
 
 describe('Entities', () => {
     let bulb: BulbThings;

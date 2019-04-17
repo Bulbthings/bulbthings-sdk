@@ -11,7 +11,9 @@ import {
     Unit
 } from './models';
 
-export default class BulbThings {
+export * from './models';
+
+export class BulbThings {
     entities = new Resource<Entity>(this, Entity);
     entityTypes = new Resource<EntityType>(this, EntityType);
     attributeTypes = new Resource<AttributeType>(this, AttributeType);

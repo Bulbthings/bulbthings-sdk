@@ -1,5 +1,5 @@
 import { TimeSeries } from '../models/time-series';
-import BulbThings from '..';
+import { BulbThings } from '..';
 import { TimeSeriesOptions } from '../interfaces/time-series-options';
 import { findAll } from '../utils/find';
 

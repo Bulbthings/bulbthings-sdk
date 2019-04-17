@@ -8,16 +8,14 @@
 
 ### package.json
 
-In `dependencies`, put `"bulbthings-javascript-sdk": "https://cb76b2588e677ad6f2a2010a610f2dffd534f609@github.com/Bulbthings/bulbthings-javascript-sdk.git#0.2.0",`
-
-See the latest version number in the [releases](https://github.com/Bulbthings/bulbthings-javascript-sdk/releases).
+In `dependencies`, put `"bulbthings-javascript-sdk": "https://cb76b2588e677ad6f2a2010a610f2dffd534f609@github.com/Bulbthings/bulbthings-javascript-sdk.git#{RELEASE}",` where `{RELEASE}` should be found in the [releases page](https://github.com/Bulbthings/bulbthings-javascript-sdk/releases).
 
 ### TODO: npm package
 
 ## Usage
 
 ```typescript
-import BulbThings from 'bulbthings-javascript-sdk';
+import { BulbThings } from 'bulbthings-javascript-sdk';
 const bulbthings = new BulbThings();
 ```
 

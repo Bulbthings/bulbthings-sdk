@@ -4,7 +4,7 @@ import { ModelType } from '../types/model-type';
 import { findAll, findById } from '../utils/find';
 import { create } from '../utils/create';
 import { deleteById } from '../utils/delete';
-import BulbThings from '..';
+import { BulbThings } from '..';
 
 export class Resource<T extends JsonApiModel> {
     constructor(
