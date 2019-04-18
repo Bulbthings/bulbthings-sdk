@@ -1,14 +1,12 @@
 import * as JSONAPI from 'jsonapi-typescript';
 import { JsonApiModel } from '../models/jsonapi-model';
 import { ModelType } from '../types/model-type';
-import { RelationAnnotation } from '../interfaces/relation-annotation';
 
 export function parseResource<T extends JsonApiModel>(
     resource: JSONAPI.ResourceObject,
     type: ModelType<T>,
     includedResources: { [id: string]: JSONAPI.ResourceObject }
 ): T {
-    // console.log('parse', resource, type);
     const model = new type(resource);
     // Parse 'Attribute' fields
     model.getAttributeMetadata().forEach(a => {
@@ -29,7 +27,6 @@ export function parseResource<T extends JsonApiModel>(
                     .data as JSONAPI.ResourceIdentifierObject;
                 if (data) {
                     // Recursively build the typed object
-                    // console.log('annotation', p);
                     model[p.propertyName] = parseResource(
                         includedResources[data.id],
                         p.type(),

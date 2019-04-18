@@ -1,7 +1,7 @@
 import * as JSONAPI from 'jsonapi-typescript';
 import { AttributeAnnotation } from '../interfaces/attribute-annotation';
 import { RelationAnnotation } from '../interfaces/relation-annotation';
-import { RelationType } from 'relation-type';
+import { RelationType } from '../types/relation-type';
 
 export class JsonApiModel {
     id: string;

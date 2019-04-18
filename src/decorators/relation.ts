@@ -1,7 +1,7 @@
 import { JsonApiModel } from '../models/jsonapi-model';
 import { ModelType } from '../types/model-type';
 import { RelationAnnotation } from '../interfaces/relation-annotation';
-import { RelationType } from 'relation-type';
+import { RelationType } from '../types/relation-type';
 
 // Cannot use Reflect.getMetadata('design:type', ...) because of circular
 // dependencies between models so a factory method needs to be provided

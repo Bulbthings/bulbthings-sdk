@@ -13,7 +13,7 @@ describe('Attribute types', () => {
         const { data: attributeTypes } = await bulb.attributeTypes.findAll({
             include: ['entitytype']
         });
-        // console.log('attributeTypes', attributeTypes);
+
         for (const type of attributeTypes) {
             expect(type.entitytype).to.not.be.undefined;
             expect(type.entitytype.id).to.not.be.undefined;
