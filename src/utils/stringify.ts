@@ -14,7 +14,7 @@ export function stringifyModel<T extends JsonApiModel>(
 
     // Build the attributes object
     const attributes: JSONAPI.AttributesObject = model
-        .getMetadata('Attribute')
+        .getAttributeMetadata()
         .reduce((acc, el) => {
             if (model[el.propertyName] !== undefined) {
                 acc[el.propertyName] = el.converter.stringify(

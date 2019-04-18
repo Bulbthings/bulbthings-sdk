@@ -1,7 +1,7 @@
 import { JsonApiModel } from './jsonapi-model';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Attribute } from '../decorators/attribute';
-import { BelongsTo } from '../decorators/belongs-to';
+import { Relation } from '../decorators/relation';
 import { EntityType } from './entity-type';
 import { Unit } from './unit';
 
@@ -38,9 +38,9 @@ export class AttributeType extends JsonApiModel {
     @Attribute()
     timeSeriesOptions: object;
 
-    @BelongsTo()
+    @Relation('BelongsTo', () => EntityType)
     entitytype: EntityType;
 
-    @BelongsTo()
+    @Relation('BelongsTo', () => Unit)
     unit?: Unit;
 }

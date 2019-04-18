@@ -1,15 +1,17 @@
 import * as JSONAPI from 'jsonapi-typescript';
 import { JsonApiModel } from '../models/jsonapi-model';
 import { ModelType } from '../types/model-type';
+import { RelationAnnotation } from '../interfaces/relation-annotation';
 
 export function parseResource<T extends JsonApiModel>(
     resource: JSONAPI.ResourceObject,
     type: ModelType<T>,
     includedResources: { [id: string]: JSONAPI.ResourceObject }
 ): T {
+    // console.log('parse', resource, type);
     const model = new type(resource);
     // Parse 'Attribute' fields
-    model.getMetadata('Attribute').forEach(a => {
+    model.getAttributeMetadata().forEach(a => {
         if (model[a.propertyName] !== undefined && a.converter) {
             model[a.propertyName] = a.converter.parse(model[a.propertyName]);
         }
@@ -17,7 +19,7 @@ export function parseResource<T extends JsonApiModel>(
     if (resource.relationships) {
         // Parse 'BelongsTo' relationships
         model
-            .getMetadata('BelongsTo')
+            .getRelationMetadata('BelongsTo')
             .filter(p => resource.relationships[p.propertyName] !== undefined)
             .forEach(p => {
                 // Extract jsonapi resource
@@ -27,16 +29,17 @@ export function parseResource<T extends JsonApiModel>(
                     .data as JSONAPI.ResourceIdentifierObject;
                 if (data) {
                     // Recursively build the typed object
+                    // console.log('annotation', p);
                     model[p.propertyName] = parseResource(
                         includedResources[data.id],
-                        p.type,
+                        p.type(),
                         includedResources
                     );
                 }
             });
         // Parse 'HasMany' relationships
         model
-            .getMetadata('HasMany')
+            .getRelationMetadata('HasMany')
             .filter(p => resource.relationships[p.propertyName] !== undefined)
             .forEach(p => {
                 // Extract jsonapi resources
@@ -48,7 +51,7 @@ export function parseResource<T extends JsonApiModel>(
                 model[p.propertyName] = data.map(d =>
                     parseResource(
                         includedResources[d.id],
-                        p.type,
+                        p.type(),
                         includedResources
                     )
                 );

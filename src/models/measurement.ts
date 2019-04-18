@@ -1,7 +1,7 @@
 import { Period } from '../interfaces/period';
 import { JsonApiModel } from '../models/jsonapi-model';
 import { Entity } from '../models/entity';
-import { BelongsTo } from '../decorators/belongs-to';
+import { Relation } from '../decorators/relation';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Attribute } from '../decorators/attribute';
 import { periodConverter } from '../converters/period';
@@ -32,12 +32,12 @@ export class Measurement extends JsonApiModel {
     @Attribute()
     unitId: string;
 
-    @BelongsTo()
+    @Relation('BelongsTo', () => AttributeType)
     attributetype: AttributeType;
 
-    @BelongsTo()
+    @Relation('BelongsTo', () => Entity)
     source: Entity;
 
-    @BelongsTo()
+    @Relation('BelongsTo', () => Entity)
     target: Entity;
 }
