@@ -8,16 +8,14 @@
 
 ### package.json
 
-In `dependencies`, put `"bulbthings-javascript-sdk": "https://cb76b2588e677ad6f2a2010a610f2dffd534f609@github.com/Bulbthings/bulbthings-javascript-sdk.git#0.2.0",`
-
-See the latest version number in the [releases](https://github.com/Bulbthings/bulbthings-javascript-sdk/releases).
+In `dependencies`, put `"bulbthings-javascript-sdk": "https://cb76b2588e677ad6f2a2010a610f2dffd534f609@github.com/Bulbthings/bulbthings-javascript-sdk.git#{RELEASE}",` where `{RELEASE}` should be found in the [releases page](https://github.com/Bulbthings/bulbthings-javascript-sdk/releases).
 
 ### TODO: npm package
 
 ## Usage
 
 ```typescript
-import BulbThings from 'bulbthings-javascript-sdk';
+import { BulbThings } from 'bulbthings-javascript-sdk';
 const bulbthings = new BulbThings();
 ```
 
@@ -84,4 +82,55 @@ await created.save();
 await bulbthings.entities.deleteById(entity.id);
 // Shortcut method:
 await entity.delete();
+```
+
+## Time Series
+
+### Get a report
+
+#### Options
+
+```typescript
+interface TimeSeriesOptions extends Omit<JsonApiOptions, 'page'> {
+    from: Date;
+    to: Date;
+    attributeTypeId: string;
+    alignmentPeriod:
+        | 'second'
+        | 'minute'
+        | 'hour'
+        | 'day'
+        | 'week'
+        | 'month'
+        | 'quarter'
+        | 'year';
+    alignmentMethod: 'first' | 'last' | 'count' | 'sum' | 'avg' | 'min' | 'max';
+    filter: string;
+    useDelta?: boolean;
+    unitCode?: string;
+}
+```
+
+#### Examples
+
+Example: Get the drivers ranked according to their average driver score during the last week:
+
+```typescript
+const data = await bulbthings.timeSeries.getReport({
+    from: moment()
+        .subtract(1, 'week')
+        .toDate(),
+    to: new Date(),
+    attributeTypeId: `${driverScoreAttributeTypeId}`,
+    alignmentPeriod: 'week',
+    alignmentMethod: 'avg',
+    fields: {
+        timeSeries: ['time', 'as(value,"avgScore")']
+    },
+    filter: `eq(sourceEntityId, targetEntityId)`,
+    sort: ['-value'],
+    include: ['targetEntity']
+});
+
+const driversWithScore = data.map(d => ({ driver: d.targetEntity, avgScore }));
 ```

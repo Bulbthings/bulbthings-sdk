@@ -1,6 +1,7 @@
 import fetch from 'cross-fetch';
 import qs from 'qs';
 import { JsonApiOptions } from '../interfaces/json-api-options';
+import { TimeSeriesOptions } from '../interfaces/time-series-options';
 
 interface HttpHeaders {
     [header: string]: string | string[];
@@ -12,7 +13,7 @@ export const request = async (
     options: {
         body?: any;
         headers?: HttpHeaders;
-        params?: JsonApiOptions;
+        params?: JsonApiOptions | TimeSeriesOptions;
     } = {}
 ) => {
     try {
