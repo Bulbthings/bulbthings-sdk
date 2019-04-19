@@ -12,6 +12,7 @@ describe('Entities', () => {
 
     it('should fetch entities', async () => {
         const { data: entities } = await bulb.entities.findAll({
+            include: ['entitytype'],
             page: { limit: 3 }
         });
         entityId = entities[0].id;

@@ -1,4 +1,4 @@
-import { BelongsTo } from '../decorators/belongs-to';
+import { Relation } from '../decorators/relation';
 import { JsonApiModel } from './jsonapi-model';
 import { AssociationType } from './association-type';
 import { Entity } from './entity';
@@ -26,12 +26,12 @@ export class Association extends JsonApiModel {
     @Attribute()
     ratio: number;
 
-    @BelongsTo()
+    @Relation('BelongsTo', () => AssociationType)
     associationtype: AssociationType;
 
-    @BelongsTo()
+    @Relation('BelongsTo', () => Entity)
     source: Entity;
 
-    @BelongsTo()
+    @Relation('BelongsTo', () => Entity)
     target: Entity;
 }

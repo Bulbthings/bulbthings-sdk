@@ -1,4 +1,4 @@
-import { BelongsTo } from '../decorators/belongs-to';
+import { Relation } from '../decorators/relation';
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModel } from './jsonapi-model';
 import { EntityType } from './entity-type';
@@ -20,6 +20,6 @@ export class Entity extends JsonApiModel {
     @Attribute()
     quantity: number;
 
-    @BelongsTo()
+    @Relation('BelongsTo', () => EntityType)
     entitytype: EntityType;
 }

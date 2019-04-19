@@ -11,6 +11,7 @@ import {
     Unit
 } from './models';
 
+// Export all models so they can be used from outside
 export * from './models';
 
 export class BulbThings {

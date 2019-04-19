@@ -9,7 +9,7 @@ export function parseResource<T extends JsonApiModel>(
 ): T {
     const model = new type(resource);
     // Parse 'Attribute' fields
-    model.getMetadata('Attribute').forEach(a => {
+    model.getAttributeMetadata().forEach(a => {
         if (model[a.propertyName] !== undefined && a.converter) {
             model[a.propertyName] = a.converter.parse(model[a.propertyName]);
         }
@@ -17,7 +17,7 @@ export function parseResource<T extends JsonApiModel>(
     if (resource.relationships) {
         // Parse 'BelongsTo' relationships
         model
-            .getMetadata('BelongsTo')
+            .getRelationMetadata('BelongsTo')
             .filter(p => resource.relationships[p.propertyName] !== undefined)
             .forEach(p => {
                 // Extract jsonapi resource
@@ -29,14 +29,14 @@ export function parseResource<T extends JsonApiModel>(
                     // Recursively build the typed object
                     model[p.propertyName] = parseResource(
                         includedResources[data.id],
-                        p.type,
+                        p.type(),
                         includedResources
                     );
                 }
             });
         // Parse 'HasMany' relationships
         model
-            .getMetadata('HasMany')
+            .getRelationMetadata('HasMany')
             .filter(p => resource.relationships[p.propertyName] !== undefined)
             .forEach(p => {
                 // Extract jsonapi resources
@@ -48,7 +48,7 @@ export function parseResource<T extends JsonApiModel>(
                 model[p.propertyName] = data.map(d =>
                     parseResource(
                         includedResources[d.id],
-                        p.type,
+                        p.type(),
                         includedResources
                     )
                 );

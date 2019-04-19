@@ -1,10 +1,10 @@
 import { AttributeConfig } from '../interfaces/attribute-config';
-import { Annotation } from '../interfaces/annotation';
+import { AttributeAnnotation } from '../interfaces/attribute-annotation';
 
 export function Attribute(config: AttributeConfig = {}): PropertyDecorator {
     return function(target: any, propertyName: string | symbol) {
         const type = Reflect.getMetadata('design:type', target, propertyName);
-        const annotations: Annotation[] =
+        const annotations: AttributeAnnotation[] =
             Reflect.getMetadata('Attribute', target) || [];
 
         annotations.push({

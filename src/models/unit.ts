@@ -21,6 +21,6 @@ export class Unit extends JsonApiModel {
     @Attribute()
     isBaseUnit: boolean;
 
-    // @BelongsTo()
+    // @Relation('BelongsTo', () => UnitType)
     // unittype: UnitType;
 }

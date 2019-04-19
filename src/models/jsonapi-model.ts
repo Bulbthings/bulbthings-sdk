@@ -1,5 +1,7 @@
 import * as JSONAPI from 'jsonapi-typescript';
-import { Annotation } from '../interfaces/annotation';
+import { AttributeAnnotation } from '../interfaces/attribute-annotation';
+import { RelationAnnotation } from '../interfaces/relation-annotation';
+import { RelationType } from '../types/relation-type';
 
 export class JsonApiModel {
     id: string;
@@ -11,7 +13,11 @@ export class JsonApiModel {
         }
     }
 
-    public getMetadata(name: string): Annotation[] {
-        return Reflect.getMetadata(name, this) || [];
+    public getRelationMetadata(type: RelationType): RelationAnnotation[] {
+        return Reflect.getMetadata(type, this) || [];
+    }
+
+    public getAttributeMetadata(): AttributeAnnotation[] {
+        return Reflect.getMetadata('Attribute', this) || [];
     }
 }
