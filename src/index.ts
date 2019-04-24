@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { Resource, ReadonlyResource } from './resources/resource';
 import { TimeSeriesResource } from './resources/time-series';
+import { UtilsResource } from './resources/utils';
 import {
     Entity,
     EntityType,
@@ -23,6 +24,7 @@ export class BulbThings {
     associationTypes = new Resource<AssociationType>(this, AssociationType);
     timeSeries = new TimeSeriesResource(this);
     units = new ReadonlyResource<Unit>(this, Unit);
+    utils = new UtilsResource(this);
 
     private _basePath = 'https://core-v2.bulbthings.com';
 
