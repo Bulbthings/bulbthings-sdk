@@ -7,16 +7,10 @@ export class UtilsResource {
     constructor(private bulbthings: BulbThings) { }
 
     async deleteTenant(id: string): Promise<void> {
-        console.log("====>", `${this.bulbthings.basePath}`);
-        console.log((Reflect.getMetadata(
-            'JsonApiModelConfig',
-            Utils
-        ) as JsonApiModelConfig));
         const endpoint = (Reflect.getMetadata(
             'JsonApiModelConfig',
             Utils
         ) as JsonApiModelConfig).endpoint;
-        console.log("==>", `${this.bulbthings.basePath}/${endpoint}/${id}`);
 
         await request('DELETE', `${this.bulbthings.basePath}/${endpoint}/${id}`);
     }
