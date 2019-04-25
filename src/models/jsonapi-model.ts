@@ -21,3 +21,12 @@ export class JsonApiModel {
         return Reflect.getMetadata('Attribute', this) || [];
     }
 }
+
+export class JsonApiModelActiveRecord extends JsonApiModel {
+    public refresh(options): void {
+        // ?
+        // import { findById } from '../utils/find';
+        // const data = await findById(this.id);
+        // Object.assign(this, data.attributes);
+    }
+}
