@@ -9,7 +9,8 @@ import {
     Measurement,
     Association,
     AssociationType,
-    Unit
+    Unit,
+    Utils
 } from './models';
 
 // Export all models so they can be used from outside
