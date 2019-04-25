@@ -28,6 +28,7 @@ export class BulbThings {
     utils = new UtilsResource(this);
 
     private _basePath = 'https://core-v2.bulbthings.com';
+    private _meta: any = {};
 
     get basePath(): string {
         return this._basePath;
@@ -35,6 +36,18 @@ export class BulbThings {
 
     set basePath(path: string) {
         this._basePath = path;
+    }
+
+    get tenant(): string {
+        return this._meta.tenant;
+    }
+
+    set tenant(tenant: string) {
+        this._meta.tenant = tenant;
+    }
+
+    get meta(): any {
+        return this._meta;
     }
 
     constructor(private apiToken?: string) {

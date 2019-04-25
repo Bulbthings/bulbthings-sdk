@@ -20,6 +20,7 @@ export async function findAll<T extends JsonApiModel>(
     ) as JsonApiModelConfig).endpoint;
 
     const res = await request('GET', `${bulb.basePath}/${endpoint}`, {
+        meta: bulb.meta,
         params: options
     });
 
@@ -50,6 +51,7 @@ export async function findById<T extends JsonApiModel>(
     ) as JsonApiModelConfig).endpoint;
 
     const res = await request('GET', `${bulb.basePath}/${endpoint}/${id}`, {
+        meta: bulb.meta,
         params: options
     });
 

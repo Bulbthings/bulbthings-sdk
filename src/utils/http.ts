@@ -11,17 +11,24 @@ export const request = async (
     method: 'GET' | 'POST' | 'PATCH' | 'DELETE',
     url: string,
     options: {
+        meta?: any;
         body?: any;
         headers?: HttpHeaders;
         params?: JsonApiOptions | TimeSeriesOptions;
-    } = {}
+    } = {},
 ) => {
     try {
-        if (options.params && method === 'GET') {
-            const params = qs.stringify(options.params, {
+        const params = Object.assign(
+            {},
+            options.meta,
+            method === 'GET' ? options.params : null
+        );
+
+        if (params && Object.keys(params).length > 0) {
+            const urlParams = qs.stringify(params, {
                 arrayFormat: 'comma'
             });
-            url = `${url}?${params}`;
+            url = `${url}?${urlParams}`;
         }
 
         const res = await fetch(url, {

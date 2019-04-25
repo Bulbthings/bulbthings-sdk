@@ -12,6 +12,6 @@ export class UtilsResource {
             Utils
         ) as JsonApiModelConfig).endpoint;
 
-        await request('DELETE', `${this.bulbthings.basePath}/${endpoint}/${id}`);
+        await request('DELETE', `${this.bulbthings.basePath}/${endpoint}/${id}`, { meta: this.bulbthings.meta });
     }
 }

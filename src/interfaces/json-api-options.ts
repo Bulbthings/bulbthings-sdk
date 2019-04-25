@@ -1,5 +1,4 @@
 export interface JsonApiOptions {
-    tenant?: string;
     fields?: {
         [resourceName: string]: string[];
     };
