@@ -3,6 +3,9 @@ import { AttributeAnnotation } from '../interfaces/attribute-annotation';
 import { RelationAnnotation } from '../interfaces/relation-annotation';
 import { RelationType } from '../types/relation-type';
 
+import { JsonApiOptions } from '../interfaces/json-api-options';
+import { findById } from '../utils/find';
+
 export class JsonApiModel {
     id: string;
 
@@ -22,11 +25,16 @@ export class JsonApiModel {
     }
 }
 
-export class JsonApiModelActiveRecord extends JsonApiModel {
-    public refresh(options): void {
-        // ?
-        // import { findById } from '../utils/find';
-        // const data = await findById(this.id);
-        // Object.assign(this, data.attributes);
-    }
-}
+// export class JsonApiModelActiveRecord extends JsonApiModel {
+//     constructor(data?: JSONAPI.ResourceObject | any) {
+//         if (data && !data.id) {
+//             data = { id: null, attributes: data };
+//         }
+//         super(data);
+//     }
+
+//     public refresh(options?: JsonApiOptions): void {
+//         const data = await findById(null, this, this.id, options);
+//         Object.assign(this, data.attributes);
+//     }
+// }

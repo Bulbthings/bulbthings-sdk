@@ -23,6 +23,7 @@ export class BulbThings {
     measurements = new Resource<Measurement>(this, Measurement);
     associations = new Resource<Association>(this, Association);
     associationTypes = new Resource<AssociationType>(this, AssociationType);
+
     timeSeries = new TimeSeriesResource(this);
     units = new ReadonlyResource<Unit>(this, Unit);
     utils = new UtilsResource(this);

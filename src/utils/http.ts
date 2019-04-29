@@ -42,8 +42,8 @@ export const request = async (
 
         // TODO: better error management
         if (res.status >= 400) {
-            console.error(await res.json());
-            throw new Error('Bad response from server');
+            // console.error(await res.json());
+            throw new Error(`Bad response from server : ${res.json()}`);
         }
 
         const text = await res.text();
