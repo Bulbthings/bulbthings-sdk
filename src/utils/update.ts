@@ -16,6 +16,7 @@ export async function updateAll<T extends JsonApiModel>(
 ): Promise<{ meta?: any; data?: T[] }> {
     const result: { meta?: any, data?: T[] } = {};
     return result;
+    // TODO
 }
 
 export async function updateById<T extends JsonApiModel>(
@@ -31,14 +32,14 @@ export async function updateById<T extends JsonApiModel>(
         modelType
     ) as JsonApiModelConfig).endpoint;
     const model = new modelType({
-        id: data.id,
+        id: id,
         type: endpoint,
         attributes: data
     });
     const body = { data: stringifyModel(model, modelType), options };
     const res: JSONAPI.SingleResourceDoc = await request(
-        'POST',
-        `${bulb.basePath}/${endpoint}`,
+        'PATCH',
+        `${bulb.basePath}/${endpoint}/${id}`,
         { meta: bulb.meta, body }
     );
     result.data = parseResource(res.data, modelType, {});
