@@ -15,7 +15,9 @@ export class Entity extends JsonApiModel {
     entityTypeId: string;
 
     @Attribute()
-    attributes: object;
+    attributes: {
+        [name: string]: any;
+    };
 
     @Attribute()
     quantity: number;
