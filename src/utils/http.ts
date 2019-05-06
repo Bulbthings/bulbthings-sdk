@@ -42,7 +42,7 @@ export const request = async (
 
         // TODO: better error management
         if (res.status >= 400) {
-            // console.error(await res.json());
+            // console.error("==>", res.json(), '\n<<>>\n', res);
             throw new Error(`Bad response from server : ${res.json()}`);
         }
 
@@ -51,6 +51,6 @@ export const request = async (
         // Check if body is empty or not
         return text.length ? JSON.parse(text) : {};
     } catch (err) {
-        console.error(err);
+        throw (err);
     }
 };
