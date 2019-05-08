@@ -8,7 +8,8 @@ import {
     Measurement,
     Association,
     AssociationType,
-    Unit
+    Unit,
+    EventType
 } from './models';
 
 // Export all models so they can be used from outside
@@ -21,6 +22,7 @@ export class BulbThings {
     measurements = new Resource<Measurement>(this, Measurement);
     associations = new Resource<Association>(this, Association);
     associationTypes = new Resource<AssociationType>(this, AssociationType);
+    eventTypes = new Resource<EventType>(this, EventType);
     timeSeries = new TimeSeriesResource(this);
     units = new ReadonlyResource<Unit>(this, Unit);
 

@@ -91,7 +91,7 @@ await entity.delete();
 #### Options
 
 ```typescript
-interface TimeSeriesOptions extends Omit<JsonApiOptions, 'page'> {
+export interface TimeSeriesOptions extends Omit<JsonApiOptions, 'page'> {
     from: Date;
     to: Date;
     attributeTypeId: string;
@@ -105,8 +105,8 @@ interface TimeSeriesOptions extends Omit<JsonApiOptions, 'page'> {
         | 'quarter'
         | 'year';
     alignmentMethod: 'first' | 'last' | 'count' | 'sum' | 'avg' | 'min' | 'max';
-    filter: string;
-    useDelta?: boolean;
+    sourceFilter: string;
+    targetFilter: string;
     unitCode?: string;
 }
 ```
@@ -127,6 +127,8 @@ const data = await bulbthings.timeSeries.getReport({
     fields: {
         timeSeries: ['time', 'as(value,"avgScore")']
     },
+    sourceFilter: `contains(entitytype.path,[${userTypeId}])`,
+    targetFilter: `contains(entitytype.path,[${userTypeId}])`,
     filter: `eq(sourceEntityId, targetEntityId)`,
     sort: ['-value'],
     include: ['targetEntity']

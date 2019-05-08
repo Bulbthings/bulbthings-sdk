@@ -16,7 +16,7 @@ export interface TimeSeriesOptions extends Omit<JsonApiOptions, 'page'> {
         | 'quarter'
         | 'year';
     alignmentMethod: 'first' | 'last' | 'count' | 'sum' | 'avg' | 'min' | 'max';
-    filter: string;
-    useDelta?: boolean;
+    sourceFilter: string;
+    targetFilter: string;
     unitCode?: string;
 }
