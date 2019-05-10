@@ -2,6 +2,8 @@ import fetch from 'cross-fetch';
 import qs from 'qs';
 import { JsonApiOptions } from '../interfaces/json-api-options';
 import { TimeSeriesOptions } from '../interfaces/time-series-options';
+import { IBulbFailure } from '../interfaces/i-bulb-failure';
+import { BulbError } from './bulbError';
 
 interface HttpHeaders {
     [header: string]: string | string[];
@@ -40,11 +42,13 @@ export const request = async (
             }
         });
 
-        // TODO: better error management
         if (res.status >= 400) {
-            const error = await res.json();
-            error.errors = error.errors.map(err => err.code = 'api');
-            throw error;
+            const error: IBulbFailure = await res.json();
+            error.errors = error.errors.map(err => {
+                err.code = 'API';
+                return err;
+            });
+            throw new BulbError(error);
         }
 
         const text = await res.text();

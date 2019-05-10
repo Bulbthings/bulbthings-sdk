@@ -6,9 +6,8 @@
     "typings": "dist/index.d.ts",
     "scripts": {
         "prepare": "npm run build",
-        "build": "npm run types ; tsc --declaration && copyfiles -u 1 src/*.js dist/",
-        "test": "mocha -r ts-node/register --exit --recursive \"tests/**/*.ts\"",
-        "types": "node scripts/types.js"
+        "build": "tsc --declaration && copyfiles -u 1 src/*.js dist/",
+        "test": "mocha -r ts-node/register --exit --recursive \"tests/**/*.ts\""
     },
     "dependencies": {
         "cross-fetch": "^3.0.2",
