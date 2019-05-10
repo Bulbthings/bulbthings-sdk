@@ -43,6 +43,7 @@ export const request = async (
         // TODO: better error management
         if (res.status >= 400) {
             const error = await res.json();
+            error.errors = error.errors.map(err => err.code = 'api');
             throw error;
         }
 
@@ -51,6 +52,6 @@ export const request = async (
         // Check if body is empty or not
         return text.length ? JSON.parse(text) : {};
     } catch (err) {
-        throw (err);
+        throw err;
     }
 };

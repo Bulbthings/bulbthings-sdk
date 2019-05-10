@@ -6,13 +6,15 @@
     "typings": "dist/index.d.ts",
     "scripts": {
         "prepare": "npm run build",
-        "build": "tsc --declaration && copyfiles -u 1 src/*.js dist/",
-        "test": "mocha -r ts-node/register --exit --recursive \"tests/**/*.ts\""
+        "build": "npm run types ; tsc --declaration && copyfiles -u 1 src/*.js dist/",
+        "test": "mocha -r ts-node/register --exit --recursive \"tests/**/*.ts\"",
+        "types": "node scripts/types.js"
     },
     "dependencies": {
         "cross-fetch": "^3.0.2",
         "jsonapi-typescript": "^0.1.0",
         "qs": "^6.7.0",
+        "quicktype": "^15.0.188",
         "reflect-metadata": "^0.1.13"
     },
     "devDependencies": {
