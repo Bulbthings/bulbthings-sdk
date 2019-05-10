@@ -14,6 +14,8 @@ export class BulbError extends Error implements IBulbFailure {
 
     constructor(failure: IBulbFailure) {
         super();
+        /* super() extends Error mess with proto, this sets it back :
+           https://stackoverflow.com/questions/41102060/typescript-extending-error-class */
         (this as any).__proto__ = new.target.prototype;
         this.errors = failure.errors;
         this.meta = failure.meta;

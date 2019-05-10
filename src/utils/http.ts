@@ -56,6 +56,6 @@ export const request = async (
         // Check if body is empty or not
         return text.length ? JSON.parse(text) : {};
     } catch (err) {
-        throw err;
+        throw new BulbError(err);
     }
 };
