@@ -16,7 +16,7 @@ export interface TimeSeriesOptions extends Omit<JsonApiOptions, 'page'> {
         | 'quarter'
         | 'year';
     alignmentMethod: 'first' | 'last' | 'count' | 'sum' | 'avg' | 'min' | 'max';
-    sourceFilter: string;
-    targetFilter: string;
+    sourceFilter?: string;
+    targetFilter?: string;
     unitCode?: string;
 }

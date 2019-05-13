@@ -105,8 +105,8 @@ export interface TimeSeriesOptions extends Omit<JsonApiOptions, 'page'> {
         | 'quarter'
         | 'year';
     alignmentMethod: 'first' | 'last' | 'count' | 'sum' | 'avg' | 'min' | 'max';
-    sourceFilter: string;
-    targetFilter: string;
+    sourceFilter?: string;
+    targetFilter?: string;
     unitCode?: string;
 }
 ```
@@ -127,9 +127,6 @@ const data = await bulbthings.timeSeries.getReport({
     fields: {
         timeSeries: ['time', 'as(value,"avgScore")']
     },
-    sourceFilter: `contains(entitytype.path,[${userTypeId}])`,
-    targetFilter: `contains(entitytype.path,[${userTypeId}])`,
-    filter: `eq(sourceEntityId, targetEntityId)`,
     sort: ['-value'],
     include: ['targetEntity']
 });
