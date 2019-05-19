@@ -14,7 +14,7 @@ export class Resource<T extends JsonApiModel> {
     ) {}
 
     // Allow different return types
-    findAll(options: JsonApiOptions, withMeta?: false): Promise<T[]>;
+    findAll(options?: JsonApiOptions, withMeta?: false): Promise<T[]>;
     findAll(
         options: JsonApiOptions,
         withMeta: true
