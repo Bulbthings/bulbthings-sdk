@@ -11,7 +11,7 @@ describe('Event types', () => {
     });
 
     it('should fetch event types', async () => {
-        const { data: eventTypes } = await bulb.eventTypes.findAll({
+        const eventTypes = await bulb.eventTypes.findAll({
             page: { limit: 3 }
         });
         eventTypeId = eventTypes[0].id;

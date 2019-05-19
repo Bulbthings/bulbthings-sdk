@@ -11,7 +11,7 @@ describe('Events', () => {
     });
 
     it('should fetch events', async () => {
-        const { data: events } = await bulb.events.findAll({
+        const events = await bulb.events.findAll({
             include: ['eventType'],
             page: { limit: 3 }
         });

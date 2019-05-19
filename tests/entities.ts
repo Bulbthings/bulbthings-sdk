@@ -11,7 +11,7 @@ describe('Entities', () => {
     });
 
     it('should fetch entities', async () => {
-        const { data: entities } = await bulb.entities.findAll({
+        const entities = await bulb.entities.findAll({
             include: ['entitytype'],
             page: { limit: 3 }
         });

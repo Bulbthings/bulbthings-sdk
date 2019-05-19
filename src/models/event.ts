@@ -28,10 +28,11 @@ export class Event extends JsonApiModel {
     time: Date;
 
     @Attribute()
-    data: any;
-
-    @Attribute()
-    payload: { text: string; sections: { type: string; value: any }[] };
+    payload: {
+        data: any;
+        text: string;
+        sections: { type: string; value: any }[];
+    };
 
     @Relation('BelongsTo', () => EventType)
     eventType: EventType;
