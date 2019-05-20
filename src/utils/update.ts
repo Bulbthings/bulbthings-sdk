@@ -1,8 +1,4 @@
 import * as JSONAPI from 'jsonapi-typescript';
-<<<<<<< HEAD
-import { JsonApiUpdateOptions } from '../interfaces/json-api-update-options';
-=======
->>>>>>> master
 import { JsonApiModel } from '../models/jsonapi-model';
 import { request } from './http';
 import { ModelType } from '../types/model-type';
