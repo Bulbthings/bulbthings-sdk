@@ -1,6 +1,6 @@
 # BulbThings JavaScript SDK
 
-## Documentation
+## 🚧 Documentation 🚧
 
 (Work in progress) See full documentation [here](https://core-v2.bulbthings.com)
 
@@ -24,7 +24,7 @@ const bulbthings = new BulbThings();
 ### Find all
 
 ```typescript
-const { data: entities, meta } = await bulbthings.entities.findAll({
+const entities = await bulbthings.entities.findAll({
     filter: `and(
         gt(attributes.mileage.km, 10000),
         ne(attributes.license, null)
@@ -32,6 +32,12 @@ const { data: entities, meta } = await bulbthings.entities.findAll({
     include: ['entitytype'],
     page: { limit: 3 }
 });
+
+// Or with metadata
+const { data: entities, meta } = await bulbthings.entities.findAll(
+    { page: { limit: 3 } },
+    true
+);
 ```
 
 ### Find by identifier
@@ -65,13 +71,13 @@ await created.refresh({
 });
 ```
 
-### TODO: Update
+### Update
 
 ```typescript
 const updated = await bulbthings.measurements.update(created.id, {
     value: 'edited'
 });
-// Shortcut method:
+// (TODO) Shortcut method:
 created.value = 'edited';
 await created.save();
 ```
@@ -91,7 +97,7 @@ await entity.delete();
 #### Options
 
 ```typescript
-interface TimeSeriesOptions extends Omit<JsonApiOptions, 'page'> {
+export interface TimeSeriesOptions extends Omit<JsonApiOptions, 'page'> {
     from: Date;
     to: Date;
     attributeTypeId: string;
@@ -105,8 +111,8 @@ interface TimeSeriesOptions extends Omit<JsonApiOptions, 'page'> {
         | 'quarter'
         | 'year';
     alignmentMethod: 'first' | 'last' | 'count' | 'sum' | 'avg' | 'min' | 'max';
-    filter: string;
-    useDelta?: boolean;
+    sourceFilter?: string;
+    targetFilter?: string;
     unitCode?: string;
 }
 ```
@@ -127,7 +133,6 @@ const data = await bulbthings.timeSeries.getReport({
     fields: {
         timeSeries: ['time', 'as(value,"avgScore")']
     },
-    filter: `eq(sourceEntityId, targetEntityId)`,
     sort: ['-value'],
     include: ['targetEntity']
 });

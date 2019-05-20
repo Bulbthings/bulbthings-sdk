@@ -1,5 +1,8 @@
 import * as JSONAPI from 'jsonapi-typescript';
+<<<<<<< HEAD
 import { JsonApiUpdateOptions } from '../interfaces/json-api-update-options';
+=======
+>>>>>>> master
 import { JsonApiModel } from '../models/jsonapi-model';
 import { request } from './http';
 import { ModelType } from '../types/model-type';
@@ -8,40 +11,27 @@ import { BulbThings } from '..';
 import { parseResource } from './parse';
 import { stringifyModel } from './stringify';
 
-export async function updateAll<T extends JsonApiModel>(
-    bulb: BulbThings,
-    modelType: ModelType<T>,
-    data: any,
-    options: JsonApiUpdateOptions
-): Promise<{ meta?: any; data?: T[] }> {
-    const result: { meta?: any, data?: T[] } = {};
-    return result;
-    // TODO
-}
-
-export async function updateById<T extends JsonApiModel>(
+export async function update<T extends JsonApiModel>(
     bulb: BulbThings,
     modelType: ModelType<T>,
     id: string,
-    data: any,
-    options: JsonApiUpdateOptions
-): Promise<{ meta?: any, data?: T }> {
-    const result: { meta?: any, data?: T } = {};
+    data: any
+): Promise<T> {
     const endpoint = (Reflect.getMetadata(
         'JsonApiModelConfig',
         modelType
     ) as JsonApiModelConfig).endpoint;
     const model = new modelType({
-        id: id,
+        id,
         type: endpoint,
         attributes: data
     });
-    const body = { data: stringifyModel(model, modelType), options };
+    const body = { data: stringifyModel(model, modelType) };
     const res: JSONAPI.SingleResourceDoc = await request(
         'PATCH',
         `${bulb.basePath}/${endpoint}/${id}`,
-        { meta: bulb.meta, body }
+        { body }
     );
-    result.data = parseResource(res.data, modelType, {});
-    return result;
+    const updated = parseResource(res.data, modelType, {});
+    return updated;
 }

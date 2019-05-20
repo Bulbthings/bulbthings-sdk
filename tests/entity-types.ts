@@ -11,7 +11,7 @@ describe('Entity types', () => {
     });
 
     it('should fetch entity types', async () => {
-        const { data: entityTypes } = await bulb.entityTypes.findAll({
+        const entityTypes = await bulb.entityTypes.findAll({
             page: { limit: 3 }
         });
         entityTypeId = entityTypes[0].id;
