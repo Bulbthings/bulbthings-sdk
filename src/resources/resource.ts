@@ -1,5 +1,4 @@
 import { JsonApiOptions } from '../interfaces/json-api-options';
-import { JsonApiUpdateOptions } from '../interfaces/json-api-update-options';
 import { JsonApiModel } from '../models/jsonapi-model';
 import { ModelType } from '../types/model-type';
 import { findAll, findById } from '../utils/find';
@@ -12,7 +11,7 @@ export class Resource<T extends JsonApiModel> {
     constructor(
         private bulbthings: BulbThings,
         private modelType: ModelType<T>
-    ) { }
+    ) {}
 
     // Allow different return types
     findAll(options?: JsonApiOptions, withMeta?: false): Promise<T[]>;
@@ -56,7 +55,7 @@ export class ReadonlyResource<T extends JsonApiModel> {
     constructor(
         private bulbthings: BulbThings,
         private modelType: ModelType<T>
-    ) { }
+    ) {}
 
     async findAll(options?: JsonApiOptions) {
         return findAll(this.bulbthings, this.modelType, options);
