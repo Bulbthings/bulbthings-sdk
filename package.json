@@ -13,7 +13,6 @@
         "cross-fetch": "^3.0.2",
         "jsonapi-typescript": "^0.1.0",
         "qs": "^6.7.0",
-        "quicktype": "^15.0.188",
         "reflect-metadata": "^0.1.13"
     },
     "devDependencies": {
