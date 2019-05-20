@@ -8,7 +8,6 @@ describe('Errors', () => {
 
     before(() => {
         bulb = new BulbThings();
-        bulb.basePath = 'http://localhost:3060';
     });
 
     it('should throw an error when an "Not Found" API error is returned', async () => {
