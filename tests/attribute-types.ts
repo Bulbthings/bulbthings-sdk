@@ -10,7 +10,7 @@ describe('Attribute types', () => {
     });
 
     it('should fetch attribute types with entity types', async () => {
-        const { data: attributeTypes } = await bulb.attributeTypes.findAll({
+        const attributeTypes = await bulb.attributeTypes.findAll({
             include: ['entitytype']
         });
 

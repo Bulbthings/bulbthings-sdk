@@ -30,8 +30,8 @@ export class Association extends JsonApiModel {
     associationtype: AssociationType;
 
     @Relation('BelongsTo', () => Entity)
-    source: Entity;
+    sourceEntity: Entity;
 
     @Relation('BelongsTo', () => Entity)
-    target: Entity;
+    targetEntity: Entity;
 }
