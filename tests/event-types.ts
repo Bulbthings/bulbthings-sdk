@@ -49,6 +49,7 @@ describe('Event types', () => {
         try {
             await bulb.eventTypes.deleteById(eventTypeId);
         } catch (err) {
+            console.error(err);
             error = err;
         }
         expect(error).to.be.undefined;

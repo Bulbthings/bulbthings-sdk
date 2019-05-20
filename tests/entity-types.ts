@@ -39,6 +39,7 @@ describe('Entity types', () => {
         try {
             await bulb.entityTypes.deleteById(entityTypeId);
         } catch (err) {
+            console.error(err);
             error = err;
         }
         expect(error).to.be.undefined;

@@ -65,3 +65,9 @@ export class ReadonlyResource<T extends JsonApiModel> {
         return findById(this.bulbthings, this.modelType, id, options);
     }
 }
+
+// export class ActiveResource<T extends JsonApiModel> {
+//     constructor(bulb) { }
+
+//     async refresh() { }
+// }

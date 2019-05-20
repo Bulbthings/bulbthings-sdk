@@ -4,8 +4,8 @@ import { request } from './http';
 import { ModelType } from '../types/model-type';
 import { JsonApiModelConfig } from '../interfaces/json-api-model-config';
 import { BulbThings } from '..';
-import { stringifyModel } from './stringify';
 import { parseResource } from './parse';
+import { stringifyModel } from './stringify';
 
 export async function update<T extends JsonApiModel>(
     bulb: BulbThings,

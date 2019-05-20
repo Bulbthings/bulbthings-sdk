@@ -3,6 +3,9 @@ import { AttributeAnnotation } from '../interfaces/attribute-annotation';
 import { RelationAnnotation } from '../interfaces/relation-annotation';
 import { RelationType } from '../types/relation-type';
 
+import { JsonApiOptions } from '../interfaces/json-api-options';
+import { findById } from '../utils/find';
+
 export class JsonApiModel {
     id: string;
 
@@ -21,3 +24,17 @@ export class JsonApiModel {
         return Reflect.getMetadata('Attribute', this) || [];
     }
 }
+
+// export class JsonApiModelActiveRecord extends JsonApiModel {
+//     constructor(data?: JSONAPI.ResourceObject | any) {
+//         if (data && !data.id) {
+//             data = { id: null, attributes: data };
+//         }
+//         super(data);
+//     }
+
+//     public refresh(options?: JsonApiOptions): void {
+//         const data = await findById(null, this, this.id, options);
+//         Object.assign(this, data.attributes);
+//     }
+// }

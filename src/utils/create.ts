@@ -25,7 +25,7 @@ export async function create<T extends JsonApiModel>(
     const res: JSONAPI.SingleResourceDoc = await request(
         'POST',
         `${bulb.basePath}/${endpoint}`,
-        { body }
+        { meta: bulb.meta, body }
     );
     const created = parseResource(res.data, modelType, {});
     return created;
