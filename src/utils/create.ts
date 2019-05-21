@@ -33,10 +33,13 @@ export async function create<T extends JsonApiModel>(
     );
 
     // Build a map of included resources by id for fast access
-    const includedResources: { [id: string]: JSONAPI.ResourceObject } = {};
-    ((res as JSONAPI.SingleResourceDoc).included || []).forEach(
-        r => (includedResources[r.id] = r)
-    );
+    const includedResources: {
+        [type: string]: { [id: string]: JSONAPI.ResourceObject };
+    } = {};
+    ((res as JSONAPI.SingleResourceDoc).included || []).forEach(r => {
+        includedResources[r.type] = includedResources[r.type] || {};
+        includedResources[r.type][r.id] = r;
+    });
 
     const created = parseResource(res.data, modelType, includedResources);
     return created;

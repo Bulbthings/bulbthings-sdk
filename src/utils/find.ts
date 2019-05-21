@@ -12,7 +12,6 @@ export async function findAll<T extends JsonApiModel>(
     modelType: ModelType<T>,
     options?: JsonApiOptions
 ): Promise<{ meta?: any; data: T[] }> {
-    const includedResources: { [id: string]: JSONAPI.ResourceObject } = {};
     const models: T[] = [];
     const endpoint = (Reflect.getMetadata(
         'JsonApiModelConfig',
@@ -25,9 +24,13 @@ export async function findAll<T extends JsonApiModel>(
     });
 
     // Build a map of included resources by id for fast access
-    ((res as JSONAPI.CollectionResourceDoc).included || []).forEach(
-        r => (includedResources[r.id] = r)
-    );
+    const includedResources: {
+        [type: string]: { [id: string]: JSONAPI.ResourceObject };
+    } = {};
+    ((res as JSONAPI.CollectionResourceDoc).included || []).forEach(r => {
+        includedResources[r.type] = includedResources[r.type] || {};
+        includedResources[r.type][r.id] = r;
+    });
 
     // Parse the data and build relationships
     (res as JSONAPI.CollectionResourceDoc).data.forEach(element => {
@@ -44,7 +47,6 @@ export async function findById<T extends JsonApiModel>(
     id: string,
     options?: JsonApiOptions
 ): Promise<T> {
-    const includedResources: { [id: string]: JSONAPI.ResourceObject } = {};
     const endpoint = (Reflect.getMetadata(
         'JsonApiModelConfig',
         modelType
@@ -56,9 +58,13 @@ export async function findById<T extends JsonApiModel>(
     });
 
     // Build a map of included resources by id for fast access
-    ((res as JSONAPI.SingleResourceDoc).included || []).forEach(
-        r => (includedResources[r.id] = r)
-    );
+    const includedResources: {
+        [type: string]: { [id: string]: JSONAPI.ResourceObject };
+    } = {};
+    ((res as JSONAPI.SingleResourceDoc).included || []).forEach(r => {
+        includedResources[r.type] = includedResources[r.type] || {};
+        includedResources[r.type][r.id] = r;
+    });
 
     const model = parseResource(
         (res as JSONAPI.SingleResourceDoc).data,
