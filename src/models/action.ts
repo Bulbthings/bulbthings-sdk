@@ -2,19 +2,15 @@ import { JsonApiModel } from './jsonapi-model';
 import { Relation } from '../decorators/relation';
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
-import { EventType } from './event-type';
+import { ActionType } from './action-type';
 import { Entity } from './entity';
-import { Action } from './action';
 
 @JsonApiModelConfig({
-    endpoint: 'events'
+    endpoint: 'actions'
 })
-export class Event extends JsonApiModel {
+export class Action extends JsonApiModel {
     @Attribute()
-    eventTypeId: string;
-
-    @Attribute()
-    priority: 'info' | 'warning' | 'danger' | 'success';
+    actionTypeId: string;
 
     @Attribute()
     sourceEntityId: string;
@@ -23,27 +19,23 @@ export class Event extends JsonApiModel {
     targetEntityId: string;
 
     @Attribute()
-    privateForEntityId: string;
+    input: any;
 
     @Attribute()
-    time: Date;
+    status?: 'available' | 'requested' | 'completed';
 
     @Attribute()
-    payload: {
-        data: any;
-        text: string;
-        sections: { type: string; value: any }[];
-    };
+    requestedAt: Date;
 
-    @Relation('BelongsTo', () => EventType)
-    eventType: EventType;
+    @Attribute()
+    completedAt?: Date;
+
+    @Relation('BelongsTo', () => ActionType)
+    actionType: ActionType;
 
     @Relation('BelongsTo', () => Entity)
     sourceEntity: Entity;
 
     @Relation('BelongsTo', () => Entity)
     targetEntity: Entity;
-
-    @Relation('HasMany', () => Action)
-    actions: Action[];
 }
