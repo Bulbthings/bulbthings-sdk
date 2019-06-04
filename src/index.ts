@@ -13,7 +13,8 @@ import {
     EventType,
     Event,
     ActionType,
-    Action
+    Action,
+    Hook
 } from './models';
 
 // Export all models so they can be used from outside
@@ -30,6 +31,7 @@ export class BulbThings {
     events = new Resource<Event>(this, Event);
     actionTypes = new Resource<ActionType>(this, ActionType);
     actions = new Resource<Action>(this, Action);
+    hooks = new Resource<Hook>(this, Hook);
     timeSeries = new TimeSeriesResource(this);
     units = new ReadonlyResource<Unit>(this, Unit);
     utils = new UtilsResource(this);
