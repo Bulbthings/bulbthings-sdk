@@ -17,17 +17,31 @@ export async function update<T extends JsonApiModel>(
         'JsonApiModelConfig',
         modelType
     ) as JsonApiModelConfig).endpoint;
+
+    // Build the request
     const model = new modelType({
         id,
         type: endpoint,
         attributes: data
     });
     const body = { data: stringifyModel(model, modelType) };
+
+    // Fetch the results
     const res: JSONAPI.SingleResourceDoc = await request(
         'PATCH',
         `${bulb.basePath}/${endpoint}/${id}`,
         { body }
     );
-    const updated = parseResource(res.data, modelType, {});
+
+    // Build a map of included resources by id for fast access
+    const includedResources: {
+        [type: string]: { [id: string]: JSONAPI.ResourceObject };
+    } = {};
+    ((res as JSONAPI.SingleResourceDoc).included || []).forEach(r => {
+        includedResources[r.type] = includedResources[r.type] || {};
+        includedResources[r.type][r.id] = r;
+    });
+
+    const updated = parseResource(res.data, modelType, includedResources);
     return updated;
 }

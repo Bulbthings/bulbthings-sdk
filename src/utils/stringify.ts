@@ -24,10 +24,38 @@ export function stringifyModel<T extends JsonApiModel>(
             return acc;
         }, {});
 
+    // Build the relationships object
+    const relationships: JSONAPI.RelationshipsObject = {};
+
+    // 'HasMany';
+    model
+        .getRelationMetadata('HasMany')
+        .filter(p => model[p.propertyName] !== undefined)
+        .forEach(p => {
+            // Get the JSONAPI type of the related resource
+            const type = (Reflect.getMetadata(
+                'JsonApiModelConfig',
+                p.type()
+            ) as JsonApiModelConfig).endpoint;
+
+            // Build the relationship data array
+            relationships[p.propertyName] = {
+                data: model[p.propertyName]
+                    .filter((r: any) => r.id)
+                    .map((r: any) => ({ type, id: r.id }))
+            };
+        });
+
+    // TODO: 'BelongsTo'
+
     const resource: JSONAPI.ResourceObject = { type, attributes };
 
     if (model.id) {
         resource.id = model.id;
+    }
+
+    if (Object.keys(relationships).length) {
+        resource.relationships = relationships;
     }
 
     return resource;

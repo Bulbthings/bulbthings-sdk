@@ -10,9 +10,10 @@ import {
     Association,
     AssociationType,
     Unit,
-    Utils,
     EventType,
-    Event
+    Event,
+    ActionType,
+    Action
 } from './models';
 
 // Export all models so they can be used from outside
@@ -27,6 +28,8 @@ export class BulbThings {
     associationTypes = new Resource<AssociationType>(this, AssociationType);
     eventTypes = new Resource<EventType>(this, EventType);
     events = new Resource<Event>(this, Event);
+    actionTypes = new Resource<ActionType>(this, ActionType);
+    actions = new Resource<Action>(this, Action);
     timeSeries = new TimeSeriesResource(this);
     units = new ReadonlyResource<Unit>(this, Unit);
     utils = new UtilsResource(this);

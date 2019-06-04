@@ -16,17 +16,31 @@ export async function create<T extends JsonApiModel>(
         'JsonApiModelConfig',
         modelType
     ) as JsonApiModelConfig).endpoint;
+
+    // Build the request
     const model = new modelType({
         id: data.id,
         type: endpoint,
         attributes: data
     });
     const body = { data: stringifyModel(model, modelType) };
+
+    // Fetch the results
     const res: JSONAPI.SingleResourceDoc = await request(
         'POST',
         `${bulb.basePath}/${endpoint}`,
         { meta: bulb.meta, body }
     );
-    const created = parseResource(res.data, modelType, {});
+
+    // Build a map of included resources by id for fast access
+    const includedResources: {
+        [type: string]: { [id: string]: JSONAPI.ResourceObject };
+    } = {};
+    ((res as JSONAPI.SingleResourceDoc).included || []).forEach(r => {
+        includedResources[r.type] = includedResources[r.type] || {};
+        includedResources[r.type][r.id] = r;
+    });
+
+    const created = parseResource(res.data, modelType, includedResources);
     return created;
 }

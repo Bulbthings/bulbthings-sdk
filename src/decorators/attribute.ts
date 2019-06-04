@@ -14,7 +14,11 @@ export function Attribute(config: AttributeConfig = {}): PropertyDecorator {
                 parse:
                     (config.converter && config.converter.parse) ||
                     ((value: any) => {
-                        if (type === Date) {
+                        if (
+                            type === Date &&
+                            value !== null &&
+                            value !== undefined
+                        ) {
                             return new Date(value);
                         }
                         return value;

@@ -5,15 +5,17 @@ import { ModelType } from '../types/model-type';
 export function parseResource<T extends JsonApiModel>(
     resource: JSONAPI.ResourceObject,
     type: ModelType<T>,
-    includedResources: { [id: string]: JSONAPI.ResourceObject },
-    visitedResources: { [type: string]: { [id: string]: any } } = {}
+    includedResources: {
+        [type: string]: { [id: string]: JSONAPI.ResourceObject };
+    },
+    visitedModels: { [type: string]: { [id: string]: any } } = {}
 ): T {
     // Build model from resource
     const model = new type(resource);
 
     // Keep track of visited resources to avoid infinite loops
-    visitedResources[resource.type] = visitedResources[resource.type] || {};
-    visitedResources[resource.type][model.id] = model;
+    visitedModels[resource.type] = visitedModels[resource.type] || {};
+    visitedModels[resource.type][model.id] = model;
 
     // Parse 'Attribute' fields
     model.getAttributeMetadata().forEach(a => {
@@ -37,12 +39,12 @@ export function parseResource<T extends JsonApiModel>(
                 if (data) {
                     // Recursively build the typed object
                     model[p.propertyName] =
-                        (visitedResources[data.type] || {})[data.id] ||
+                        (visitedModels[data.type] || {})[data.id] ||
                         parseResource(
-                            includedResources[data.id],
+                            includedResources[data.type][data.id],
                             p.type(),
                             includedResources,
-                            visitedResources
+                            visitedModels
                         );
                 }
             });
@@ -59,12 +61,12 @@ export function parseResource<T extends JsonApiModel>(
                 // Recursively build the typed objects
                 model[p.propertyName] = data.map(
                     d =>
-                        (visitedResources[d.type] || {})[d.id] ||
+                        (visitedModels[d.type] || {})[d.id] ||
                         parseResource(
-                            includedResources[d.id],
+                            includedResources[d.type][d.id],
                             p.type(),
                             includedResources,
-                            visitedResources
+                            visitedModels
                         )
                 );
             });
