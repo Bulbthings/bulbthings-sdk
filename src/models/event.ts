@@ -36,14 +36,14 @@ export class Event extends JsonApiModel {
     };
 
     @Relation('BelongsTo', () => EventType)
-    eventType: EventType;
+    eventType?: EventType;
 
     @Relation('BelongsTo', () => Entity)
-    sourceEntity: Entity;
+    sourceEntity?: Entity;
 
     @Relation('BelongsTo', () => Entity)
-    targetEntity: Entity;
+    targetEntity?: Entity;
 
     @Relation('HasMany', () => Action)
-    actions: Action[];
+    actions?: Action[];
 }

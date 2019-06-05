@@ -25,8 +25,8 @@ export class EntityType extends JsonApiModel {
     description: string;
 
     @Relation('HasMany', () => AttributeType)
-    attributetypes: AttributeType[];
+    attributetypes?: AttributeType[];
 
     @Relation('HasMany', () => AssociationType)
-    associationtypes: AssociationType[];
+    associationtypes?: AssociationType[];
 }

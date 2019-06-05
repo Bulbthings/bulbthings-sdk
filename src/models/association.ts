@@ -27,11 +27,11 @@ export class Association extends JsonApiModel {
     ratio: number;
 
     @Relation('BelongsTo', () => AssociationType)
-    associationtype: AssociationType;
+    associationtype?: AssociationType;
 
     @Relation('BelongsTo', () => Entity)
-    sourceEntity: Entity;
+    sourceEntity?: Entity;
 
     @Relation('BelongsTo', () => Entity)
-    targetEntity: Entity;
+    targetEntity?: Entity;
 }

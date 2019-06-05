@@ -23,5 +23,5 @@ export class Entity extends JsonApiModel {
     quantity: number;
 
     @Relation('BelongsTo', () => EntityType)
-    entitytype: EntityType;
+    entitytype?: EntityType;
 }

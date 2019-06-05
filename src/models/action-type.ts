@@ -15,5 +15,5 @@ export class ActionType extends JsonApiModel {
     entityTypeId?: string;
 
     @Relation('BelongsTo', () => EntityType)
-    entityType: EntityType;
+    entityType?: EntityType;
 }

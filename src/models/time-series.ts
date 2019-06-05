@@ -21,8 +21,8 @@ export class TimeSeries extends JsonApiModel {
     value: any;
 
     @Relation('BelongsTo', () => Entity)
-    sourceEntity: Entity;
+    sourceEntity?: Entity;
 
     @Relation('BelongsTo', () => Entity)
-    targetEntity: Entity;
+    targetEntity?: Entity;
 }

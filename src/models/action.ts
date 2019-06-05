@@ -31,11 +31,11 @@ export class Action extends JsonApiModel {
     completedAt?: Date;
 
     @Relation('BelongsTo', () => ActionType)
-    actionType: ActionType;
+    actionType?: ActionType;
 
     @Relation('BelongsTo', () => Entity)
-    sourceEntity: Entity;
+    sourceEntity?: Entity;
 
     @Relation('BelongsTo', () => Entity)
-    targetEntity: Entity;
+    targetEntity?: Entity;
 }

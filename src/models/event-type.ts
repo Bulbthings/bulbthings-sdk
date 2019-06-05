@@ -18,5 +18,5 @@ export class EventType extends JsonApiModel {
     schema: object;
 
     @Relation('BelongsTo', () => EntityType)
-    entityType: EntityType;
+    entityType?: EntityType;
 }

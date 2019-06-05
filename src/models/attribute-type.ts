@@ -39,7 +39,7 @@ export class AttributeType extends JsonApiModel {
     timeSeriesOptions: object;
 
     @Relation('BelongsTo', () => EntityType)
-    entitytype: EntityType;
+    entitytype?: EntityType;
 
     @Relation('BelongsTo', () => Unit)
     unit?: Unit;
