@@ -139,3 +139,19 @@ const data = await bulbthings.timeSeries.getReport({
 
 const driversWithScore = data.map(d => ({ driver: d.targetEntity, avgScore }));
 ```
+
+## Events
+
+Every creation, modification or deletion of resources will trigger system events (not to be confused with the actual `events` _resource_) that you can receive and react to in real-time using the SDK.
+
+### Example usage
+
+```typescript
+// Event types follow the format: [resource][Created|Updated|Deleted]
+const eventType = 'entityCreated';
+
+bulbthings.on(eventType, event => {
+    // 'data' contains the resource described by the event
+    const entity = event.data;
+});
+```
