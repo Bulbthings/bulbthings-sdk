@@ -20,12 +20,14 @@
     },
     "dependencies": {
         "cross-fetch": "^3.0.2",
+        "eventsource": "^1.0.7",
         "jsonapi-typescript": "^0.1.0",
         "qs": "^6.7.0",
         "reflect-metadata": "^0.1.13"
     },
     "devDependencies": {
         "@types/chai": "^4.1.4",
+        "@types/eventsource": "^1.1.0",
         "@types/mocha": "^5.2.5",
         "@types/qs": "^6.5.2",
         "@types/reflect-metadata": "^0.1.0",

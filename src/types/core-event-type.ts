@@ -1,0 +1,13 @@
+export type CoreEventType =
+    | 'entityCreated'
+    | 'entityUpdated'
+    | 'entityDeleted'
+    | 'actionCreated'
+    | 'actionUpdated'
+    | 'actionDeleted'
+    | 'hookCreated'
+    | 'hookUpdated'
+    | 'hookDeleted'
+    | 'eventCreated'
+    | 'eventDeleted'
+    | 'eventUpdated';
