@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import EventSource from 'cross-eventsource';
 import { Resource, ReadonlyResource } from './resources/resource';
 import { TimeSeriesResource } from './resources/time-series';
 import { UtilsResource } from './resources/utils';
@@ -83,21 +84,8 @@ export class BulbThings {
     constructor(private apiToken?: string) {
         // TODO: Authentication
 
-        // Load native EventSource if available, else
-        const loadEventSource = new Promise<typeof EventSource>(resolve => {
-            if (typeof window === 'object' && window['EventSource']) {
-                console.log('in browser');
-                resolve(window['EventSource']);
-            } else {
-                console.log('not in browser');
-                import('eventsource').then(module => resolve(module.default));
-            }
-        });
-
-        loadEventSource.then(es => {
-            console.log('loaded!', typeof es);
-            this.eventSource = new es(`${this._eventSourcePath}/connect`);
-            this.eventSource.onerror = evt => console.error('Error!', evt);
-        });
+        // Connecting to server-sent events
+        this.eventSource = new EventSource(`${this._eventSourcePath}/connect`);
+        this.eventSource.onerror = evt => console.error('Error!', evt);
     }
 }
