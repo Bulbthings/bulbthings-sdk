@@ -4,6 +4,7 @@ import { Attribute } from '../decorators/attribute';
 import { Relation } from '../decorators/relation';
 import { EntityType } from './entity-type';
 import { Unit } from './unit';
+import { JsonSchema } from '../interfaces/json-schema';
 
 @JsonApiModelConfig({
     endpoint: 'attributetypes'
@@ -16,21 +17,7 @@ export class AttributeType extends JsonApiModel {
     name: string;
 
     @Attribute()
-    jsonSchema: {
-        title: string;
-        category: string;
-        description: string;
-        type?:
-            | 'string'
-            | 'integer'
-            | 'number'
-            | 'object'
-            | 'array'
-            | 'boolean'
-            | 'null';
-        default?: any;
-        format?: 'date-time' | 'time' | 'date';
-    };
+    jsonSchema: JsonSchema;
 
     @Attribute()
     unitId: string;
