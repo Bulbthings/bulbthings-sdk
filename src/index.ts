@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import EventSource from 'eventsource';
+import EventSource from 'eventsource/lib/eventsource-polyfill';
 import { Resource, ReadonlyResource } from './resources/resource';
 import { TimeSeriesResource } from './resources/time-series';
 import { UtilsResource } from './resources/utils';
