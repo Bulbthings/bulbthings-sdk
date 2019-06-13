@@ -1,6 +1,6 @@
 {
     "name": "bulbthings-javascript-sdk",
-    "version": "0.5.5",
+    "version": "0.5.6",
     "description": "BulbThings API wrapper",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -20,7 +20,7 @@
     },
     "dependencies": {
         "@types/json-schema": "^7.0.3",
-        "cross-eventsource": "https://github.com/Bulbthings/cross-eventsource.git#0.0.4",
+        "cross-eventsource": "https://github.com/Bulbthings/cross-eventsource.git#0.0.5",
         "cross-fetch": "^3.0.2",
         "jsonapi-typescript": "^0.1.0",
         "qs": "^6.7.0",
