@@ -76,7 +76,8 @@ export class BulbThings {
         this.eventSource.addEventListener(type, evt => {
             listener(<CoreEvent>{
                 type,
-                data: JSON.parse(evt['data'])
+                data: JSON.parse(evt['data']),
+                previousData: evt['previousData'] ? JSON.parse(evt['previousData']) : null
             });
         });
     }
