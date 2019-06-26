@@ -117,7 +117,40 @@ export interface TimeSeriesOptions extends Omit<JsonApiOptions, 'page'> {
 }
 ```
 
-#### Examples
+#### Explanation
+
+Let's take as an example a fictional number attribute with a 1-week period. Here are the different steps happening when generating a report:
+
+##### Step 0: raw data
+
+```
+            Week 1   Week 2   Week 3    Week 4
+Entity 1         0      100       50         0
+Entity 2        50       50       10         0
+```
+
+##### Step 1: Resampling
+
+During this step, the `alignmentPeriod` and `alignmentMethod` are used to resample the data for each entity and change the period by aggregating the values.
+
+For example, with `alignmentPeriod=month` and `alignmentMethod=sum` we get:
+
+```
+            Month 1
+Entity 1        150
+Entity 2        110
+```
+
+##### Step 2: Aggregating
+
+In this step, `reducerMethod` will be used to aggregate all the series into one. For example, with `reducerMethod=avg` the final result is:
+
+```
+            Month 1
+Average         130
+```
+
+#### Other examples
 
 Example: Get the drivers ranked according to their average driver score during the last week:
 

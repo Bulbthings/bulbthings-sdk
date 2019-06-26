@@ -29,7 +29,7 @@ export async function update<T extends JsonApiModel>(
     // Fetch the results
     const res: JSONAPI.SingleResourceDoc = await request(
         'PATCH',
-        `${bulb.basePath}/${endpoint}/${id}`,
+        `${bulb.options.coreUrl}/${endpoint}/${id}`,
         { body }
     );
 

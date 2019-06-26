@@ -28,7 +28,7 @@ export async function create<T extends JsonApiModel>(
     // Fetch the results
     const res: JSONAPI.SingleResourceDoc = await request(
         'POST',
-        `${bulb.basePath}/${endpoint}`,
+        `${bulb.options.coreUrl}/${endpoint}`,
         { meta: bulb.meta, body }
     );
 

@@ -14,5 +14,7 @@ export async function deleteById<T extends JsonApiModel>(
         modelType
     ) as JsonApiModelConfig).endpoint;
 
-    return request('DELETE', `${bulb.basePath}/${endpoint}/${id}`, { meta: bulb.meta });
+    return request('DELETE', `${bulb.options.coreUrl}/${endpoint}/${id}`, {
+        meta: bulb.meta
+    });
 }
