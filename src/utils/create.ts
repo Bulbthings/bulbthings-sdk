@@ -10,7 +10,8 @@ import { parseResource } from './parse';
 export async function create<T extends JsonApiModel>(
     bulb: BulbThings,
     modelType: ModelType<T>,
-    data: any
+    data: any,
+    file?: any
 ): Promise<T> {
     const endpoint = (Reflect.getMetadata(
         'JsonApiModelConfig',
@@ -23,13 +24,17 @@ export async function create<T extends JsonApiModel>(
         type: endpoint,
         attributes: data
     });
-    const body = { data: stringifyModel(model, modelType) };
+    const body = { data: stringifyModel(model, modelType), file };
 
     // Fetch the results
     const res: JSONAPI.SingleResourceDoc = await request(
         'POST',
         `${bulb.options.coreUrl}/${endpoint}`,
-        { meta: bulb.meta, body }
+        {
+            meta: bulb.meta,
+            body,
+            headers: file && { 'Content-Type': 'multipart/form-data' }
+        }
     );
 
     // Build a map of included resources by id for fast access

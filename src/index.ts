@@ -3,6 +3,7 @@ import EventSource from 'cross-eventsource';
 import { Resource, ReadonlyResource } from './resources/resource';
 import { TimeSeriesResource } from './resources/time-series';
 import { UtilsResource } from './resources/utils';
+import { FileResource } from './resources/file';
 import {
     Entity,
     EntityType,
@@ -15,7 +16,8 @@ import {
     Event,
     ActionType,
     Action,
-    Hook
+    Hook,
+    File
 } from './models';
 import { CoreEventType } from './types/core-event-type';
 import { CoreEvent } from './interfaces/core-event';
@@ -39,6 +41,7 @@ export class BulbThings {
     hooks = new Resource<Hook>(this, Hook);
     timeSeries = new TimeSeriesResource(this);
     units = new ReadonlyResource<Unit>(this, Unit);
+    files = new FileResource<File>(this, File);
     utils = new UtilsResource(this);
 
     // Options
