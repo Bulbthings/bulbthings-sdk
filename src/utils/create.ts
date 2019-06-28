@@ -24,7 +24,10 @@ export async function create<T extends JsonApiModel>(
         type: endpoint,
         attributes: data
     });
-    const body = { data: stringifyModel(model, modelType), file };
+    const body = { data: stringifyModel(model, modelType) };
+    if (file) {
+        body.file = file;
+    }
 
     // Fetch the results
     const res: JSONAPI.SingleResourceDoc = await request(

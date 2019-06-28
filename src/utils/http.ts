@@ -36,7 +36,8 @@ export const request = async (
         body: options.body && JSON.stringify(options.body),
         headers: {
             Accept: 'application/vnd.api+json',
-            'Content-Type': 'application/vnd.api+json'
+            'Content-Type': 'application/vnd.api+json',
+            ...options.headers
         }
     });
 
