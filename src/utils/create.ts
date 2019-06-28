@@ -37,7 +37,10 @@ export async function create<T extends JsonApiModel>(
         {
             meta: bulb.meta,
             body,
-            headers: file && { 'Content-Type': 'multipart/form-data' }
+            headers: file && {
+                'Content-Type': 'multipart/form-data; boundary=---------------5648616BOUNDARY',
+                'accept-encoding': 'gzip, deflate'
+            }
         }
     );
 
