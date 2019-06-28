@@ -11,3 +11,4 @@ export * from './event';
 export * from './action-type';
 export * from './action';
 export * from './hook';
+export * from './file';
