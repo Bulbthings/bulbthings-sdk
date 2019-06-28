@@ -50,3 +50,32 @@ export const request = async (
     // Check if body is empty or not
     return text.length ? JSON.parse(text) : {};
 };
+
+export const upload = async (
+    method: 'POST',
+    url: string,
+    options: {
+        meta?: any;
+        data: any;
+        file: any;
+        params?: JsonApiOptions | TimeSeriesOptions;
+    }
+) => {
+    const body = new FormData();
+    body.append('file', options.file);
+    body.append('data', JSON.stringify(options.data));
+
+    const res = await fetch(url, {
+        method,
+        body
+    });
+
+    if (res.status >= 400) {
+        throw (await res.json()) as JSONAPI.DocWithErrors;
+    }
+
+    const text = await res.text();
+
+    // Check if body is empty or not
+    return text.length ? JSON.parse(text) : {};
+};
