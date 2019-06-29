@@ -6,7 +6,6 @@ import { JsonApiModelConfig } from '../interfaces/json-api-model-config';
 import { BulbThings } from '..';
 import { stringifyModel } from './stringify';
 import { parseResource } from './parse';
-import FormData from 'form-data';
 
 export async function create<T extends JsonApiModel>(
     bulb: BulbThings,
@@ -25,9 +24,10 @@ export async function create<T extends JsonApiModel>(
         type: endpoint,
         attributes: data
     });
-    let res: JSONAPI.SingleResourceDoc;
 
     // Fetch the results
+    let res: JSONAPI.SingleResourceDoc;
+
     if (file) {
         res = await upload('POST', `${bulb.options.coreUrl}/${endpoint}`, {
             meta: bulb.meta,
