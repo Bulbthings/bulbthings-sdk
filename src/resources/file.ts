@@ -5,13 +5,14 @@ import { findAll, findById } from '../utils/find';
 import { create } from '../utils/create';
 import { update } from '../utils/update';
 import { deleteById } from '../utils/delete';
+import { download } from '../utils/download';
 import { BulbThings } from '..';
 
 export class FileResource<T extends JsonApiModel> {
     constructor(
         private bulbthings: BulbThings,
         private modelType: ModelType<T>
-    ) { }
+    ) {}
 
     // Allow different return types
     findAll(options?: JsonApiOptions, withMeta?: false): Promise<T[]>;
@@ -48,5 +49,9 @@ export class FileResource<T extends JsonApiModel> {
 
     async deleteById(id: string): Promise<void> {
         return deleteById(this.bulbthings, this.modelType, id);
+    }
+
+    async download(id: string): Promise<any> {
+        return download(this.bulbthings, this.modelType, id);
     }
 }
