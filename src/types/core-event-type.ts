@@ -10,4 +10,7 @@ export type CoreEventType =
     | 'hookDeleted'
     | 'eventCreated'
     | 'eventDeleted'
-    | 'eventUpdated';
+    | 'eventUpdated'
+    | 'measurementCreated'
+    | 'measurementDeleted'
+    | 'measurementUpdated';
