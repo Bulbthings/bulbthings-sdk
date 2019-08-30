@@ -17,7 +17,12 @@ import {
     ActionType,
     Action,
     Hook,
-    File
+    File,
+    Company,
+    Account,
+    Key,
+    Membership,
+    Team
 } from './models';
 import { CoreEventType } from './types/core-event-type';
 import { CoreEvent } from './interfaces/core-event';
@@ -28,6 +33,11 @@ export * from './models';
 
 export class BulbThings {
     // Core API resources
+    companies = new Resource<Company>(this, Company);
+    teams = new Resource<Team>(this, Team);
+    accounts = new Resource<Account>(this, Account);
+    keys = new Resource<Key>(this, Key);
+    memberships = new Resource<Membership>(this, Membership);
     entities = new Resource<Entity>(this, Entity);
     entityTypes = new Resource<EntityType>(this, EntityType);
     attributeTypes = new Resource<AttributeType>(this, AttributeType);

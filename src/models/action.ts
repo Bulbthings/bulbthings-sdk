@@ -4,11 +4,15 @@ import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { ActionType } from './action-type';
 import { Entity } from './entity';
+import { Company } from './company';
 
 @JsonApiModelConfig({
     endpoint: 'actions'
 })
 export class Action extends JsonApiModel {
+    @Attribute()
+    companyId: string;
+
     @Attribute()
     actionTypeId: string;
 
@@ -29,6 +33,9 @@ export class Action extends JsonApiModel {
 
     @Attribute()
     completedAt?: Date;
+
+    @Relation('BelongsTo', () => Company)
+    company?: Company;
 
     @Relation('BelongsTo', () => ActionType)
     actionType?: ActionType;

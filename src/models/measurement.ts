@@ -6,11 +6,15 @@ import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Attribute } from '../decorators/attribute';
 import { periodConverter } from '../converters/period';
 import { AttributeType } from './attribute-type';
+import { Company } from './company';
 
 @JsonApiModelConfig({
     endpoint: 'measurements'
 })
 export class Measurement extends JsonApiModel {
+    @Attribute()
+    companyId: string;
+
     @Attribute()
     sourceEntityId: string;
 
@@ -31,6 +35,9 @@ export class Measurement extends JsonApiModel {
 
     @Attribute()
     unitId: string;
+
+    @Relation('BelongsTo', () => Company)
+    company?: Company;
 
     @Relation('BelongsTo', () => AttributeType)
     attributetype?: AttributeType;

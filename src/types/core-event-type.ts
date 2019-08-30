@@ -16,4 +16,16 @@ export type CoreEventType =
     | 'fileDeleted'
     | 'measurementCreated'
     | 'measurementUpdated'
-    | 'measurementDeleted';
+    | 'measurementDeleted'
+    | 'accountCreated'
+    | 'accountUpdated'
+    | 'accountDeleted'
+    | 'keyCreated'
+    | 'keyUpdated'
+    | 'keyDeleted'
+    | 'teamCreated'
+    | 'teamUpdated'
+    | 'teamDeleted'
+    | 'membershipCreated'
+    | 'membershipUpdated'
+    | 'membershipDeleted';

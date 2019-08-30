@@ -6,11 +6,15 @@ import { Period } from '../interfaces/period';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Attribute } from '../decorators/attribute';
 import { periodConverter } from '../converters/period';
+import { Company } from './company';
 
 @JsonApiModelConfig({
     endpoint: 'associations'
 })
 export class Association extends JsonApiModel {
+    @Attribute()
+    companyId: string;
+
     @Attribute()
     associationTypeId: string;
 
@@ -25,6 +29,9 @@ export class Association extends JsonApiModel {
 
     @Attribute()
     ratio: number;
+
+    @Relation('BelongsTo', () => Company)
+    company?: Company;
 
     @Relation('BelongsTo', () => AssociationType)
     associationType?: AssociationType;

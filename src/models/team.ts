@@ -2,23 +2,25 @@ import { JsonApiModel } from './jsonapi-model';
 import { Relation } from '../decorators/relation';
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
-import { EntityType } from './entity-type';
-import { JsonSchema } from '../interfaces/json-schema';
 import { Company } from './company';
+import { Membership } from './membership';
 
 @JsonApiModelConfig({
-    endpoint: 'actionTypes'
+    endpoint: 'teams'
 })
-export class ActionType extends JsonApiModel {
+export class Team extends JsonApiModel {
     @Attribute()
-    schema: JsonSchema;
+    companyId: string;
 
     @Attribute()
-    entityTypeId?: string;
+    label: string;
+
+    @Attribute()
+    description: string;
 
     @Relation('BelongsTo', () => Company)
     company?: Company;
 
-    @Relation('BelongsTo', () => EntityType)
-    entityType?: EntityType;
+    @Relation('HasMany', () => Membership)
+    memberships?: Membership[];
 }

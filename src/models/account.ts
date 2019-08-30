@@ -1,38 +1,33 @@
 import { Relation } from '../decorators/relation';
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModel } from './jsonapi-model';
-import { EntityType } from './entity-type';
-import { File } from './file';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Company } from './company';
+import { Membership } from './membership';
+import { Key } from './key';
 
 @JsonApiModelConfig({
-    endpoint: 'entities'
+    endpoint: 'accounts'
 })
-export class Entity extends JsonApiModel {
+export class Account extends JsonApiModel {
     @Attribute()
     companyId: string;
 
     @Attribute()
-    parentId: string;
+    email: string;
 
     @Attribute()
-    entityTypeId: string;
+    isAdmin: boolean;
 
     @Attribute()
-    attributes: {
-        [name: string]: any;
-    };
-
-    @Attribute()
-    quantity: number;
+    isActive: boolean;
 
     @Relation('BelongsTo', () => Company)
     company?: Company;
 
-    @Relation('BelongsTo', () => EntityType)
-    entitytype?: EntityType;
+    @Relation('HasMany', () => Membership)
+    memberships?: Membership[];
 
-    @Relation('HasMany', () => File)
-    files?: File[];
+    @Relation('HasMany', () => Key)
+    keys?: Key[];
 }

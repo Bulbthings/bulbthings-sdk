@@ -2,23 +2,28 @@ import { JsonApiModel } from './jsonapi-model';
 import { Relation } from '../decorators/relation';
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
-import { EntityType } from './entity-type';
-import { JsonSchema } from '../interfaces/json-schema';
 import { Company } from './company';
+import { Account } from './account';
 
 @JsonApiModelConfig({
-    endpoint: 'actionTypes'
+    endpoint: 'keys'
 })
-export class ActionType extends JsonApiModel {
+export class Key extends JsonApiModel {
     @Attribute()
-    schema: JsonSchema;
+    companyId: string;
 
     @Attribute()
-    entityTypeId?: string;
+    accountId: string;
+
+    @Attribute()
+    label: string;
+
+    @Attribute()
+    hash: string;
 
     @Relation('BelongsTo', () => Company)
     company?: Company;
 
-    @Relation('BelongsTo', () => EntityType)
-    entityType?: EntityType;
+    @Relation('BelongsTo', () => Account)
+    account?: Account;
 }

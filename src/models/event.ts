@@ -5,11 +5,15 @@ import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { EventType } from './event-type';
 import { Entity } from './entity';
 import { Action } from './action';
+import { Company } from './company';
 
 @JsonApiModelConfig({
     endpoint: 'events'
 })
 export class Event extends JsonApiModel {
+    @Attribute()
+    companyId: string;
+
     @Attribute()
     eventTypeId: string;
 
@@ -34,6 +38,9 @@ export class Event extends JsonApiModel {
         text: string;
         sections: { type: string; value: any }[];
     };
+
+    @Relation('BelongsTo', () => Company)
+    company?: Company;
 
     @Relation('BelongsTo', () => EventType)
     eventType?: EventType;
