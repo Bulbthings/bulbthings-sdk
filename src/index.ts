@@ -2,7 +2,6 @@ import 'reflect-metadata';
 import EventSource from 'cross-eventsource';
 import { Resource, ReadonlyResource } from './resources/resource';
 import { TimeSeriesResource } from './resources/time-series';
-import { UtilsResource } from './resources/utils';
 import { FileResource } from './resources/file';
 import {
     Entity,
@@ -32,7 +31,7 @@ import { BulbThingsOptions } from './interfaces/bulbthings-options';
 export * from './models';
 
 export class BulbThings {
-    // Core API resources
+    // API resources
     companies = new Resource<Company>(this, Company);
     teams = new Resource<Team>(this, Team);
     accounts = new Resource<Account>(this, Account);
@@ -52,7 +51,6 @@ export class BulbThings {
     timeSeries = new TimeSeriesResource(this);
     units = new ReadonlyResource<Unit>(this, Unit);
     files = new FileResource<File>(this, File);
-    utils = new UtilsResource(this);
 
     // Options
     options: BulbThingsOptions = {
@@ -60,35 +58,8 @@ export class BulbThings {
         eventsUrl: 'https://events.bulbthings.com'
     };
 
-    private _meta: any = {};
-
     // Event Source interface for Server-Sent Events (SSE)
     private eventSource: EventSource;
-
-    // Deprecated
-    get basePath(): string {
-        return this.options.coreUrl;
-    }
-
-    // Deprecated
-    set basePath(path: string) {
-        this.options.coreUrl = path;
-    }
-
-    // Deprecated
-    get tenant(): string {
-        return this._meta.tenant;
-    }
-
-    // Deprecated
-    set tenant(tenant: string) {
-        this._meta.tenant = tenant;
-    }
-
-    // Deprecated
-    get meta(): any {
-        return this._meta;
-    }
 
     on(type: CoreEventType, listener: (event: CoreEvent) => void) {
         this.eventSource.addEventListener(type, evt => {

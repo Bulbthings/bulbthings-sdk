@@ -19,7 +19,6 @@ export async function findAll<T extends JsonApiModel>(
     ) as JsonApiModelConfig).endpoint;
 
     const res = await request('GET', `${bulb.options.coreUrl}/${endpoint}`, {
-        meta: bulb.meta,
         params: options
     });
 
@@ -55,7 +54,7 @@ export async function findById<T extends JsonApiModel>(
     const res = await request(
         'GET',
         `${bulb.options.coreUrl}/${endpoint}/${id}`,
-        { meta: bulb.meta, params: options }
+        { params: options }
     );
 
     // Build a map of included resources by id for fast access

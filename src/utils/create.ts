@@ -30,13 +30,11 @@ export async function create<T extends JsonApiModel>(
 
     if (file) {
         res = await upload('POST', `${bulb.options.coreUrl}/${endpoint}`, {
-            meta: bulb.meta,
             data: stringifyModel(model, modelType),
             file
         });
     } else {
         res = await request('POST', `${bulb.options.coreUrl}/${endpoint}`, {
-            meta: bulb.meta,
             body: { data: stringifyModel(model, modelType) }
         });
     }

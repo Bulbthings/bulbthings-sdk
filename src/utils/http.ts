@@ -12,20 +12,13 @@ export const request = async (
     method: 'GET' | 'POST' | 'PATCH' | 'DELETE',
     url: string,
     options: {
-        meta?: any;
         body?: any;
         headers?: HttpHeaders;
         params?: JsonApiOptions | TimeSeriesOptions;
     } = {}
 ) => {
-    const params = Object.assign(
-        {},
-        options.meta,
-        method === 'GET' ? options.params : null
-    );
-
-    if (params && Object.keys(params).length > 0) {
-        const urlParams = qs.stringify(params, {
+    if (options.params && Object.keys(options.params).length) {
+        const urlParams = qs.stringify(options.params, {
             arrayFormat: 'comma'
         });
         url = `${url}?${urlParams}`;
