@@ -3,9 +3,6 @@ import { AttributeAnnotation } from '../interfaces/attribute-annotation';
 import { RelationAnnotation } from '../interfaces/relation-annotation';
 import { RelationType } from '../types/relation-type';
 
-import { JsonApiOptions } from '../interfaces/json-api-options';
-import { findById } from '../utils/find';
-
 export class JsonApiModel {
     id: string;
 

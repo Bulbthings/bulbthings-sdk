@@ -1,4 +1,6 @@
-export interface JsonApiOptions {
+import { RequestOptions } from './request-options';
+
+export interface JsonApiOptions extends RequestOptions {
     fields?: {
         [resourceName: string]: string[];
     };

@@ -18,9 +18,12 @@ export async function findAll<T extends JsonApiModel>(
         modelType
     ) as JsonApiModelConfig).endpoint;
 
-    const res = await request('GET', `${bulb.options.coreUrl}/${endpoint}`, {
-        params: options
-    });
+    const res = await request(
+        bulb,
+        'GET',
+        `${bulb.options.coreUrl}/${endpoint}`,
+        { params: options }
+    );
 
     // Build a map of included resources by id for fast access
     const includedResources: {
@@ -38,39 +41,4 @@ export async function findAll<T extends JsonApiModel>(
     });
 
     return { meta: res.meta || {}, data: models };
-}
-
-export async function findById<T extends JsonApiModel>(
-    bulb: BulbThings,
-    modelType: ModelType<T>,
-    id: string,
-    options?: JsonApiOptions
-): Promise<T> {
-    const endpoint = (Reflect.getMetadata(
-        'JsonApiModelConfig',
-        modelType
-    ) as JsonApiModelConfig).endpoint;
-
-    const res = await request(
-        'GET',
-        `${bulb.options.coreUrl}/${endpoint}/${id}`,
-        { params: options }
-    );
-
-    // Build a map of included resources by id for fast access
-    const includedResources: {
-        [type: string]: { [id: string]: JSONAPI.ResourceObject };
-    } = {};
-    ((res as JSONAPI.SingleResourceDoc).included || []).forEach(r => {
-        includedResources[r.type] = includedResources[r.type] || {};
-        includedResources[r.type][r.id] = r;
-    });
-
-    const model = parseResource(
-        (res as JSONAPI.SingleResourceDoc).data,
-        modelType,
-        includedResources
-    );
-
-    return model;
 }

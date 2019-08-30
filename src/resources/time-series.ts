@@ -1,7 +1,7 @@
 import { TimeSeries } from '../models/time-series';
 import { BulbThings } from '..';
 import { TimeSeriesOptions } from '../interfaces/time-series-options';
-import { findAll } from '../utils/find';
+import { findAll } from '../utils/find-all';
 
 export class TimeSeriesResource {
     constructor(private bulbthings: BulbThings) {}

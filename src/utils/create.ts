@@ -1,17 +1,20 @@
 import * as JSONAPI from 'jsonapi-typescript';
 import { JsonApiModel } from '../models/jsonapi-model';
-import { request, upload } from './http';
+import { request } from './http';
+import { upload } from './upload';
 import { ModelType } from '../types/model-type';
 import { JsonApiModelConfig } from '../interfaces/json-api-model-config';
 import { BulbThings } from '..';
 import { stringifyModel } from './stringify';
 import { parseResource } from './parse';
+import { RequestOptions } from '../interfaces/request-options';
 
 export async function create<T extends JsonApiModel>(
     bulb: BulbThings,
     modelType: ModelType<T>,
     data: any,
-    file?: any
+    file?: any,
+    options?: RequestOptions
 ): Promise<T> {
     const endpoint = (Reflect.getMetadata(
         'JsonApiModelConfig',
@@ -29,14 +32,21 @@ export async function create<T extends JsonApiModel>(
     let res: JSONAPI.SingleResourceDoc;
 
     if (file) {
-        res = await upload('POST', `${bulb.options.coreUrl}/${endpoint}`, {
+        res = await upload(bulb, `${bulb.options.coreUrl}/${endpoint}`, {
             data: stringifyModel(model, modelType),
-            file
+            file,
+            params: options
         });
     } else {
-        res = await request('POST', `${bulb.options.coreUrl}/${endpoint}`, {
-            body: { data: stringifyModel(model, modelType) }
-        });
+        res = await request(
+            bulb,
+            'POST',
+            `${bulb.options.coreUrl}/${endpoint}`,
+            {
+                body: { data: stringifyModel(model, modelType) },
+                params: options
+            }
+        );
     }
 
     // Build a map of included resources by id for fast access

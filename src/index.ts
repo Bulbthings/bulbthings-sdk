@@ -1,8 +1,10 @@
 import 'reflect-metadata';
 import EventSource from 'cross-eventsource';
-import { Resource, ReadonlyResource } from './resources/resource';
+import { Resource } from './resources/resource';
+import { ReadonlyResource } from './resources/readonly-resource';
+import { FileResource } from './resources/file-resource';
 import { TimeSeriesResource } from './resources/time-series';
-import { FileResource } from './resources/file';
+
 import {
     Entity,
     EntityType,
@@ -71,8 +73,6 @@ export class BulbThings {
     }
 
     constructor(options: BulbThingsOptions = {}) {
-        // TODO: Authentication
-
         // Options init
         this.options = { ...this.options, ...options };
 

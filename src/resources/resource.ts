@@ -1,11 +1,13 @@
 import { JsonApiOptions } from '../interfaces/json-api-options';
 import { JsonApiModel } from '../models/jsonapi-model';
 import { ModelType } from '../types/model-type';
-import { findAll, findById } from '../utils/find';
+import { findAll } from '../utils/find-all';
+import { findById } from '../utils/find-by-id';
 import { create } from '../utils/create';
 import { update } from '../utils/update';
 import { deleteById } from '../utils/delete';
 import { BulbThings } from '..';
+import { RequestOptions } from '../interfaces/request-options';
 
 export class Resource<T extends JsonApiModel> {
     constructor(
@@ -38,36 +40,19 @@ export class Resource<T extends JsonApiModel> {
         return findById(this.bulbthings, this.modelType, id, options);
     }
 
-    async create(data: any): Promise<T> {
-        return create(this.bulbthings, this.modelType, data);
+    async create(data: any, options?: RequestOptions): Promise<T> {
+        return create(this.bulbthings, this.modelType, data, null, options);
     }
 
-    async updateById(id: string, data: any): Promise<T> {
-        return update(this.bulbthings, this.modelType, id, data);
+    async updateById(
+        id: string,
+        data: any,
+        options?: RequestOptions
+    ): Promise<T> {
+        return update(this.bulbthings, this.modelType, id, data, options);
     }
 
-    async deleteById(id: string): Promise<void> {
-        return deleteById(this.bulbthings, this.modelType, id);
-    }
-}
-
-export class ReadonlyResource<T extends JsonApiModel> {
-    constructor(
-        private bulbthings: BulbThings,
-        private modelType: ModelType<T>
-    ) {}
-
-    async findAll(options?: JsonApiOptions) {
-        return findAll(this.bulbthings, this.modelType, options);
-    }
-
-    async findById(id: string, options?: JsonApiOptions): Promise<T> {
-        return findById(this.bulbthings, this.modelType, id, options);
+    async deleteById(id: string, options?: RequestOptions): Promise<void> {
+        return deleteById(this.bulbthings, this.modelType, id, options);
     }
 }
-
-// export class ActiveResource<T extends JsonApiModel> {
-//     constructor(bulb) { }
-
-//     async refresh() { }
-// }
