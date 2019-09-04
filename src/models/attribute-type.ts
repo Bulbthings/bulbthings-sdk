@@ -14,9 +14,6 @@ export class AttributeType extends JsonApiModel {
     entityTypeId: string;
 
     @Attribute()
-    name: string;
-
-    @Attribute()
     jsonSchema: JsonSchema;
 
     @Attribute()

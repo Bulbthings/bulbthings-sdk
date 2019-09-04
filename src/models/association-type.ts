@@ -13,9 +13,6 @@ export class AssociationType extends JsonApiModel {
     targetEntityTypeId: string;
 
     @Attribute()
-    name: string;
-
-    @Attribute()
     sourceIsShared: boolean;
 
     @Attribute()

@@ -18,9 +18,6 @@ export class EntityType extends JsonApiModel {
     path: string[];
 
     @Attribute()
-    name: string;
-
-    @Attribute()
     label: string;
 
     @Attribute()
