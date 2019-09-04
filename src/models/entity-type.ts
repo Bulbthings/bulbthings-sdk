@@ -8,7 +8,7 @@ import { EventType } from './event-type';
 import { ActionType } from './action-type';
 
 @JsonApiModelConfig({
-    endpoint: 'entitytypes'
+    endpoint: 'entityTypes'
 })
 export class EntityType extends JsonApiModel {
     @Attribute()

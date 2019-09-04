@@ -3,7 +3,7 @@ import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Attribute } from '../decorators/attribute';
 
 @JsonApiModelConfig({
-    endpoint: 'associationtypes'
+    endpoint: 'associationTypes'
 })
 export class AssociationType extends JsonApiModel {
     @Attribute()

@@ -7,7 +7,7 @@ import { Unit } from './unit';
 import { JsonSchema } from '../interfaces/json-schema';
 
 @JsonApiModelConfig({
-    endpoint: 'attributetypes'
+    endpoint: 'attributeTypes'
 })
 export class AttributeType extends JsonApiModel {
     @Attribute()
