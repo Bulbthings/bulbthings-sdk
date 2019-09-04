@@ -24,10 +24,10 @@ export class EntityType extends JsonApiModel {
     description: string;
 
     @Relation('HasMany', () => AttributeType)
-    attributetypes?: AttributeType[];
+    attributeTypes?: AttributeType[];
 
     @Relation('HasMany', () => AssociationType)
-    associationtypes?: AssociationType[];
+    associationTypes?: AssociationType[];
 
     @Relation('HasMany', () => EventType)
     eventTypes?: EventType[];

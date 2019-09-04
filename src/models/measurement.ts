@@ -40,11 +40,11 @@ export class Measurement extends JsonApiModel {
     company?: Company;
 
     @Relation('BelongsTo', () => AttributeType)
-    attributetype?: AttributeType;
+    attributeType?: AttributeType;
 
     @Relation('BelongsTo', () => Entity)
-    source?: Entity;
+    sourceEntity?: Entity;
 
     @Relation('BelongsTo', () => Entity)
-    target?: Entity;
+    targetEntity?: Entity;
 }

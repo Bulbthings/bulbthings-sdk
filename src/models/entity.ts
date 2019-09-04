@@ -31,7 +31,7 @@ export class Entity extends JsonApiModel {
     company?: Company;
 
     @Relation('BelongsTo', () => EntityType)
-    entitytype?: EntityType;
+    entityType?: EntityType;
 
     @Relation('HasMany', () => File)
     files?: File[];
