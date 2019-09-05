@@ -28,6 +28,8 @@ import {
 import { CoreEventType } from './types/core-event-type';
 import { CoreEvent } from './interfaces/core-event';
 import { BulbThingsOptions } from './interfaces/bulbthings-options';
+import { request } from './utils/http';
+import { parseResource } from './utils/parse';
 
 // Export all models so they can be used from outside
 export * from './models';
@@ -71,6 +73,30 @@ export class BulbThings {
             });
         });
     }
+
+    // Authentication functions
+    async login(email: string, password: string): Promise<Key> {
+        const res = await request(
+            this,
+            'POST',
+            `${this.options.coreUrl}/authentication/login`,
+            { body: { email, password } }
+        );
+        const key = parseResource(res.data, Key, {});
+        this.setToken(key.value);
+        return key;
+    }
+
+    setToken(token: string) {
+        this.options.apiToken = token;
+        // TODO: Reset EventSource when token changes
+    }
+
+    // TODO
+    resetPassword(email: string) {}
+
+    // TODO
+    changePassword(token: string, newPassword: string) {}
 
     constructor(options: BulbThingsOptions = {}) {
         // Options init

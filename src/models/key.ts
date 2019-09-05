@@ -16,10 +16,25 @@ export class Key extends JsonApiModel {
     accountId: string;
 
     @Attribute()
-    label: string;
+    label?: string;
+
+    @Attribute()
+    type: 'login' | 'api' | 'email';
+
+    @Attribute()
+    value?: string;
 
     @Attribute()
     hash: string;
+
+    @Attribute()
+    expiresAt: Date;
+
+    @Attribute()
+    createdAt: Date;
+
+    @Attribute()
+    updatedAt: Date;
 
     @Relation('BelongsTo', () => Company)
     company?: Company;
