@@ -30,6 +30,9 @@ import { CoreEventType } from './types/core-event-type';
 import { CoreEvent } from './interfaces/core-event';
 import { BulbThingsOptions } from './interfaces/bulbthings-options';
 
+// Export JSONAPI Error class to parse errors
+export { DocWithErrors as ApiError } from 'jsonapi-typescript';
+
 // Export all models so they can be used from outside
 export * from './models';
 
