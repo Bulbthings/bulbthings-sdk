@@ -17,6 +17,9 @@ export class Account extends JsonApiModel {
     email: string;
 
     @Attribute()
+    password?: string;
+
+    @Attribute()
     isAdmin: boolean;
 
     @Attribute()
