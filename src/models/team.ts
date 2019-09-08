@@ -4,6 +4,7 @@ import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Company } from './company';
 import { Membership } from './membership';
+import { Permission } from './permission';
 
 @JsonApiModelConfig({
     endpoint: 'teams'
@@ -23,4 +24,7 @@ export class Team extends JsonApiModel {
 
     @Relation('HasMany', () => Membership)
     memberships?: Membership[];
+
+    @Relation('HasMany', () => Permission)
+    permissions?: Permission[];
 }
