@@ -1,42 +1,32 @@
 import { Relation } from '../decorators/relation';
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModel } from './jsonapi-model';
-import { Account } from './account';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Company } from './company';
-import { Period } from '../interfaces/period';
-import { periodConverter } from '../converters/period';
 import { Team } from './team';
-import { Scope } from './scope';
 
 @JsonApiModelConfig({
-    endpoint: 'memberships'
+    endpoint: 'permissions'
 })
-export class Membership extends JsonApiModel {
+export class Permission extends JsonApiModel {
     @Attribute()
     companyId: string;
 
     @Attribute()
-    accountId: string;
-
-    @Attribute()
     teamId: string;
 
-    @Attribute({ converter: periodConverter })
-    period: Period;
+    @Attribute()
+    resource: string;
 
     @Attribute()
-    isAdmin: boolean;
+    filter: any;
+
+    @Attribute()
+    rights: string[];
 
     @Relation('BelongsTo', () => Company)
     company?: Company;
 
-    @Relation('BelongsTo', () => Account)
-    account?: Account;
-
     @Relation('BelongsTo', () => Team)
     team?: Team;
-
-    @Relation('HasMany', () => Scope)
-    scopes?: Scope[];
 }

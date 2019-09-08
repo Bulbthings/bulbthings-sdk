@@ -28,4 +28,10 @@ export type CoreEventType =
     | 'teamDeleted'
     | 'membershipCreated'
     | 'membershipUpdated'
-    | 'membershipDeleted';
+    | 'membershipDeleted'
+    | 'permissionCreated'
+    | 'permissionUpdated'
+    | 'permissionDeleted'
+    | 'scopeCreated'
+    | 'scopeUpdated'
+    | 'scopeDeleted';
