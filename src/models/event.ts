@@ -6,6 +6,7 @@ import { EventType } from './event-type';
 import { Entity } from './entity';
 import { Action } from './action';
 import { Company } from './company';
+import { Account } from './account';
 
 @JsonApiModelConfig({
     endpoint: 'events'
@@ -21,10 +22,10 @@ export class Event extends JsonApiModel {
     priority: 'info' | 'warning' | 'danger' | 'success';
 
     @Attribute()
-    sourceEntityId: string;
+    accountId: string;
 
     @Attribute()
-    targetEntityId: string;
+    entityId: string;
 
     @Attribute()
     privateForEntityId: string;
@@ -45,11 +46,11 @@ export class Event extends JsonApiModel {
     @Relation('BelongsTo', () => EventType)
     eventType?: EventType;
 
-    @Relation('BelongsTo', () => Entity)
-    sourceEntity?: Entity;
+    @Relation('BelongsTo', () => Account)
+    account?: Account;
 
     @Relation('BelongsTo', () => Entity)
-    targetEntity?: Entity;
+    entity?: Entity;
 
     @Relation('HasMany', () => Action)
     actions?: Action[];

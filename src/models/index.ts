@@ -18,4 +18,3 @@ export * from './key';
 export * from './team';
 export * from './membership';
 export * from './permission';
-export * from './scope';

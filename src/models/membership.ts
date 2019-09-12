@@ -7,7 +7,6 @@ import { Company } from './company';
 import { Period } from '../interfaces/period';
 import { periodConverter } from '../converters/period';
 import { Team } from './team';
-import { Scope } from './scope';
 
 @JsonApiModelConfig({
     endpoint: 'memberships'
@@ -36,7 +35,4 @@ export class Membership extends JsonApiModel {
 
     @Relation('BelongsTo', () => Team)
     team?: Team;
-
-    @Relation('HasMany', () => Scope)
-    scopes?: Scope[];
 }

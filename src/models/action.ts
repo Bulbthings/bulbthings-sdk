@@ -5,6 +5,7 @@ import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { ActionType } from './action-type';
 import { Entity } from './entity';
 import { Company } from './company';
+import { Account } from './account';
 
 @JsonApiModelConfig({
     endpoint: 'actions'
@@ -17,10 +18,10 @@ export class Action extends JsonApiModel {
     actionTypeId: string;
 
     @Attribute()
-    sourceEntityId: string;
+    accountId: string;
 
     @Attribute()
-    targetEntityId: string;
+    entityId: string;
 
     @Attribute()
     input: any;
@@ -40,9 +41,9 @@ export class Action extends JsonApiModel {
     @Relation('BelongsTo', () => ActionType)
     actionType?: ActionType;
 
-    @Relation('BelongsTo', () => Entity)
-    sourceEntity?: Entity;
+    @Relation('BelongsTo', () => Account)
+    account?: Account;
 
     @Relation('BelongsTo', () => Entity)
-    targetEntity?: Entity;
+    entity?: Entity;
 }

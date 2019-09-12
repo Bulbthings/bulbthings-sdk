@@ -4,6 +4,7 @@ import { Relation } from '../decorators/relation';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Entity } from './entity';
 import { Company } from './company';
+import { Account } from './account';
 
 @JsonApiModelConfig({
     endpoint: 'files'
@@ -16,10 +17,10 @@ export class File extends JsonApiModel {
     parentFileId?: string;
 
     @Attribute()
-    sourceEntityId: string;
+    accountId: string;
 
     @Attribute()
-    targetEntityId: string;
+    entityId: string;
 
     @Attribute()
     name: string;
@@ -36,9 +37,9 @@ export class File extends JsonApiModel {
     @Relation('BelongsTo', () => Company)
     company?: Company;
 
-    @Relation('BelongsTo', () => Entity)
-    sourceEntity?: Entity;
+    @Relation('BelongsTo', () => Account)
+    account?: Account;
 
     @Relation('BelongsTo', () => Entity)
-    targetEntity?: Entity;
+    entity?: Entity;
 }

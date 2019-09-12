@@ -25,8 +25,7 @@ import {
     Key,
     Membership,
     Team,
-    Permission,
-    Scope
+    Permission
 } from './models';
 import { CoreEventType } from './types/core-event-type';
 import { CoreEvent } from './interfaces/core-event';
@@ -43,7 +42,6 @@ export class BulbThings {
     companies = new Resource<Company>(this, Company);
     teams = new Resource<Team>(this, Team);
     permissions = new Resource<Permission>(this, Permission);
-    scopes = new Resource<Scope>(this, Scope);
     accounts = new Resource<Account>(this, Account);
     keys = new Resource<Key>(this, Key);
     memberships = new Resource<Membership>(this, Membership);

@@ -7,6 +7,7 @@ import { Attribute } from '../decorators/attribute';
 import { periodConverter } from '../converters/period';
 import { AttributeType } from './attribute-type';
 import { Company } from './company';
+import { Account } from './account';
 
 @JsonApiModelConfig({
     endpoint: 'measurements'
@@ -16,10 +17,10 @@ export class Measurement extends JsonApiModel {
     companyId: string;
 
     @Attribute()
-    sourceEntityId: string;
+    accountId: string;
 
     @Attribute()
-    targetEntityId: string;
+    entityId: string;
 
     @Attribute()
     attributeTypeId: string;
@@ -42,9 +43,9 @@ export class Measurement extends JsonApiModel {
     @Relation('BelongsTo', () => AttributeType)
     attributeType?: AttributeType;
 
-    @Relation('BelongsTo', () => Entity)
-    sourceEntity?: Entity;
+    @Relation('BelongsTo', () => Account)
+    account?: Account;
 
     @Relation('BelongsTo', () => Entity)
-    targetEntity?: Entity;
+    entity?: Entity;
 }
