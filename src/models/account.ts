@@ -5,6 +5,7 @@ import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Company } from './company';
 import { Membership } from './membership';
 import { Key } from './key';
+import { Entity } from './entity';
 
 @JsonApiModelConfig({
     endpoint: 'accounts'
@@ -36,6 +37,9 @@ export class Account extends JsonApiModel {
 
     @Relation('BelongsTo', () => Company)
     company?: Company;
+
+    @Relation('BelongsTo', () => Entity)
+    entity?: Entity;
 
     @Relation('HasMany', () => Membership)
     memberships?: Membership[];
