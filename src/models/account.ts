@@ -14,16 +14,25 @@ export class Account extends JsonApiModel {
     companyId: string;
 
     @Attribute()
+    fullName: string;
+
+    @Attribute()
     email: string;
 
     @Attribute()
     password?: string;
 
     @Attribute()
+    entityId: string;
+
+    @Attribute()
     isAdmin: boolean;
 
     @Attribute()
     isActive: boolean;
+
+    @Attribute()
+    isVerified: boolean;
 
     @Relation('BelongsTo', () => Company)
     company?: Company;
