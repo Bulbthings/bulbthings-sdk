@@ -2,20 +2,15 @@ import { Relation } from '../decorators/relation';
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModel } from './jsonapi-model';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
-import { Company } from './company';
 import { Membership } from './membership';
 import { Key } from './key';
-import { Entity } from './entity';
 
 @JsonApiModelConfig({
     endpoint: 'accounts'
 })
 export class Account extends JsonApiModel {
     @Attribute()
-    companyId: string;
-
-    @Attribute()
-    fullName: string;
+    label: string;
 
     @Attribute()
     email: string;
@@ -24,22 +19,19 @@ export class Account extends JsonApiModel {
     password?: string;
 
     @Attribute()
-    entityId: string;
-
-    @Attribute()
-    isAdmin: boolean;
-
-    @Attribute()
-    isActive: boolean;
-
-    @Attribute()
     isVerified: boolean;
 
-    @Relation('BelongsTo', () => Company)
-    company?: Company;
+    @Attribute()
+    isBot: boolean;
 
-    @Relation('BelongsTo', () => Entity)
-    entity?: Entity;
+    @Attribute()
+    locale?: string;
+
+    @Attribute()
+    createdAt: Date;
+
+    @Attribute()
+    updatedAt: Date;
 
     @Relation('HasMany', () => Membership)
     memberships?: Membership[];

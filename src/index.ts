@@ -24,7 +24,7 @@ import {
     Account,
     Key,
     Membership,
-    Team,
+    Role,
     Permission
 } from './models';
 import { CoreEventType } from './types/core-event-type';
@@ -39,27 +39,27 @@ export * from './models';
 
 export class BulbThings {
     // API resources
-    companies = new Resource<Company>(this, Company);
-    teams = new Resource<Team>(this, Team);
-    permissions = new Resource<Permission>(this, Permission);
     accounts = new Resource<Account>(this, Account);
-    keys = new Resource<Key>(this, Key);
-    memberships = new Resource<Membership>(this, Membership);
-    entities = new Resource<Entity>(this, Entity);
-    entityTypes = new Resource<EntityType>(this, EntityType);
-    attributeTypes = new Resource<AttributeType>(this, AttributeType);
-    measurements = new Resource<Measurement>(this, Measurement);
+    actions = new Resource<Action>(this, Action);
+    actionTypes = new Resource<ActionType>(this, ActionType);
     associations = new Resource<Association>(this, Association);
     associationTypes = new Resource<AssociationType>(this, AssociationType);
-    eventTypes = new Resource<EventType>(this, EventType);
+    attributeTypes = new Resource<AttributeType>(this, AttributeType);
+    authentication = new AuthenticationResource(this);
+    companies = new Resource<Company>(this, Company);
+    entities = new Resource<Entity>(this, Entity);
+    entityTypes = new Resource<EntityType>(this, EntityType);
     events = new Resource<Event>(this, Event);
-    actionTypes = new Resource<ActionType>(this, ActionType);
-    actions = new Resource<Action>(this, Action);
+    eventTypes = new Resource<EventType>(this, EventType);
+    files = new FileResource<File>(this, File);
     hooks = new Resource<Hook>(this, Hook);
+    keys = new Resource<Key>(this, Key);
+    measurements = new Resource<Measurement>(this, Measurement);
+    memberships = new Resource<Membership>(this, Membership);
+    permissions = new Resource<Permission>(this, Permission);
+    roles = new Resource<Role>(this, Role);
     timeSeries = new TimeSeriesResource(this);
     units = new ReadonlyResource<Unit>(this, Unit);
-    files = new FileResource<File>(this, File);
-    authentication = new AuthenticationResource(this);
 
     // Options
     options: BulbThingsOptions = {

@@ -6,7 +6,8 @@ import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Company } from './company';
 import { Period } from '../interfaces/period';
 import { periodConverter } from '../converters/period';
-import { Team } from './team';
+import { Role } from './role';
+import { Entity } from './entity';
 
 @JsonApiModelConfig({
     endpoint: 'memberships'
@@ -19,13 +20,19 @@ export class Membership extends JsonApiModel {
     accountId: string;
 
     @Attribute()
-    teamId: string;
+    roleId: string;
 
-    @Attribute({ converter: periodConverter })
-    period: Period;
+    @Attribute()
+    entityId: string;
 
     @Attribute()
     isAdmin: boolean;
+
+    @Attribute()
+    isActive: boolean;
+
+    @Attribute({ converter: periodConverter })
+    period: Period;
 
     @Relation('BelongsTo', () => Company)
     company?: Company;
@@ -33,6 +40,9 @@ export class Membership extends JsonApiModel {
     @Relation('BelongsTo', () => Account)
     account?: Account;
 
-    @Relation('BelongsTo', () => Team)
-    team?: Team;
+    @Relation('BelongsTo', () => Role)
+    role?: Role;
+
+    @Relation('BelongsTo', () => Entity)
+    entity?: Entity;
 }

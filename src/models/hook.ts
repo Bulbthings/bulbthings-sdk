@@ -9,7 +9,7 @@ import { Company } from './company';
 })
 export class Hook extends JsonApiModel {
     @Attribute()
-    companyId: string;
+    companyId?: string;
 
     @Attribute()
     isActive: boolean;

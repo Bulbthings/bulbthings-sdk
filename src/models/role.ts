@@ -7,9 +7,9 @@ import { Membership } from './membership';
 import { Permission } from './permission';
 
 @JsonApiModelConfig({
-    endpoint: 'teams'
+    endpoint: 'roles'
 })
-export class Team extends JsonApiModel {
+export class Role extends JsonApiModel {
     @Attribute()
     companyId: string;
 
@@ -17,7 +17,7 @@ export class Team extends JsonApiModel {
     label: string;
 
     @Attribute()
-    description: string;
+    description?: string;
 
     @Relation('BelongsTo', () => Company)
     company?: Company;

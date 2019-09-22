@@ -5,6 +5,7 @@ import { EntityType } from './entity-type';
 import { File } from './file';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Company } from './company';
+import { Account } from './account';
 
 @JsonApiModelConfig({
     endpoint: 'entities'
@@ -14,7 +15,7 @@ export class Entity extends JsonApiModel {
     companyId: string;
 
     @Attribute()
-    parentId: string;
+    parentId?: string;
 
     @Attribute()
     entityTypeId: string;
@@ -25,6 +26,9 @@ export class Entity extends JsonApiModel {
     };
 
     @Attribute()
+    accountId: string;
+
+    @Attribute()
     quantity: number;
 
     @Relation('BelongsTo', () => Company)
@@ -32,6 +36,9 @@ export class Entity extends JsonApiModel {
 
     @Relation('BelongsTo', () => EntityType)
     entityType?: EntityType;
+
+    @Relation('BelongsTo', () => Account)
+    account?: Account;
 
     @Relation('HasMany', () => File)
     files?: File[];

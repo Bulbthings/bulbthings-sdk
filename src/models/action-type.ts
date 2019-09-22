@@ -11,6 +11,9 @@ import { Company } from './company';
 })
 export class ActionType extends JsonApiModel {
     @Attribute()
+    companyId?: string;
+
+    @Attribute()
     schema: JsonSchema;
 
     @Attribute()

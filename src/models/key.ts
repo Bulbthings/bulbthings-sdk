@@ -10,9 +10,6 @@ import { Account } from './account';
 })
 export class Key extends JsonApiModel {
     @Attribute()
-    companyId: string;
-
-    @Attribute()
     accountId: string;
 
     @Attribute()
@@ -35,9 +32,6 @@ export class Key extends JsonApiModel {
 
     @Attribute()
     updatedAt: Date;
-
-    @Relation('BelongsTo', () => Company)
-    company?: Company;
 
     @Relation('BelongsTo', () => Account)
     account?: Account;

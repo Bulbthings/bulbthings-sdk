@@ -7,6 +7,9 @@ import { Attribute } from '../decorators/attribute';
 })
 export class AssociationType extends JsonApiModel {
     @Attribute()
+    companyId?: string;
+
+    @Attribute()
     sourceEntityTypeId: string;
 
     @Attribute()

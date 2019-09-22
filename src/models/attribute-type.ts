@@ -11,6 +11,9 @@ import { JsonSchema } from '../interfaces/json-schema';
 })
 export class AttributeType extends JsonApiModel {
     @Attribute()
+    companyId?: string;
+
+    @Attribute()
     entityTypeId: string;
 
     @Attribute()

@@ -10,6 +10,9 @@ import { JsonSchema } from '../interfaces/json-schema';
 })
 export class EventType extends JsonApiModel {
     @Attribute()
+    companyId?: string;
+
+    @Attribute()
     entityTypeId?: string;
 
     @Attribute()

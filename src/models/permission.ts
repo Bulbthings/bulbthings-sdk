@@ -3,7 +3,7 @@ import { Attribute } from '../decorators/attribute';
 import { JsonApiModel } from './jsonapi-model';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Company } from './company';
-import { Team } from './team';
+import { Role } from './role';
 
 @JsonApiModelConfig({
     endpoint: 'permissions'
@@ -13,7 +13,7 @@ export class Permission extends JsonApiModel {
     companyId: string;
 
     @Attribute()
-    teamId: string;
+    roleId: string;
 
     @Attribute()
     resource: string;
@@ -27,6 +27,6 @@ export class Permission extends JsonApiModel {
     @Relation('BelongsTo', () => Company)
     company?: Company;
 
-    @Relation('BelongsTo', () => Team)
-    team?: Team;
+    @Relation('BelongsTo', () => Role)
+    role?: Role;
 }

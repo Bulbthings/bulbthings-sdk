@@ -12,7 +12,10 @@ import { ActionType } from './action-type';
 })
 export class EntityType extends JsonApiModel {
     @Attribute()
-    parentId: string;
+    companyId?: string;
+
+    @Attribute()
+    parentId?: string;
 
     @Attribute()
     path: string[];
