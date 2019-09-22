@@ -84,6 +84,10 @@ export class BulbThings {
         // TODO: Reset EventSource when token changes
     }
 
+    setCompanyId(companyId: string) {
+        this.options.companyId = companyId;
+    }
+
     constructor(options: BulbThingsOptions = {}) {
         // Options init
         this.options = { ...this.options, ...options };

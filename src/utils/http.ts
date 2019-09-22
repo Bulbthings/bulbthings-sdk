@@ -19,18 +19,23 @@ export const request = async (
         params?: JsonApiOptions | TimeSeriesOptions;
     } = {}
 ) => {
-    const apiToken =
-        (options.params && options.params.apiToken) || bulb.options.apiToken;
+    options.params = Object.assign(
+        {},
+        bulb.options.companyId
+            ? { companyId: bulb.options.companyId }
+            : undefined,
+        options.params
+    );
 
-    if (options.params) {
-        // Avoid leaking the token in the URL
-        delete options.params.apiToken;
+    const apiToken = options.params.apiToken || bulb.options.apiToken;
 
-        if (Object.keys(options.params).length) {
-            url = `${url}?${qs.stringify(options.params, {
-                arrayFormat: 'comma'
-            })}`;
-        }
+    // Avoid leaking the token in the URL
+    delete options.params.apiToken;
+
+    if (Object.keys(options.params).length) {
+        url = `${url}?${qs.stringify(options.params, {
+            arrayFormat: 'comma'
+        })}`;
     }
 
     const res = await fetch(url, {
