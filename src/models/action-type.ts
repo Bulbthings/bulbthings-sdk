@@ -16,12 +16,9 @@ export class ActionType extends JsonApiModel {
     @Attribute()
     schema: JsonSchema;
 
-    @Attribute()
-    entityTypeId?: string;
-
     @Relation('BelongsTo', () => Company)
     company?: Company;
 
-    @Relation('BelongsTo', () => EntityType)
-    entityType?: EntityType;
+    @Relation('HasMany', () => EntityType)
+    entityTypes?: EntityType[];
 }

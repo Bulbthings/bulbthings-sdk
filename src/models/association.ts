@@ -25,7 +25,7 @@ export class Association extends JsonApiModel {
     targetEntityId: string;
 
     @Attribute({ converter: periodConverter })
-    period: Period;
+    period?: Period;
 
     @Attribute()
     ratio: number;

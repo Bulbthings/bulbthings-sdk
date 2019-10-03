@@ -22,5 +22,8 @@ export class AssociationType extends JsonApiModel {
     targetIsShared: boolean;
 
     @Attribute()
+    hasPeriod: boolean;
+
+    @Attribute()
     meta: any;
 }

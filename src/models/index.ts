@@ -18,3 +18,5 @@ export * from './key';
 export * from './membership';
 export * from './permission';
 export * from './role';
+export * from './catalog';
+export * from './entity-type-mapping';

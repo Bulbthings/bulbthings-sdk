@@ -4,6 +4,7 @@ import { JsonApiModel } from './jsonapi-model';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Membership } from './membership';
 import { Key } from './key';
+import { Company } from './company';
 
 @JsonApiModelConfig({
     endpoint: 'accounts'
@@ -32,6 +33,9 @@ export class Account extends JsonApiModel {
 
     @Attribute()
     updatedAt: Date;
+
+    @Relation('HasMany', () => Company)
+    companies?: Company[];
 
     @Relation('HasMany', () => Membership)
     memberships?: Membership[];

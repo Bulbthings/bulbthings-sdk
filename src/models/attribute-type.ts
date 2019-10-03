@@ -14,10 +14,7 @@ export class AttributeType extends JsonApiModel {
     companyId?: string;
 
     @Attribute()
-    entityTypeId: string;
-
-    @Attribute()
-    jsonSchema: JsonSchema;
+    schema: JsonSchema;
 
     @Attribute()
     unitId: string;
@@ -25,8 +22,8 @@ export class AttributeType extends JsonApiModel {
     @Attribute()
     timeSeriesOptions: object;
 
-    @Relation('BelongsTo', () => EntityType)
-    entityType?: EntityType;
+    @Relation('HasMany', () => EntityType)
+    entityTypes?: EntityType[];
 
     @Relation('BelongsTo', () => Unit)
     unit?: Unit;

@@ -25,7 +25,9 @@ import {
     Key,
     Membership,
     Role,
-    Permission
+    Permission,
+    Catalog,
+    EntityTypeMapping
 } from './models';
 import { CoreEventType } from './types/core-event-type';
 import { CoreEvent } from './interfaces/core-event';
@@ -46,8 +48,13 @@ export class BulbThings {
     associationTypes = new Resource<AssociationType>(this, AssociationType);
     attributeTypes = new Resource<AttributeType>(this, AttributeType);
     authentication = new AuthenticationResource(this);
+    catalogs = new Resource<Catalog>(this, Catalog);
     companies = new Resource<Company>(this, Company);
     entities = new Resource<Entity>(this, Entity);
+    entityTypeMappings = new Resource<EntityTypeMapping>(
+        this,
+        EntityTypeMapping
+    );
     entityTypes = new Resource<EntityType>(this, EntityType);
     events = new Resource<Event>(this, Event);
     eventTypes = new Resource<EventType>(this, EventType);

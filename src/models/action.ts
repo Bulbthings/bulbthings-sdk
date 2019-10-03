@@ -21,7 +21,7 @@ export class Action extends JsonApiModel {
     accountId: string;
 
     @Attribute()
-    entityId: string;
+    entityId?: string;
 
     @Attribute()
     input: any;
