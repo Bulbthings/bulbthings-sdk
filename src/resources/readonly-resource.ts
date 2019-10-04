@@ -11,8 +11,25 @@ export class ReadonlyResource<T extends JsonApiModel> {
         private modelType: ModelType<T>
     ) {}
 
-    async findAll(options?: JsonApiOptions) {
-        return findAll(this.bulbthings, this.modelType, options);
+    // Allow different return types
+    findAll(options?: JsonApiOptions, withMeta?: false): Promise<T[]>;
+    findAll(
+        options: JsonApiOptions,
+        withMeta: true
+    ): Promise<{
+        meta: {
+            offset: number;
+            limit: number;
+            rowCount: number;
+            pageCount: number;
+            total: number;
+        };
+        data: T[];
+    }>;
+
+    async findAll(options?: JsonApiOptions, withMeta = false) {
+        const res = await findAll(this.bulbthings, this.modelType, options);
+        return withMeta ? res : res.data;
     }
 
     async findById(id: string, options?: JsonApiOptions): Promise<T> {
