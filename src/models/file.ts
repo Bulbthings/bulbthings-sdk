@@ -17,19 +17,31 @@ export class File extends JsonApiModel<File> {
     parentFileId?: string;
 
     @Attribute()
+    isFolder?: boolean;
+
+    @Attribute()
+    name: string;
+
+    @Attribute()
+    size?: number;
+
+    @Attribute()
+    type?: string;
+
+    @Attribute()
+    encoding?: string;
+
+    @Attribute()
     accountId?: string;
 
     @Attribute()
     entityId: string;
 
     @Attribute()
-    name: string;
+    createdAt?: Date;
 
     @Attribute()
-    isFolder?: boolean;
-
-    @Attribute()
-    meta?: any;
+    updatedAt?: Date;
 
     @Relation('BelongsTo', () => Company)
     company?: Company;
