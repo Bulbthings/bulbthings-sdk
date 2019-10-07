@@ -19,7 +19,7 @@ export async function download<T extends JsonApiModel<T>>(
     const apiToken = options.apiToken || bulb.options.apiToken;
 
     const res = await fetch(
-        `${bulb.options.coreUrl}/${endpoint}/download/${id}`,
+        `${bulb.options.coreUrl}/${endpoint}/${id}/download`,
         { method: 'GET', headers: { Authorization: `Bearer ${apiToken}` } }
     );
 
