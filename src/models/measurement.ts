@@ -12,12 +12,12 @@ import { Account } from './account';
 @JsonApiModelConfig({
     endpoint: 'measurements'
 })
-export class Measurement extends JsonApiModel {
+export class Measurement extends JsonApiModel<Measurement> {
     @Attribute()
-    companyId: string;
+    companyId?: string;
 
     @Attribute()
-    accountId: string;
+    accountId?: string;
 
     @Attribute()
     entityId: string;
@@ -29,13 +29,13 @@ export class Measurement extends JsonApiModel {
     value: any;
 
     @Attribute()
-    isAbsolute: boolean;
+    isAbsolute?: boolean;
 
     @Attribute({ converter: periodConverter })
     period: Period;
 
     @Attribute()
-    unitId: string;
+    unitId?: string;
 
     @Relation('BelongsTo', () => Company)
     company?: Company;

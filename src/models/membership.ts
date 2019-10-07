@@ -12,7 +12,7 @@ import { Entity } from './entity';
 @JsonApiModelConfig({
     endpoint: 'memberships'
 })
-export class Membership extends JsonApiModel {
+export class Membership extends JsonApiModel<Membership> {
     @Attribute()
     companyId: string;
 
@@ -20,19 +20,19 @@ export class Membership extends JsonApiModel {
     accountId: string;
 
     @Attribute()
-    roleId: string;
+    roleId?: string;
 
     @Attribute()
-    entityId: string;
+    entityId?: string;
 
     @Attribute()
-    isAdmin: boolean;
+    isAdmin?: boolean;
 
     @Attribute()
-    isActive: boolean;
+    isActive?: boolean;
 
     @Attribute({ converter: periodConverter })
-    period: Period;
+    period?: Period;
 
     @Relation('BelongsTo', () => Company)
     company?: Company;

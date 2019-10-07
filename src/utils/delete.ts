@@ -5,7 +5,7 @@ import { JsonApiModelConfig } from '../interfaces/json-api-model-config';
 import { BulbThings } from '..';
 import { RequestOptions } from '../interfaces/request-options';
 
-export async function deleteById<T extends JsonApiModel>(
+export async function deleteById<T extends JsonApiModel<T>>(
     bulb: BulbThings,
     modelType: ModelType<T>,
     id: string,

@@ -10,7 +10,7 @@ import { download } from '../utils/download';
 import { BulbThings } from '..';
 import { RequestOptions } from '../interfaces/request-options';
 
-export class FileResource<T extends JsonApiModel> {
+export class FileResource<T extends JsonApiModel<T>> {
     constructor(
         private bulbthings: BulbThings,
         private modelType: ModelType<T>

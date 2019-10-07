@@ -9,7 +9,7 @@ import { deleteById } from '../utils/delete';
 import { BulbThings } from '..';
 import { RequestOptions } from '../interfaces/request-options';
 
-export class Resource<T extends JsonApiModel> {
+export class Resource<T extends JsonApiModel<T>> {
     constructor(
         private bulbthings: BulbThings,
         private modelType: ModelType<T>
@@ -40,7 +40,10 @@ export class Resource<T extends JsonApiModel> {
         return findById(this.bulbthings, this.modelType, id, options);
     }
 
-    async create(data: any, options?: RequestOptions): Promise<T> {
+    async create(
+        data: Omit<T, 'getRelationMetadata' | 'getAttributeMetadata'>,
+        options?: RequestOptions
+    ): Promise<T> {
         return create(this.bulbthings, this.modelType, data, null, options);
     }
 

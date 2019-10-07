@@ -2,7 +2,7 @@ import * as JSONAPI from 'jsonapi-typescript';
 import { JsonApiModel } from '../models/jsonapi-model';
 import { ModelType } from '../types/model-type';
 
-export function parseResource<T extends JsonApiModel>(
+export function parseResource<T extends JsonApiModel<T>>(
     resource: JSONAPI.ResourceObject,
     type: ModelType<T>,
     includedResources: {
@@ -11,7 +11,10 @@ export function parseResource<T extends JsonApiModel>(
     visitedModels: { [type: string]: { [id: string]: any } } = {}
 ): T {
     // Build model from resource
-    const model = new type(resource);
+    const model = new type(<any>{
+        id: resource.id,
+        ...resource.attributes
+    });
 
     // Keep track of visited resources to avoid infinite loops
     visitedModels[resource.type] = visitedModels[resource.type] || {};

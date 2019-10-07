@@ -9,7 +9,7 @@ import { stringifyModel } from './stringify';
 import { parseResource } from './parse';
 import { RequestOptions } from '../interfaces/request-options';
 
-export async function create<T extends JsonApiModel>(
+export async function create<T extends JsonApiModel<T>>(
     bulb: BulbThings,
     modelType: ModelType<T>,
     data: any,
@@ -22,11 +22,7 @@ export async function create<T extends JsonApiModel>(
     ) as JsonApiModelConfig).endpoint;
 
     // Build the request
-    const model = new modelType({
-        id: data.id,
-        type: endpoint,
-        attributes: data
-    });
+    const model = new modelType(data);
 
     // Fetch the results
     let res: JSONAPI.SingleResourceDoc;

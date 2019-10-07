@@ -8,9 +8,9 @@ import { Role } from './role';
 @JsonApiModelConfig({
     endpoint: 'permissions'
 })
-export class Permission extends JsonApiModel {
+export class Permission extends JsonApiModel<Permission> {
     @Attribute()
-    companyId: string;
+    companyId?: string;
 
     @Attribute()
     roleId: string;
@@ -19,7 +19,7 @@ export class Permission extends JsonApiModel {
     resource: string;
 
     @Attribute()
-    filter: any;
+    filter?: any;
 
     @Attribute()
     rights: string[];

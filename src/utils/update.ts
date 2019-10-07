@@ -8,7 +8,7 @@ import { parseResource } from './parse';
 import { stringifyModel } from './stringify';
 import { RequestOptions } from '../interfaces/request-options';
 
-export async function update<T extends JsonApiModel>(
+export async function update<T extends JsonApiModel<T>>(
     bulb: BulbThings,
     modelType: ModelType<T>,
     id: string,
@@ -21,11 +21,7 @@ export async function update<T extends JsonApiModel>(
     ) as JsonApiModelConfig).endpoint;
 
     // Build the request
-    const model = new modelType({
-        id,
-        type: endpoint,
-        attributes: data
-    });
+    const model = new modelType({ id, ...data });
     const body = { data: stringifyModel(model, modelType) };
 
     // Fetch the results

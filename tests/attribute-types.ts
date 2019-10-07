@@ -11,12 +11,11 @@ describe('Attribute types', () => {
 
     it('should fetch attribute types with entity types', async () => {
         const attributeTypes = await bulb.attributeTypes.findAll({
-            include: ['entitytype']
+            include: ['entityTypes']
         });
 
         for (const type of attributeTypes) {
-            expect(type.entitytype).to.not.be.undefined;
-            expect(type.entitytype.id).to.not.be.undefined;
+            expect(type.entityTypes).to.not.be.undefined;
         }
     });
 });

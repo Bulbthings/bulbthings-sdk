@@ -11,27 +11,27 @@ import { Account } from './account';
 @JsonApiModelConfig({
     endpoint: 'events'
 })
-export class Event extends JsonApiModel {
+export class Event extends JsonApiModel<Event> {
     @Attribute()
-    companyId: string;
+    companyId?: string;
 
     @Attribute()
     eventTypeId: string;
 
     @Attribute()
-    priority: 'info' | 'warning' | 'danger' | 'success';
+    priority?: 'info' | 'warning' | 'danger' | 'success';
 
     @Attribute()
-    accountId: string;
+    accountId?: string;
 
     @Attribute()
     entityId: string;
 
     @Attribute()
-    privateForEntityId: string;
+    privateForEntityId?: string;
 
     @Attribute()
-    time: Date;
+    time?: Date;
 
     @Attribute()
     payload: {

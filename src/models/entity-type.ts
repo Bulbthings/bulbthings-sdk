@@ -10,7 +10,7 @@ import { ActionType } from './action-type';
 @JsonApiModelConfig({
     endpoint: 'entityTypes'
 })
-export class EntityType extends JsonApiModel {
+export class EntityType extends JsonApiModel<EntityType> {
     @Attribute()
     companyId?: string;
 
@@ -18,7 +18,7 @@ export class EntityType extends JsonApiModel {
     parentId?: string;
 
     @Attribute()
-    path: string[];
+    path?: string[];
 
     @Attribute()
     label: string;

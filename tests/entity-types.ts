@@ -26,7 +26,7 @@ describe('Entity types', () => {
 
     it('should create an entity type', async () => {
         const entityType = await bulb.entityTypes.create({
-            name: 'test',
+            id: 'test',
             label: 'Test',
             description: 'A description'
         });

@@ -9,7 +9,7 @@ import { Company } from './company';
 @JsonApiModelConfig({
     endpoint: 'actionTypes'
 })
-export class ActionType extends JsonApiModel {
+export class ActionType extends JsonApiModel<ActionType> {
     @Attribute()
     companyId?: string;
 

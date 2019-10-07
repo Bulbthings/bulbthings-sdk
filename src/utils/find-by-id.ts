@@ -7,7 +7,7 @@ import { JsonApiModelConfig } from '../interfaces/json-api-model-config';
 import { BulbThings } from '..';
 import { parseResource } from './parse';
 
-export async function findById<T extends JsonApiModel>(
+export async function findById<T extends JsonApiModel<T>>(
     bulb: BulbThings,
     modelType: ModelType<T>,
     id: string,

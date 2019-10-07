@@ -5,7 +5,7 @@ import { findAll } from '../utils/find-all';
 import { findById } from '../utils/find-by-id';
 import { BulbThings } from '..';
 
-export class ReadonlyResource<T extends JsonApiModel> {
+export class ReadonlyResource<T extends JsonApiModel<T>> {
     constructor(
         private bulbthings: BulbThings,
         private modelType: ModelType<T>

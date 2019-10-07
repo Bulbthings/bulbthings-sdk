@@ -9,15 +9,15 @@ import { Account } from './account';
 @JsonApiModelConfig({
     endpoint: 'files'
 })
-export class File extends JsonApiModel {
+export class File extends JsonApiModel<File> {
     @Attribute()
-    companyId: string;
+    companyId?: string;
 
     @Attribute()
     parentFileId?: string;
 
     @Attribute()
-    accountId: string;
+    accountId?: string;
 
     @Attribute()
     entityId: string;
@@ -26,13 +26,10 @@ export class File extends JsonApiModel {
     name: string;
 
     @Attribute()
-    isFolder: boolean;
+    isFolder?: boolean;
 
     @Attribute()
-    storeId?: string;
-
-    @Attribute()
-    meta: any;
+    meta?: any;
 
     @Relation('BelongsTo', () => Company)
     company?: Company;

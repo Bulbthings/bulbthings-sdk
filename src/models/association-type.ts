@@ -5,7 +5,7 @@ import { Attribute } from '../decorators/attribute';
 @JsonApiModelConfig({
     endpoint: 'associationTypes'
 })
-export class AssociationType extends JsonApiModel {
+export class AssociationType extends JsonApiModel<AssociationType> {
     @Attribute()
     companyId?: string;
 
@@ -22,7 +22,7 @@ export class AssociationType extends JsonApiModel {
     targetIsShared: boolean;
 
     @Attribute()
-    hasPeriod: boolean;
+    hasPeriod?: boolean;
 
     @Attribute()
     meta: any;

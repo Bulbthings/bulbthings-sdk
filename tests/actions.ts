@@ -31,7 +31,7 @@ describe('Actions', () => {
             actionTypeId: actionTypeId,
             status: 'available',
             input: true,
-            targetEntityId: '22'
+            entityId: '22'
         });
         actionId = action.id;
         expect(action.id).to.not.be.undefined;

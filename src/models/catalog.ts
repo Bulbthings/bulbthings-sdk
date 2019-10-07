@@ -8,7 +8,7 @@ import { Hook } from './hook';
 @JsonApiModelConfig({
     endpoint: 'catalogs'
 })
-export class Catalog extends JsonApiModel {
+export class Catalog extends JsonApiModel<Catalog> {
     @Attribute()
     companyId?: string;
 

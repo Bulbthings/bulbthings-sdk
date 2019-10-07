@@ -9,7 +9,7 @@ import { JsonSchema } from '../interfaces/json-schema';
 @JsonApiModelConfig({
     endpoint: 'attributeTypes'
 })
-export class AttributeType extends JsonApiModel {
+export class AttributeType extends JsonApiModel<AttributeType> {
     @Attribute()
     companyId?: string;
 
@@ -17,7 +17,7 @@ export class AttributeType extends JsonApiModel {
     schema: JsonSchema;
 
     @Attribute()
-    unitId: string;
+    unitId?: string;
 
     @Attribute()
     timeSeriesOptions: object;

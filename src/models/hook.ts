@@ -7,12 +7,12 @@ import { Company } from './company';
 @JsonApiModelConfig({
     endpoint: 'hooks'
 })
-export class Hook extends JsonApiModel {
+export class Hook extends JsonApiModel<Hook> {
     @Attribute()
     companyId?: string;
 
     @Attribute()
-    isActive: boolean;
+    isActive?: boolean;
 
     @Attribute()
     name: string;

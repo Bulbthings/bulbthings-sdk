@@ -8,7 +8,7 @@ import { JsonSchema } from '../interfaces/json-schema';
 @JsonApiModelConfig({
     endpoint: 'eventTypes'
 })
-export class EventType extends JsonApiModel {
+export class EventType extends JsonApiModel<EventType> {
     @Attribute()
     companyId?: string;
 
@@ -16,7 +16,7 @@ export class EventType extends JsonApiModel {
     schema: JsonSchema;
 
     @Attribute()
-    isSystem: boolean;
+    isSystem?: boolean;
 
     @Relation('HasMany', () => EntityType)
     entityTypes?: EntityType[];

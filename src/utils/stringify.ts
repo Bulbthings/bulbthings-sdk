@@ -3,7 +3,7 @@ import { JsonApiModel } from '../models/jsonapi-model';
 import { ModelType } from '../types/model-type';
 import { JsonApiModelConfig } from '../interfaces/json-api-model-config';
 
-export function stringifyModel<T extends JsonApiModel>(
+export function stringifyModel<T extends JsonApiModel<T>>(
     model: T,
     modelType: ModelType<T>
 ): JSONAPI.ResourceObject {

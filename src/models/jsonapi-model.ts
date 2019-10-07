@@ -3,13 +3,14 @@ import { AttributeAnnotation } from '../interfaces/attribute-annotation';
 import { RelationAnnotation } from '../interfaces/relation-annotation';
 import { RelationType } from '../types/relation-type';
 
-export class JsonApiModel {
-    id: string;
+export class JsonApiModel<T> {
+    id?: string;
 
-    constructor(data?: JSONAPI.ResourceObject) {
+    constructor(
+        data?: Omit<T, 'getRelationMetadata' | 'getAttributeMetadata'>
+    ) {
         if (data) {
-            this.id = data.id;
-            Object.assign(this, data.attributes);
+            Object.assign(this, data);
         }
     }
 

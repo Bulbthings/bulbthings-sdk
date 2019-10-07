@@ -10,9 +10,9 @@ import { Account } from './account';
 @JsonApiModelConfig({
     endpoint: 'entities'
 })
-export class Entity extends JsonApiModel {
+export class Entity extends JsonApiModel<Entity> {
     @Attribute()
-    companyId: string;
+    companyId?: string;
 
     @Attribute()
     parentId?: string;
@@ -21,15 +21,15 @@ export class Entity extends JsonApiModel {
     entityTypeId: string;
 
     @Attribute()
-    attributes: {
+    attributes?: {
         [name: string]: any;
     };
 
     @Attribute()
-    accountId: string;
+    accountId?: string;
 
     @Attribute()
-    quantity: number;
+    quantity?: number;
 
     @Relation('BelongsTo', () => Company)
     company?: Company;

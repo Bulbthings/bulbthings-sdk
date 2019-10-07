@@ -10,15 +10,15 @@ import { Account } from './account';
 @JsonApiModelConfig({
     endpoint: 'actions'
 })
-export class Action extends JsonApiModel {
+export class Action extends JsonApiModel<Action> {
     @Attribute()
-    companyId: string;
+    companyId?: string;
 
     @Attribute()
     actionTypeId: string;
 
     @Attribute()
-    accountId: string;
+    accountId?: string;
 
     @Attribute()
     entityId?: string;
@@ -30,7 +30,7 @@ export class Action extends JsonApiModel {
     status?: 'available' | 'requested' | 'completed';
 
     @Attribute()
-    requestedAt: Date;
+    requestedAt?: Date;
 
     @Attribute()
     completedAt?: Date;

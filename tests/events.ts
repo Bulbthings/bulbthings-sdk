@@ -10,8 +10,7 @@ describe('Events', () => {
     let action: Action;
 
     before(async () => {
-        bulb = new BulbThings();
-        bulb.basePath = 'http://localhost:3060';
+        bulb = new BulbThings({ coreUrl: 'http://localhost:3060' });
 
         eventType = await bulb.eventTypes.create({
             id: `overheatingEngine${Date.now()}`,
@@ -42,7 +41,7 @@ describe('Events', () => {
             actionTypeId: actionType.id,
             status: 'available',
             input: true,
-            targetEntityId: '22'
+            entityId: '22'
         });
     });
 
@@ -54,8 +53,7 @@ describe('Events', () => {
 
     it('should create an event with a related action', async () => {
         event = await bulb.events.create({
-            sourceEntityId: '1',
-            targetEntityId: '22',
+            entityId: '22',
             eventTypeId: eventType.id,
             priority: 'danger',
             payload: {

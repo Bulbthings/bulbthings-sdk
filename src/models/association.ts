@@ -11,9 +11,9 @@ import { Company } from './company';
 @JsonApiModelConfig({
     endpoint: 'associations'
 })
-export class Association extends JsonApiModel {
+export class Association extends JsonApiModel<Association> {
     @Attribute()
-    companyId: string;
+    companyId?: string;
 
     @Attribute()
     associationTypeId: string;
@@ -28,7 +28,7 @@ export class Association extends JsonApiModel {
     period?: Period;
 
     @Attribute()
-    ratio: number;
+    ratio?: number;
 
     @Relation('BelongsTo', () => Company)
     company?: Company;

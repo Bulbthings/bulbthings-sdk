@@ -5,7 +5,7 @@ import { JsonApiModelConfig } from '../decorators/json-api-model';
 @JsonApiModelConfig({
     endpoint: 'units'
 })
-export class Unit extends JsonApiModel {
+export class Unit extends JsonApiModel<Unit> {
     @Attribute()
     code: string;
 

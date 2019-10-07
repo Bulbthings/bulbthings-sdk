@@ -7,7 +7,7 @@ import { JsonApiModelConfig } from '../decorators/json-api-model';
 @JsonApiModelConfig({
     endpoint: 'timeSeries'
 })
-export class TimeSeries extends JsonApiModel {
+export class TimeSeries extends JsonApiModel<TimeSeries> {
     @Attribute()
     time: Date;
 

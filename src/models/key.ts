@@ -8,7 +8,7 @@ import { Account } from './account';
 @JsonApiModelConfig({
     endpoint: 'keys'
 })
-export class Key extends JsonApiModel {
+export class Key extends JsonApiModel<Key> {
     @Attribute()
     accountId: string;
 
@@ -25,13 +25,13 @@ export class Key extends JsonApiModel {
     hash: string;
 
     @Attribute()
-    expiresAt: Date;
+    expiresAt?: Date;
 
     @Attribute()
-    createdAt: Date;
+    createdAt?: Date;
 
     @Attribute()
-    updatedAt: Date;
+    updatedAt?: Date;
 
     @Relation('BelongsTo', () => Account)
     account?: Account;

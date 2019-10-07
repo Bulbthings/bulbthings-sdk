@@ -6,7 +6,7 @@ import { RelationType } from '../types/relation-type';
 // Cannot use Reflect.getMetadata('design:type', ...) because of circular
 // dependencies between models so a factory method needs to be provided
 // https://github.com/Microsoft/TypeScript/issues/4521#issuecomment-135908451
-export function Relation<T extends JsonApiModel>(
+export function Relation<T extends JsonApiModel<T>>(
     relationType: RelationType,
     typeFactory: () => ModelType<T>
 ): PropertyDecorator {

@@ -11,7 +11,7 @@ import { ActionType } from './action-type';
 @JsonApiModelConfig({
     endpoint: 'entityTypeMappings'
 })
-export class EntityTypeMapping extends JsonApiModel {
+export class EntityTypeMapping extends JsonApiModel<EntityTypeMapping> {
     @Attribute()
     companyId?: string;
 
@@ -34,7 +34,7 @@ export class EntityTypeMapping extends JsonApiModel {
     actionTypeId?: string;
 
     @Attribute()
-    isInherited: boolean;
+    isInherited?: boolean;
 
     @Relation('BelongsTo', () => EntityType)
     entityType?: EntityType;

@@ -9,7 +9,7 @@ import { Company } from './company';
 @JsonApiModelConfig({
     endpoint: 'accounts'
 })
-export class Account extends JsonApiModel {
+export class Account extends JsonApiModel<Account> {
     @Attribute()
     label: string;
 
@@ -20,19 +20,19 @@ export class Account extends JsonApiModel {
     password?: string;
 
     @Attribute()
-    isVerified: boolean;
+    isVerified?: boolean;
 
     @Attribute()
-    isBot: boolean;
+    isBot?: boolean;
 
     @Attribute()
     locale?: string;
 
     @Attribute()
-    createdAt: Date;
+    createdAt?: Date;
 
     @Attribute()
-    updatedAt: Date;
+    updatedAt?: Date;
 
     @Relation('HasMany', () => Company)
     companies?: Company[];

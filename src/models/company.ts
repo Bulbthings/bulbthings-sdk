@@ -7,18 +7,18 @@ import { Account } from './account';
 @JsonApiModelConfig({
     endpoint: 'companies'
 })
-export class Company extends JsonApiModel {
+export class Company extends JsonApiModel<Company> {
     @Attribute()
     label: string;
 
     @Attribute()
-    accountId: string;
+    accountId?: string;
 
     @Attribute()
-    createdAt: Date;
+    createdAt?: Date;
 
     @Attribute()
-    updatedAt: Date;
+    updatedAt?: Date;
 
     @Relation('BelongsTo', () => Account)
     account?: Account;
