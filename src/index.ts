@@ -70,7 +70,7 @@ export class BulbThings {
 
     // Options
     options: BulbThingsOptions = {
-        coreUrl: 'https://core-v2.bulbthings.com',
+        coreUrl: 'https://api.bulbthings.com',
         eventsUrl: 'https://events.bulbthings.com'
     };
 
