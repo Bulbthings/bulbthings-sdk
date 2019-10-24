@@ -28,7 +28,7 @@ export class Event extends JsonApiModel<Event> {
     entityId: string;
 
     @Attribute()
-    privateForEntityId?: string;
+    privateForAccountId?: string;
 
     @Attribute()
     time?: Date;
