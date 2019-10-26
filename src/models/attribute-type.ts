@@ -23,7 +23,7 @@ export class AttributeType extends JsonApiModel<AttributeType> {
     timeSeriesOptions: object;
 
     @Attribute()
-    isReadOnly: boolean;
+    isReadOnly?: boolean;
 
     @Relation('HasMany', () => EntityType)
     entityTypes?: EntityType[];
