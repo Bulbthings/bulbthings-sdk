@@ -18,5 +18,5 @@ export interface TimeSeriesOptions extends Omit<JsonApiOptions, 'page'> {
     alignmentMethod: 'first' | 'last' | 'count' | 'sum' | 'avg' | 'min' | 'max';
     sourceFilter?: string;
     targetFilter?: string;
-    unitCode?: string;
+    unitId?: string;
 }
