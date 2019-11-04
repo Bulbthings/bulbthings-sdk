@@ -27,7 +27,8 @@ import {
     Role,
     Permission,
     Catalog,
-    EntityTypeMapping
+    EntityTypeMapping,
+    UnitSetting
 } from './models';
 import { CoreEventType } from './types/core-event-type';
 import { CoreEvent } from './interfaces/core-event';
@@ -67,6 +68,7 @@ export class BulbThings {
     roles = new Resource<Role>(this, Role);
     timeSeries = new TimeSeriesResource(this);
     units = new ReadonlyResource<Unit>(this, Unit);
+    unitSettings = new Resource<UnitSetting>(this, UnitSetting);
 
     // Options
     options: BulbThingsOptions = {

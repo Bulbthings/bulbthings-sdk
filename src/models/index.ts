@@ -5,6 +5,7 @@ export * from './association-type';
 export * from './association';
 export * from './time-series';
 export * from './unit';
+export * from './unit-setting';
 export * from './measurement';
 export * from './event-type';
 export * from './event';
