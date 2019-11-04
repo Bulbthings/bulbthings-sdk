@@ -3,6 +3,7 @@ import qs from 'qs';
 import * as JSONAPI from 'jsonapi-typescript';
 import { BulbThings } from '../../src';
 import { RequestOptions } from '../interfaces/request-options';
+import formData from 'isomorphic-form-data';
 
 export const upload = async (
     bulb: BulbThings,
@@ -28,7 +29,7 @@ export const upload = async (
         })}`;
     }
 
-    const body = new FormData();
+    const body: FormData = <any>new formData();
     body.append('file', options.file);
     body.append('data', JSON.stringify(options.data));
 
