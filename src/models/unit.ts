@@ -7,13 +7,13 @@ import { JsonApiModelConfig } from '../decorators/json-api-model';
 })
 export class Unit extends JsonApiModel<Unit> {
     @Attribute()
-    code: string;
-
-    @Attribute()
     symbol: string;
 
     @Attribute()
     label: string;
+
+    @Attribute()
+    unitTypeId: string;
 
     @Attribute()
     isConstant: boolean;

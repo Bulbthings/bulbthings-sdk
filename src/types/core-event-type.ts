@@ -46,4 +46,7 @@ export type CoreEventType =
     | 'permissionUpdated'
     | 'roleCreated'
     | 'roleDeleted'
-    | 'roleUpdated';
+    | 'roleUpdated'
+    | 'unitSettingCreated'
+    | 'unitSettingDeleted'
+    | 'unitSettingUpdated';
