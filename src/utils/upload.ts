@@ -29,8 +29,20 @@ export const upload = async (
         })}`;
     }
 
+    /* This is necessary to extract vital information when the file
+       is a stream or a buffer for example. fileOption needs to be available
+       to input the filename and such */
+    let fileData;
+    let fileOption;
+    if (typeof options.file === 'object' && options.file.data) {
+        fileData = options.file.data;
+        fileOption = options.file.option;
+    } else {
+        fileData = options.file.data;
+    }
+
     const body: FormData = <any>new formData();
-    body.append('file', options.file);
+    body.append('file', fileData, fileOption);
     body.append('data', JSON.stringify(options.data));
 
     const res = await fetch(url, {
