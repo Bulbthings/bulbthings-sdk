@@ -30,8 +30,10 @@ export const upload = async (
     }
 
     const body: FormData = <any>new formData();
-    body.append('file', options.file);
+    // Important: `data` should come first so that it can be
+    // parsed before `file` by Express middlewares
     body.append('data', JSON.stringify(options.data));
+    body.append('file', options.file);
 
     const res = await fetch(url, {
         method: 'POST',
