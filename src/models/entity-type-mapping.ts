@@ -36,6 +36,11 @@ export class EntityTypeMapping extends JsonApiModel<EntityTypeMapping> {
     @Attribute()
     isInherited?: boolean;
 
+    @Attribute()
+    meta?: {
+        order?: number;
+    };
+
     @Relation('BelongsTo', () => EntityType)
     entityType?: EntityType;
 
