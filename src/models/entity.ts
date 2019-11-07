@@ -3,6 +3,7 @@ import { Attribute } from '../decorators/attribute';
 import { JsonApiModel } from './jsonapi-model';
 import { EntityType } from './entity-type';
 import { File } from './file';
+import { Event } from './event';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Company } from './company';
 import { Account } from './account';
@@ -42,4 +43,7 @@ export class Entity extends JsonApiModel<Entity> {
 
     @Relation('HasMany', () => File)
     files?: File[];
+
+    @Relation('HasMany', () => Event)
+    events?: Event[];
 }
