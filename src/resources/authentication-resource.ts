@@ -36,7 +36,7 @@ export class AuthenticationResource {
         await request(
             this.bulbthings,
             'POST',
-            `${this.bulbthings.options.coreUrl}/resetPassword/${email}`
+            `${this.bulbthings.options.coreUrl}/authentication/resetPassword/${email}`
         );
     }
 
@@ -47,7 +47,7 @@ export class AuthenticationResource {
         const res = await request(
             this.bulbthings,
             'POST',
-            `${this.bulbthings.options.coreUrl}/changePassword/${emailToken}`,
+            `${this.bulbthings.options.coreUrl}/authentication/changePassword/${emailToken}`,
             { body: { password: newPassword } }
         );
         return parseResource(res.data, Account, {});
