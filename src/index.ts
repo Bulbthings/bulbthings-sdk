@@ -27,6 +27,7 @@ import {
     Role,
     Permission,
     Catalog,
+    Code,
     EntityTypeMapping,
     UnitSetting
 } from './models';
@@ -49,6 +50,7 @@ export class BulbThings {
     associationTypes = new Resource<AssociationType>(this, AssociationType);
     attributeTypes = new Resource<AttributeType>(this, AttributeType);
     authentication = new AuthenticationResource(this);
+    codes = new Resource<Code>(this, Code);
     catalogs = new Resource<Catalog>(this, Catalog);
     companies = new Resource<Company>(this, Company);
     entities = new Resource<Entity>(this, Entity);
