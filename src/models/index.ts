@@ -22,3 +22,5 @@ export * from './role';
 export * from './catalog';
 export * from './code';
 export * from './entity-type-mapping';
+export * from './setting-type';
+export * from './setting';

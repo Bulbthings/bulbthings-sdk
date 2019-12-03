@@ -29,7 +29,9 @@ import {
     Catalog,
     Code,
     EntityTypeMapping,
-    UnitSetting
+    UnitSetting,
+    SettingType,
+    Setting
 } from './models';
 import { CoreEventType } from './types/core-event-type';
 import { CoreEvent } from './interfaces/core-event';
@@ -68,6 +70,8 @@ export class BulbThings {
     memberships = new Resource<Membership>(this, Membership);
     permissions = new Resource<Permission>(this, Permission);
     roles = new Resource<Role>(this, Role);
+    settingTypes = new Resource<SettingType>(this, SettingType);
+    settings = new Resource<Setting>(this, Setting);
     timeSeries = new TimeSeriesResource(this);
     units = new ReadonlyResource<Unit>(this, Unit);
     unitSettings = new Resource<UnitSetting>(this, UnitSetting);

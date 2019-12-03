@@ -50,6 +50,12 @@ export type CoreEventType =
     | 'roleCreated'
     | 'roleDeleted'
     | 'roleUpdated'
+    | 'settingCreated'
+    | 'settingDeleted'
+    | 'settingUpdated'
+    | 'settingTypeCreated'
+    | 'settingTypeDeleted'
+    | 'settingTypeUpdated'
     | 'unitSettingCreated'
     | 'unitSettingDeleted'
     | 'unitSettingUpdated';
