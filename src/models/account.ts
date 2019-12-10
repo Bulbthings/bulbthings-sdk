@@ -6,6 +6,7 @@ import { Membership } from './membership';
 import { Key } from './key';
 import { Company } from './company';
 import { UnitSetting } from './unit-setting';
+import { Setting } from './setting';
 
 @JsonApiModelConfig({
     endpoint: 'accounts'
@@ -43,6 +44,9 @@ export class Account extends JsonApiModel<Account> {
 
     @Relation('HasMany', () => Key)
     keys?: Key[];
+
+    @Relation('HasMany', () => Setting)
+    settings?: Setting[];
 
     @Relation('HasMany', () => UnitSetting)
     unitSettings?: UnitSetting[];
