@@ -9,6 +9,20 @@ export class AuthenticationResource {
 
     constructor(private bulbthings: BulbThings) {}
 
+    async register(
+        label: string,
+        email: string,
+        locale?: string
+    ): Promise<Account> {
+        const res = await request(
+            this.bulbthings,
+            'POST',
+            `${this.bulbthings.options.coreUrl}/authentication/register`,
+            { body: { label, email, locale } }
+        );
+        return parseResource(res.data, Account, {});
+    }
+
     async login(email: string, password: string): Promise<Key> {
         const res = await request(
             this.bulbthings,
