@@ -12,13 +12,14 @@ export class AuthenticationResource {
     async register(
         label: string,
         email: string,
-        locale?: string
+        locale?: string,
+        meta?: any
     ): Promise<Account> {
         const res = await request(
             this.bulbthings,
             'POST',
             `${this.bulbthings.options.coreUrl}/authentication/register`,
-            { body: { label, email, locale } }
+            { body: { label, email, locale, meta } }
         );
         return parseResource(res.data, Account, {});
     }
