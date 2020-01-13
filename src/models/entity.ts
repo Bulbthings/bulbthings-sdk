@@ -33,6 +33,9 @@ export class Entity extends JsonApiModel<Entity> {
     accountId?: string;
 
     @Attribute()
+    avatarFileId?: string;
+
+    @Attribute()
     quantity?: number;
 
     @Relation('BelongsTo', () => Company)
@@ -43,6 +46,9 @@ export class Entity extends JsonApiModel<Entity> {
 
     @Relation('BelongsTo', () => Account)
     account?: Account;
+
+    @Relation('BelongsTo', () => File)
+    avatarFile?: File;
 
     @Relation('HasMany', () => File)
     files?: File[];
