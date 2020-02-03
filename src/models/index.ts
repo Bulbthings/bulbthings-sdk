@@ -20,6 +20,7 @@ export * from './membership';
 export * from './permission';
 export * from './role';
 export * from './catalog';
+export * from './catalog-mapping';
 export * from './code';
 export * from './entity-type-mapping';
 export * from './setting-type';
