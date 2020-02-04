@@ -3,6 +3,7 @@ import { Attribute } from '../decorators/attribute';
 import { JsonApiModel } from './jsonapi-model';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Account } from './account';
+import { Catalog } from './catalog';
 
 @JsonApiModelConfig({
     endpoint: 'companies'
@@ -15,6 +16,9 @@ export class Company extends JsonApiModel<Company> {
     accountId?: string;
 
     @Attribute()
+    catalogId?: string;
+
+    @Attribute()
     createdAt?: Date;
 
     @Attribute()
@@ -22,4 +26,7 @@ export class Company extends JsonApiModel<Company> {
 
     @Relation('BelongsTo', () => Account)
     account?: Account;
+
+    @Relation('BelongsTo', () => Catalog)
+    catalog?: Catalog;
 }
