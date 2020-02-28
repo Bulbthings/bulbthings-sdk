@@ -19,4 +19,5 @@ export interface TimeSeriesOptions extends Omit<JsonApiOptions, 'page'> {
     sourceFilter?: string;
     targetFilter?: string;
     unitId?: string;
+    useDelta?: boolean;
 }
