@@ -25,6 +25,12 @@ export class Key extends JsonApiModel<Key> {
     hash: string;
 
     @Attribute()
+    meta?: {
+        ip?: string;
+        userAgent?: string;
+    };
+
+    @Attribute()
     expiresAt?: Date;
 
     @Attribute()
