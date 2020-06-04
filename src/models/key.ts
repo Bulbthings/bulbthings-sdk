@@ -2,7 +2,6 @@ import { JsonApiModel } from './jsonapi-model';
 import { Relation } from '../decorators/relation';
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
-import { Company } from './company';
 import { Account } from './account';
 
 @JsonApiModelConfig({
@@ -28,6 +27,14 @@ export class Key extends JsonApiModel<Key> {
     meta?: {
         ip?: string;
         userAgent?: string;
+        browser?: {
+            name?: string;
+            version?: string;
+        };
+        os?: {
+            name?: string;
+            version?: string;
+        };
     };
 
     @Attribute()
