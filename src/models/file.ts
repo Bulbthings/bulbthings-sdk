@@ -35,7 +35,7 @@ export class File extends JsonApiModel<File> {
     accountId?: string;
 
     @Attribute()
-    entityId: string;
+    entityId?: string;
 
     @Attribute()
     createdAt?: Date;

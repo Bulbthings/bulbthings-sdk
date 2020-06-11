@@ -19,6 +19,14 @@ export class Company extends JsonApiModel<Company> {
     catalogId?: string;
 
     @Attribute()
+    avatarFileId?: string;
+
+    @Attribute()
+    meta?: {
+        billingId?: string;
+    };
+
+    @Attribute()
     createdAt?: Date;
 
     @Attribute()
