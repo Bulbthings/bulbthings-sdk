@@ -48,10 +48,11 @@ describe('Entities', () => {
 
     before(() => {
         bulb = new BulbThings();
+        bulb.options.coreUrl = 'http://test';
     });
 
     it('should get a basic report with date string in params', async () => {
-        nock('https://api.bulbthings.com')
+        nock('http://test')
             .get(
                 '/timeSeries?from=2018-12-17T03%3A24%3A00.000Z&to=2019-12-17T03%3A24%3A00.000Z&attributeTypeId=tco&alignmentMethod=last&alignmentPeriod=day&filter=eq%28sourceEntityId%2CtargetEntityId%29&include=targetEntity'
             )
@@ -90,7 +91,7 @@ describe('Entities', () => {
     });
     it('should get a basic report with SQL query in params', async () => {
         MockDate.set(new Date('July 9, 2020 13:24:00')); // mock when now() is
-        nock('https://api.bulbthings.com')
+        nock('http://test')
             .get(
                 '/timeSeries?from=dateAdd%28now%28%29%2C-3%2C%22months%22%29&to=now%28%29&attributeTypeId=tco&alignmentMethod=last&alignmentPeriod=day&filter=eq%28sourceEntityId%2CtargetEntityId%29&include=targetEntity'
             )
