@@ -9,15 +9,15 @@ const mockTimeSeriesResponse = {
         {
             type: 'timeSeries',
             attributes: {
-                sourceEntityId: '0279025c-0ae0-48d8-b809-27f71516de4c',
-                targetEntityId: '0279025c-0ae0-48d8-b809-27f71516de4c',
+                sourceEntityId: '123456',
+                targetEntityId: '123456',
                 time: '2019-07-09T00:00:00.000Z'
             },
             relationships: {
                 targetEntity: {
                     data: {
                         type: 'targetEntities',
-                        id: '0279025c-0ae0-48d8-b809-27f71516de4c'
+                        id: '123456'
                     }
                 }
             }
@@ -26,11 +26,11 @@ const mockTimeSeriesResponse = {
     included: [
         {
             type: 'targetEntities',
-            id: '0279025c-0ae0-48d8-b809-27f71516de4c',
+            id: '123456',
             attributes: {
-                companyId: 'c20d7f70-692d-4589-a578-651458830ad6',
+                companyId: 'myCompanyId',
                 entityTypeId: 'asset',
-                accountId: 'ef900d1b-2cb4-4f7e-bcb9-b509ce2ec579',
+                accountId: 'myAccountId',
                 quantity: '1',
                 attributes: {
                     make: 'nkkl',
@@ -45,13 +45,13 @@ const mockTimeSeriesResponse = {
 
 const reportObjectExpected = {
     id: undefined,
-    sourceEntityId: '0279025c-0ae0-48d8-b809-27f71516de4c',
-    targetEntityId: '0279025c-0ae0-48d8-b809-27f71516de4c',
+    sourceEntityId: '123456',
+    targetEntityId: '123456',
     targetEntity: {
-        id: '0279025c-0ae0-48d8-b809-27f71516de4c',
-        companyId: 'c20d7f70-692d-4589-a578-651458830ad6',
+        id: '123456',
+        companyId: 'myCompanyId',
         entityTypeId: 'asset',
-        accountId: 'ef900d1b-2cb4-4f7e-bcb9-b509ce2ec579',
+        accountId: 'myAccountId',
         quantity: '1',
         attributes: {
             make: 'nkkl',
@@ -101,7 +101,7 @@ describe('Entities', () => {
         });
     });
     it.only('should get a basic report with SQL query in params', async () => {
-        MockDate.set(new Date('July 9, 2020 13:24:00')); // mock when now() is
+        MockDate.set(new Date('July 9, 2020 13:24:00')); // mock now() value
         nock('http://test')
             .get('/timeSeries')
             .query({
@@ -129,7 +129,7 @@ describe('Entities', () => {
         expect(data).to.have.length(1);
         expect(data[0]).to.deep.equal({
             ...reportObjectExpected,
-            time: '2019-07-09T00:00:00.000Z' // TOFIX: should be of type Date
+            time: '2019-07-09T00:00:00.000Z' // TOFIX: should probably be of type Date
         });
     });
 });
