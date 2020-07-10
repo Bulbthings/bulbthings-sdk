@@ -192,3 +192,9 @@ bulbthings.on(eventType, event => {
     const entity = event.data;
 });
 ```
+
+### To Test
+
+We are using nock to mock the requests response.
+You need to run `npm run test` so check that all the tests are passing.
+To see the debug from nock, you can add `DEBUG=nock.*` in the `test` script.
