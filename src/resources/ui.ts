@@ -2,8 +2,6 @@ import { BulbThings } from '..';
 import { Mutex } from 'async-mutex';
 import { EntityUiNode } from '../interfaces/entity-ui-node';
 import { UiNode } from '../interfaces/ui-node';
-import { NavigationResource } from '../resources/navigation-resource';
-import { LanguageResource } from '../resources/language-resource';
 import { Entity, Association, EntityType, EntityTypeMapping } from '../models';
 import { findAll } from '../utils/find-all';
 import { findById } from '../utils/find-by-id';
@@ -14,8 +12,6 @@ export class UiResource {
         [entityTypeId: string]: EntityTypeMapping[];
     } = {};
     private mutexes: { [id: string]: Mutex } = {};
-    private navigationResource: NavigationResource;
-    private languageResource: LanguageResource;
 
     constructor(private bulbthings: BulbThings) {}
 
@@ -71,17 +67,6 @@ export class UiResource {
         opts.fetchChildrenCount =
             opts.fetchChildrenCount ||
             ((e: Entity) => fetchOrCountChildren(e, false) as Promise<number>);
-        opts.callback =
-            opts.callback !== undefined
-                ? opts.callback
-                : (data: { event: MouseEvent; item: EntityUiNode }) => {
-                      data.event.preventDefault();
-                      data.event.stopPropagation();
-                      this.navigationResource.navigateTo({
-                          name: 'entity-profile',
-                          inputs: { entity: data.item.data.entity },
-                      });
-                  };
 
         // Fetch children function
         const fetchChildren = async (
@@ -221,11 +206,7 @@ export class UiResource {
         ]
             .map((e) => coalesce(entity.attributes[e]))
             .join(' ');
-        return (
-            label.replace(/\s\s+/g, ' ').trim() ||
-            (await this.languageResource.translate(entityType.label)) ||
-            entity.id
-        );
+        return label.replace(/\s\s+/g, ' ').trim();
     }
 
     private sortItems(a: UiNode, b: UiNode) {

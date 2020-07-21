@@ -38,8 +38,6 @@ import { CoreEventType } from './types/core-event-type';
 import { CoreEvent } from './interfaces/core-event';
 import { BulbThingsOptions } from './interfaces/bulbthings-options';
 import { UiResource } from './resources/ui';
-import { NavigationResource } from './resources/navigation-resource';
-import { LanguageResource } from './resources/language-resource';
 
 // Export JSONAPI Error class to parse errors
 export { DocWithErrors as ApiError } from 'jsonapi-typescript';
@@ -71,10 +69,8 @@ export class BulbThings {
     files = new FileResource<File>(this, File);
     hooks = new Resource<Hook>(this, Hook);
     keys = new Resource<Key>(this, Key);
-    language = new LanguageResource(this);
     measurements = new Resource<Measurement>(this, Measurement);
     memberships = new Resource<Membership>(this, Membership);
-    navigationResource = new NavigationResource(this);
     permissions = new Resource<Permission>(this, Permission);
     roles = new Resource<Role>(this, Role);
     settingTypes = new Resource<SettingType>(this, SettingType);
