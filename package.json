@@ -19,11 +19,6 @@
         "singleQuote": true
     },
     "dependencies": {
-        "@angular/animations": "^10.0.4",
-        "@angular/cdk": "^10.1.0",
-        "@angular/common": "^10.0.4",
-        "@angular/core": "^10.0.4",
-        "@angular/material": "^10.1.0",
         "@ngx-translate/core": "^13.0.0",
         "@types/json-schema": "^7.0.3",
         "async-mutex": "^0.2.4",

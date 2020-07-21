@@ -1,7 +1,7 @@
 import { BulbThings } from '..';
 import { Mutex } from 'async-mutex';
-import { EntityUiNode } from '../interfaces/entity-ui-node';
-import { UiNode } from '../interfaces/ui-node';
+import { EntityUiNode } from '../interfaces/ui/entity-ui-node';
+import { UiNode } from '../interfaces/ui/ui-node';
 import { Entity, Association, EntityType, EntityTypeMapping } from '../models';
 import { findAll } from '../utils/find-all';
 import { findById } from '../utils/find-by-id';

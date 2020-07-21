@@ -1,5 +1,5 @@
 import { UiNode } from './ui-node';
-import { EntityType } from '../models';
+import { EntityType } from '../../models';
 
 export interface EntityTypeUiNode extends UiNode {
     type: 'entityType';

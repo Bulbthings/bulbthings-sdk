@@ -1,4 +1,4 @@
-import { TemplateRef } from '@angular/core';
+// import { TemplateRef } from '@angular/core';
 
 export interface UiNode {
     label: string | null;
@@ -24,7 +24,7 @@ export interface UiNode {
      */
     fetchChildrenTotal?: number;
     actions?: UiNode[];
-    template?: TemplateRef<any>;
+    // template?: TemplateRef<any>;
     /**
      * Whether or not to translate the `name` property
      */
