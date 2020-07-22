@@ -19,7 +19,6 @@
         "singleQuote": true
     },
     "dependencies": {
-        "@ngx-translate/core": "^13.0.0",
         "@types/json-schema": "^7.0.3",
         "async-mutex": "^0.2.4",
         "cross-eventsource": "https://github.com/Bulbthings/cross-eventsource.git#0.1.0",
