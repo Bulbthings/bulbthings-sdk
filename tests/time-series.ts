@@ -11,17 +11,17 @@ const mockTimeSeriesResponse = {
             attributes: {
                 sourceEntityId: '123456',
                 targetEntityId: '123456',
-                time: '2019-07-09T00:00:00.000Z'
+                time: '2019-07-09T00:00:00.000Z',
             },
             relationships: {
                 targetEntity: {
                     data: {
                         type: 'targetEntities',
-                        id: '123456'
-                    }
-                }
-            }
-        }
+                        id: '123456',
+                    },
+                },
+            },
+        },
     ],
     included: [
         {
@@ -36,11 +36,11 @@ const mockTimeSeriesResponse = {
                     make: 'nkkl',
                     assetStatus: 'Active',
                     assetStatusDetail: 'Sold',
-                    assetEntryDatetime: '2020-06-18T12:21:43.258Z'
-                }
-            }
-        }
-    ]
+                    assetEntryDatetime: '2020-06-18T12:21:43.258Z',
+                },
+            },
+        },
+    ],
 };
 
 const reportObjectExpected = {
@@ -57,9 +57,9 @@ const reportObjectExpected = {
             make: 'nkkl',
             assetStatus: 'Active',
             assetStatusDetail: 'Sold',
-            assetEntryDatetime: '2020-06-18T12:21:43.258Z'
-        }
-    }
+            assetEntryDatetime: '2020-06-18T12:21:43.258Z',
+        },
+    },
 };
 
 describe('Entities', () => {
@@ -80,7 +80,7 @@ describe('Entities', () => {
                 alignmentMethod: 'last',
                 alignmentPeriod: 'day',
                 filter: 'eq(sourceEntityId,targetEntityId)',
-                include: 'targetEntity'
+                include: 'targetEntity',
             })
             .reply(200, mockTimeSeriesResponse);
 
@@ -91,13 +91,13 @@ describe('Entities', () => {
             alignmentMethod: 'last',
             alignmentPeriod: 'day',
             filter: 'eq(sourceEntityId,targetEntityId)',
-            include: ['targetEntity']
+            include: ['targetEntity'],
         });
 
         expect(data).to.have.length(1);
         expect(data[0]).to.deep.equal({
             ...reportObjectExpected,
-            time: new Date('2019-07-09T00:00:00.000Z')
+            time: new Date('2019-07-09T00:00:00.000Z'),
         });
     });
     it.only('should get a basic report with SQL query in params', async () => {
@@ -111,7 +111,7 @@ describe('Entities', () => {
                 alignmentMethod: 'last',
                 alignmentPeriod: 'day',
                 filter: 'eq(sourceEntityId,targetEntityId)',
-                include: 'targetEntity'
+                include: 'targetEntity',
             })
             .reply(200, mockTimeSeriesResponse);
 
@@ -122,14 +122,14 @@ describe('Entities', () => {
             alignmentMethod: 'last',
             alignmentPeriod: 'day',
             filter: `eq(sourceEntityId,targetEntityId)`,
-            include: ['targetEntity']
+            include: ['targetEntity'],
         });
         MockDate.reset();
 
         expect(data).to.have.length(1);
         expect(data[0]).to.deep.equal({
             ...reportObjectExpected,
-            time: '2019-07-09T00:00:00.000Z' // TOFIX: should probably be of type Date
+            time: '2019-07-09T00:00:00.000Z', // TOFIX: should probably be of type Date
         });
     });
 });

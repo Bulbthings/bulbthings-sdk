@@ -17,8 +17,8 @@ describe('Actions', () => {
             schema: {
                 title: 'Toggle engine',
                 description: 'Start or stop the engine',
-                type: 'boolean'
-            }
+                type: 'boolean',
+            },
         });
         actionTypeId = actionType.id;
         expect(actionType.id).to.not.be.undefined;
@@ -30,7 +30,7 @@ describe('Actions', () => {
             actionTypeId: actionTypeId,
             status: 'available',
             input: true,
-            entityId: '22'
+            entityId: '22',
         });
         actionId = action.id;
         expect(action.id).to.not.be.undefined;
