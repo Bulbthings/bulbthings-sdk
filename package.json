@@ -1,6 +1,6 @@
 {
     "name": "bulbthings-javascript-sdk",
-    "version": "0.11.12",
+    "version": "0.12.0",
     "description": "Bulbthings API wrapper",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
