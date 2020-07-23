@@ -38,7 +38,6 @@ import { CoreEventType } from './types/core-event-type';
 import { CoreEvent } from './interfaces/core-event';
 import { BulbThingsOptions } from './interfaces/bulbthings-options';
 import { UiResource } from './resources/ui';
-import { UiNode } from './interfaces/ui/ui-node';
 
 // Export JSONAPI Error class to parse errors
 export { DocWithErrors as ApiError } from 'jsonapi-typescript';
