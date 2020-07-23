@@ -9,7 +9,6 @@ describe('Actions', () => {
 
     before(() => {
         bulb = new BulbThings();
-        // bulb.basePath = 'http://localhost:3060';
     });
 
     it('should create an action type', async () => {

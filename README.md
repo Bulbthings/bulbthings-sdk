@@ -197,4 +197,4 @@ bulbthings.on(eventType, event => {
 
 We are using nock to mock the requests response.
 You need to run `npm test` to check that all the tests are passing.
-To see the debug from nock, you can add `DEBUG=nock.*` in the `test` script.
+To see the debug from nock, use `DEBUG=nock.* npm test`.
