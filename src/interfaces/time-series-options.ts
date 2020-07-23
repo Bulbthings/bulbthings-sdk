@@ -3,8 +3,8 @@ import { JsonApiOptions } from './json-api-options';
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export interface TimeSeriesOptions extends Omit<JsonApiOptions, 'page'> {
-    from: Date;
-    to: Date;
+    from: Date | string;
+    to: Date | string;
     attributeTypeId: string;
     alignmentPeriod:
         | 'second'
