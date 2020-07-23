@@ -5,6 +5,7 @@ import { ReadonlyResource } from './resources/readonly-resource';
 import { FileResource } from './resources/file-resource';
 import { TimeSeriesResource } from './resources/time-series';
 import { AuthenticationResource } from './resources/authentication-resource';
+import { UtilsResource } from './resources/utils';
 
 import {
     Entity,
@@ -37,13 +38,13 @@ import {
 import { CoreEventType } from './types/core-event-type';
 import { CoreEvent } from './interfaces/core-event';
 import { BulbThingsOptions } from './interfaces/bulbthings-options';
-import { UiResource } from './resources/ui';
 
 // Export JSONAPI Error class to parse errors
 export { DocWithErrors as ApiError } from 'jsonapi-typescript';
 
 // Export all models so they can be used from outside
 export * from './models';
+export * from './interfaces/ui-node';
 
 export class BulbThings {
     // API resources
@@ -75,10 +76,10 @@ export class BulbThings {
     roles = new Resource<Role>(this, Role);
     settingTypes = new Resource<SettingType>(this, SettingType);
     settings = new Resource<Setting>(this, Setting);
-    ui = new UiResource(this);
     timeSeries = new TimeSeriesResource(this);
     units = new ReadonlyResource<Unit>(this, Unit);
     unitSettings = new Resource<UnitSetting>(this, UnitSetting);
+    utils = new UtilsResource(this);
 
     // Options
     options: BulbThingsOptions = {

@@ -1,20 +1,18 @@
-// import { TemplateRef } from '@angular/core';
-
-export interface UiNode {
+export interface UINode {
     label: string | null;
     type?: string;
     id?: string;
     icon?: string;
     data?: any;
-    children?: UiNode[];
-    parents?: UiNode[];
-    callback?: ({ event: MouseEvent, item: UiNode }) => void;
+    children?: UINode[];
+    parents?: UINode[];
+    callback?: ({ event: MouseEvent, item: UINode }) => void;
     isDivider?: boolean;
     isSelected?: boolean;
     fetchChildren?: (
-        item: UiNode,
+        item: UINode,
         params?: { offset: number; limit: number; sort: string[] }
-    ) => Promise<{ data: UiNode[]; total: number }>;
+    ) => Promise<{ data: UINode[]; total: number }>;
     /**
      * Pagination limit to use with fetchChildren()
      */
@@ -23,7 +21,7 @@ export interface UiNode {
      * Read-only field, automatically set when fetching children using fetchChildren()
      */
     fetchChildrenTotal?: number;
-    actions?: UiNode[];
+    actions?: UINode[];
     // template?: TemplateRef<any>;
     /**
      * Whether or not to translate the `name` property
