@@ -27,6 +27,9 @@ export class Action extends JsonApiModel<Action> {
     input: any;
 
     @Attribute()
+    label?: string;
+
+    @Attribute()
     status?: 'available' | 'requested' | 'completed';
 
     @Attribute()
