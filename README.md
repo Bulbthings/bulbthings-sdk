@@ -1,21 +1,21 @@
-# BulbThings JavaScript SDK
+# Bulbthings SDK
 
 ## 🚧 Documentation 🚧
 
-(Work in progress) See full documentation [here](https://core-v2.bulbthings.com)
+(Work in progress) See full documentation [here](https://api.bulbthings.com)
 
 ## Installation
 
 ### package.json
 
-In `dependencies`, put `"bulbthings-javascript-sdk": "https://cb76b2588e677ad6f2a2010a610f2dffd534f609@github.com/Bulbthings/bulbthings-javascript-sdk.git#{RELEASE}",` where `{RELEASE}` should be found in the [releases page](https://github.com/Bulbthings/bulbthings-javascript-sdk/releases).
+In `dependencies`, put `"bulbthings-sdk": "https://cb76b2588e677ad6f2a2010a610f2dffd534f609@github.com/Bulbthings/bulbthings-sdk.git#{RELEASE}",` where `{RELEASE}` should be found in the [releases page](https://github.com/Bulbthings/bulbthings-sdk/releases).
 
 ### TODO: npm package
 
 ## Usage
 
 ```typescript
-import { BulbThings } from 'bulbthings-javascript-sdk';
+import { BulbThings } from 'bulbthings-sdk';
 
 const bulbthings = new BulbThings({ apiToken: '83945b4eaf...7a37a' });
 
@@ -34,7 +34,7 @@ const entities = await bulbthings.entities.findAll({
         ne(attributes.license, null)
     )`,
     include: ['entitytype'],
-    page: { limit: 3 }
+    page: { limit: 3 },
 });
 
 // Or with metadata
@@ -48,7 +48,7 @@ const { data: entities, meta } = await bulbthings.entities.findAll(
 
 ```typescript
 const entity = await bulbthings.entities.findById('1', {
-    include: ['entitytype']
+    include: ['entitytype'],
 });
 ```
 
@@ -61,9 +61,9 @@ const created = await bulbthings.measurements.create({
     value: 'test',
     period: {
         from: new Date(),
-        to: new Date()
+        to: new Date(),
     },
-    unitId: '102'
+    unitId: '102',
 });
 ```
 
@@ -71,7 +71,7 @@ const created = await bulbthings.measurements.create({
 
 ```typescript
 await created.refresh({
-    include: ['targetEntity']
+    include: ['targetEntity'],
 });
 ```
 
@@ -79,7 +79,7 @@ await created.refresh({
 
 ```typescript
 const updated = await bulbthings.measurements.update(created.id, {
-    value: 'edited'
+    value: 'edited',
 });
 // (TODO) Shortcut method:
 created.value = 'edited';
@@ -160,21 +160,22 @@ Example: Get the drivers ranked according to their average driver score during t
 
 ```typescript
 const data = await bulbthings.timeSeries.getReport({
-    from: moment()
-        .subtract(1, 'week')
-        .toDate(),
+    from: moment().subtract(1, 'week').toDate(),
     to: new Date(),
     attributeTypeId: `${driverScoreAttributeTypeId}`,
     alignmentPeriod: 'week',
     alignmentMethod: 'avg',
     fields: {
-        timeSeries: ['time', 'as(value,"avgScore")']
+        timeSeries: ['time', 'as(value,"avgScore")'],
     },
     sort: ['-value'],
-    include: ['targetEntity']
+    include: ['targetEntity'],
 });
 
-const driversWithScore = data.map(d => ({ driver: d.targetEntity, avgScore }));
+const driversWithScore = data.map((d) => ({
+    driver: d.targetEntity,
+    avgScore,
+}));
 ```
 
 ## Events
@@ -187,8 +188,14 @@ Every creation, modification or deletion of resources will trigger system events
 // Event types follow the format: [resource][Created|Updated|Deleted]
 const eventType = 'entityCreated';
 
-bulbthings.on(eventType, event => {
+bulbthings.on(eventType, (event) => {
     // 'data' contains the resource described by the event
     const entity = event.data;
 });
 ```
+
+### Testing
+
+We are using nock to mock the requests response.
+You need to run `npm test` to check that all the tests are passing.
+To see the debug from nock, use `DEBUG=nock.* npm test`.
