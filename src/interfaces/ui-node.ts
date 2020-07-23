@@ -22,7 +22,6 @@ export interface UINode {
      */
     fetchChildrenTotal?: number;
     actions?: UINode[];
-    // template?: TemplateRef<any>;
     /**
      * Whether or not to translate the `name` property
      */

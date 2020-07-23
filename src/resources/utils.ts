@@ -2,6 +2,7 @@ import { BulbThings } from '..';
 import { Mutex } from 'async-mutex';
 import { UINode } from '../interfaces/ui-node';
 import { Entity, Association, EntityType } from '../models';
+import pluralize from 'pluralize';
 
 export class UtilsResource {
     private entityTypesCache: { [entityTypeId: string]: EntityType } = {};
@@ -269,8 +270,7 @@ export class UtilsResource {
             const node: UINode = {
                 id: entityType?.id,
                 type: 'entityType',
-                label: entityType?.label || null,
-                // label: entityType ? pluralize(entityType.label || '') : null,
+                label: entityType ? pluralize(entityType.label || '') : null,
                 icon: this.getEntityTypeIcon(entityType),
                 data: { count, entityType },
                 callback,
