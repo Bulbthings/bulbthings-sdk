@@ -1,21 +1,21 @@
-# BulbThings JavaScript SDK
+# Bulbthings SDK
 
 ## 🚧 Documentation 🚧
 
-(Work in progress) See full documentation [here](https://core-v2.bulbthings.com)
+(Work in progress) See full documentation [here](https://api.bulbthings.com)
 
 ## Installation
 
 ### package.json
 
-In `dependencies`, put `"bulbthings-javascript-sdk": "https://cb76b2588e677ad6f2a2010a610f2dffd534f609@github.com/Bulbthings/bulbthings-javascript-sdk.git#{RELEASE}",` where `{RELEASE}` should be found in the [releases page](https://github.com/Bulbthings/bulbthings-javascript-sdk/releases).
+In `dependencies`, put `"bulbthings-sdk": "https://cb76b2588e677ad6f2a2010a610f2dffd534f609@github.com/Bulbthings/bulbthings-sdk.git#{RELEASE}",` where `{RELEASE}` should be found in the [releases page](https://github.com/Bulbthings/bulbthings-sdk/releases).
 
 ### TODO: npm package
 
 ## Usage
 
 ```typescript
-import { BulbThings } from 'bulbthings-javascript-sdk';
+import { BulbThings } from 'bulbthings-sdk';
 
 const bulbthings = new BulbThings({ apiToken: '83945b4eaf...7a37a' });
 
@@ -193,8 +193,8 @@ bulbthings.on(eventType, event => {
 });
 ```
 
-### To Test
+### Testing
 
 We are using nock to mock the requests response.
-You need to run `npm run test` to check that all the tests are passing.
+You need to run `npm test` to check that all the tests are passing.
 To see the debug from nock, you can add `DEBUG=nock.*` in the `test` script.
