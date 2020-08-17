@@ -342,6 +342,26 @@ export class UtilsResource {
             : [rootItem];
     }
 
+    async getCachedEntityTypeMappings(entityTypeId: string, entityTypeMappingsCache) {
+        if (!entityTypeMappingsCache || !entityTypeMappingsCache[entityTypeId]) {
+            const entityTypeMapping = entityTypeMappingsCache;
+            entityTypeMapping[entityTypeId] = await this.bulbthings.entityTypeMappings.findAll({
+                filter: `and(${[
+                    `eq(entityTypeId,"${entityTypeId}")`,
+                    `or(${[
+                        'eq(type,"attributeType")',
+                        'eq(type,"associationType")',
+                        'eq(type,"actionType")',
+                    ]})`,
+                ]})`,
+                sort: ['meta.order'],
+                include: ['attributeType', 'associationType', 'actionType'],
+            });
+            entityTypeMappingsCache = entityTypeMapping;
+        }
+        return entityTypeMappingsCache;
+    }
+
     private sortItems(a: UINode, b: UINode) {
         return a.label.localeCompare(b.label);
     }
