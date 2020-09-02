@@ -9,7 +9,7 @@ import { Account } from './account';
 import { Code } from './code';
 
 @JsonApiModelConfig({
-    endpoint: 'entities'
+    endpoint: 'entities',
 })
 export class Entity extends JsonApiModel<Entity> {
     @Attribute()
@@ -25,6 +25,9 @@ export class Entity extends JsonApiModel<Entity> {
     label?: string;
 
     @Attribute()
+    customLabel?: string;
+
+    @Attribute()
     attributes?: {
         [name: string]: any;
     };
@@ -37,6 +40,15 @@ export class Entity extends JsonApiModel<Entity> {
 
     @Attribute()
     quantity?: number;
+
+    @Attribute()
+    createdAt?: Date;
+
+    @Attribute()
+    updatedAt?: Date;
+
+    @Attribute()
+    deletedAt?: Date;
 
     @Relation('BelongsTo', () => Company)
     company?: Company;
