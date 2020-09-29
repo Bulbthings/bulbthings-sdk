@@ -9,9 +9,12 @@ import { periodConverter } from '../converters/period';
 import { Company } from './company';
 
 @JsonApiModelConfig({
-    endpoint: 'associations'
+    endpoint: 'associations',
 })
 export class Association extends JsonApiModel<Association> {
+    @Attribute()
+    accountId?: string;
+
     @Attribute()
     companyId?: string;
 
@@ -29,6 +32,15 @@ export class Association extends JsonApiModel<Association> {
 
     @Attribute()
     ratio?: number;
+
+    @Attribute()
+    quantity?: number;
+
+    @Attribute()
+    createdAt?: Date;
+
+    @Attribute()
+    updatedAt?: Date;
 
     @Relation('BelongsTo', () => Company)
     company?: Company;

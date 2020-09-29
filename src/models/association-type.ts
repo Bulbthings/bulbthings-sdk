@@ -5,7 +5,7 @@ import { Relation } from '../decorators/relation';
 import { EntityType } from './entity-type';
 
 @JsonApiModelConfig({
-    endpoint: 'associationTypes'
+    endpoint: 'associationTypes',
 })
 export class AssociationType extends JsonApiModel<AssociationType> {
     @Attribute()
@@ -24,10 +24,16 @@ export class AssociationType extends JsonApiModel<AssociationType> {
     targetIsShared: boolean;
 
     @Attribute()
-    hasPeriod?: boolean;
-
-    @Attribute()
-    meta: any;
+    meta: {
+        category?: string;
+        hasPeriod?: boolean;
+        isImportantForSource?: boolean;
+        isImportantForTarget?: boolean;
+        isSourcePartOfTarget?: boolean;
+        sourceActionLabel: string;
+        sourceShouldBeCreated?: boolean;
+        targetActionLabel: string;
+    };
 
     @Relation('BelongsTo', () => EntityType)
     sourceEntityType?: EntityType;
