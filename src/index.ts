@@ -34,6 +34,7 @@ import {
     UnitSetting,
     SettingType,
     Setting,
+    Path,
 } from './models';
 import { CoreEventType } from './types/core-event-type';
 import { CoreEvent } from './interfaces/core-event';
@@ -72,6 +73,7 @@ export class BulbThings {
     keys = new Resource<Key>(this, Key);
     measurements = new Resource<Measurement>(this, Measurement);
     memberships = new Resource<Membership>(this, Membership);
+    paths = new ReadonlyResource<Path>(this, Path);
     permissions = new Resource<Permission>(this, Permission);
     roles = new Resource<Role>(this, Role);
     settingTypes = new Resource<SettingType>(this, SettingType);
