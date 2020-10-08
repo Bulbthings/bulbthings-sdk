@@ -14,25 +14,28 @@ export class Path extends JsonApiModel<Path> {
     companyId?: string;
 
     @Attribute()
-    depth?: number;
+    sourceEntityId: string;
 
     @Attribute()
-    path?: string[];
+    targetEntityId: string;
 
     @Attribute()
     period?: Period;
 
     @Attribute()
-    quantity?: number;
-
-    @Attribute()
     ratio?: number;
 
     @Attribute()
-    sourceEntityId: string;
+    quantity?: number;
 
     @Attribute()
-    targetEntityId: string;
+    nodes?: string[];
+
+    @Attribute()
+    edges?: string[];
+
+    @Attribute()
+    depth?: number;
 
     @Relation('BelongsTo', () => Company)
     company?: Company;
