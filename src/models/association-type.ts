@@ -27,6 +27,7 @@ export class AssociationType extends JsonApiModel<AssociationType> {
     meta: {
         category?: string;
         hasPeriod?: boolean;
+        hasQuantity?: boolean;
         isImportantForSource?: boolean;
         isImportantForTarget?: boolean;
         isSourcePartOfTarget?: boolean;
