@@ -8,7 +8,7 @@ import { EventType } from './event-type';
 import { ActionType } from './action-type';
 
 @JsonApiModelConfig({
-    endpoint: 'entityTypes'
+    endpoint: 'entityTypes',
 })
 export class EntityType extends JsonApiModel<EntityType> {
     @Attribute()
@@ -25,6 +25,14 @@ export class EntityType extends JsonApiModel<EntityType> {
 
     @Attribute()
     description?: string;
+
+    @Attribute()
+    meta?: {
+        icon?: {
+            fontAwesome?: string[] | string;
+        };
+        isRootType?: boolean;
+    };
 
     @Relation('HasMany', () => AssociationType)
     associationTypes?: AssociationType[];
