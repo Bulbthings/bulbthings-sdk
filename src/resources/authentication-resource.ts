@@ -9,17 +9,18 @@ export class AuthenticationResource {
 
     constructor(private bulbthings: BulbThings) {}
 
-    async register(
-        label: string,
-        email: string,
-        locale?: string,
-        meta?: any
-    ): Promise<Account> {
+    async register(params: {
+        label: string;
+        email: string;
+        locale?: string;
+        meta?: any;
+        origin?: string;
+    }): Promise<Account> {
         const res = await request(
             this.bulbthings,
             'POST',
             `${this.bulbthings.options.coreUrl}/authentication/register`,
-            { body: { label, email, locale, meta } }
+            { body: params }
         );
         return parseResource(res.data, Account, {});
     }
