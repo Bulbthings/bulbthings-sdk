@@ -50,6 +50,11 @@ export class Entity extends JsonApiModel<Entity> {
     @Attribute()
     deletedAt?: Date;
 
+    @Attribute()
+    meta?: {
+        hasStock?: boolean;
+    };
+
     @Relation('BelongsTo', () => Company)
     company?: Company;
 
