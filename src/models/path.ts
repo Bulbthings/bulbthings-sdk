@@ -5,6 +5,7 @@ import { Period } from '../interfaces/period';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Attribute } from '../decorators/attribute';
 import { Company } from './company';
+import { periodConverter } from '../converters/period';
 
 @JsonApiModelConfig({
     endpoint: 'paths',
@@ -19,7 +20,7 @@ export class Path extends JsonApiModel<Path> {
     @Attribute()
     targetEntityId: string;
 
-    @Attribute()
+    @Attribute({ converter: periodConverter })
     period?: Period;
 
     @Attribute()
