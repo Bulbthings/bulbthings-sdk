@@ -32,6 +32,7 @@ export class EntityType extends JsonApiModel<EntityType> {
             fontAwesome?: string[] | string;
         };
         isRootType?: boolean;
+        isAbstract?: boolean;
     };
 
     @Relation('HasMany', () => AssociationType)
