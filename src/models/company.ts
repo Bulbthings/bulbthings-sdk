@@ -6,7 +6,7 @@ import { Account } from './account';
 import { Catalog } from './catalog';
 
 @JsonApiModelConfig({
-    endpoint: 'companies'
+    endpoint: 'companies',
 })
 export class Company extends JsonApiModel<Company> {
     @Attribute()
@@ -24,6 +24,10 @@ export class Company extends JsonApiModel<Company> {
     @Attribute()
     meta?: {
         billingId?: string;
+        /**
+         * Array of paid features currently active for this company.
+         */
+        features?: string[];
     };
 
     @Attribute()

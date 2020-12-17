@@ -28,6 +28,10 @@ export class EntityType extends JsonApiModel<EntityType> {
 
     @Attribute()
     meta?: {
+        /**
+         * Array of paid features required to use this entity type.
+         */
+        features?: string[];
         icon?: {
             fontAwesome?: string[] | string;
         };
