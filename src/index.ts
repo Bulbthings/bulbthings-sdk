@@ -35,6 +35,7 @@ import {
     SettingType,
     Setting,
     Path,
+    Grant,
 } from './models';
 import { CoreEventType } from './types/core-event-type';
 import { CoreEvent } from './interfaces/core-event';
@@ -69,6 +70,7 @@ export class BulbThings {
     events = new Resource<Event>(this, Event);
     eventTypes = new Resource<EventType>(this, EventType);
     files = new FileResource<File>(this, File);
+    grants = new Resource<Grant>(this, Grant);
     hooks = new Resource<Hook>(this, Hook);
     keys = new Resource<Key>(this, Key);
     measurements = new Resource<Measurement>(this, Measurement);

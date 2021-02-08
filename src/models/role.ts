@@ -5,9 +5,10 @@ import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Company } from './company';
 import { Membership } from './membership';
 import { Permission } from './permission';
+import { Grant } from './grant';
 
 @JsonApiModelConfig({
-    endpoint: 'roles'
+    endpoint: 'roles',
 })
 export class Role extends JsonApiModel<Role> {
     @Attribute()
@@ -22,8 +23,8 @@ export class Role extends JsonApiModel<Role> {
     @Relation('BelongsTo', () => Company)
     company?: Company;
 
-    @Relation('HasMany', () => Membership)
-    memberships?: Membership[];
+    @Relation('HasMany', () => Grant)
+    grants?: Grant[];
 
     @Relation('HasMany', () => Permission)
     permissions?: Permission[];

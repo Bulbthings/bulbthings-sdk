@@ -6,11 +6,10 @@ import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Company } from './company';
 import { Period } from '../interfaces/period';
 import { periodConverter } from '../converters/period';
-import { Role } from './role';
-import { Entity } from './entity';
+import { Grant } from './grant';
 
 @JsonApiModelConfig({
-    endpoint: 'memberships'
+    endpoint: 'memberships',
 })
 export class Membership extends JsonApiModel<Membership> {
     @Attribute()
@@ -18,12 +17,6 @@ export class Membership extends JsonApiModel<Membership> {
 
     @Attribute()
     accountId: string;
-
-    @Attribute()
-    roleId?: string;
-
-    @Attribute()
-    entityId?: string;
 
     @Attribute()
     isAdmin?: boolean;
@@ -40,9 +33,6 @@ export class Membership extends JsonApiModel<Membership> {
     @Relation('BelongsTo', () => Account)
     account?: Account;
 
-    @Relation('BelongsTo', () => Role)
-    role?: Role;
-
-    @Relation('BelongsTo', () => Entity)
-    entity?: Entity;
+    @Relation('HasMany', () => Grant)
+    grants?: Grant[];
 }
