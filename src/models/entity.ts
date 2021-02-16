@@ -7,6 +7,7 @@ import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Company } from './company';
 import { Account } from './account';
 import { Code } from './code';
+import { Association } from './association';
 
 @JsonApiModelConfig({
     endpoint: 'entities',
@@ -63,6 +64,9 @@ export class Entity extends JsonApiModel<Entity> {
 
     @Relation('BelongsTo', () => Account)
     account?: Account;
+
+    @Relation('HasMany', () => Association)
+    associations?: Association[];
 
     @Relation('BelongsTo', () => File)
     avatarFile?: File;
