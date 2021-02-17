@@ -7,6 +7,7 @@ import { Company } from './company';
 import { Period } from '../interfaces/period';
 import { periodConverter } from '../converters/period';
 import { Grant } from './grant';
+import { Entity } from './entity';
 
 @JsonApiModelConfig({
     endpoint: 'memberships',
@@ -17,6 +18,9 @@ export class Membership extends JsonApiModel<Membership> {
 
     @Attribute()
     accountId: string;
+
+    @Attribute()
+    entityId?: string;
 
     @Attribute()
     isAdmin?: boolean;
@@ -32,6 +36,9 @@ export class Membership extends JsonApiModel<Membership> {
 
     @Relation('BelongsTo', () => Account)
     account?: Account;
+
+    @Relation('BelongsTo', () => Entity)
+    entity?: Entity;
 
     @Relation('HasMany', () => Grant)
     grants?: Grant[];
