@@ -9,7 +9,7 @@ import { Company } from './company';
 import { Account } from './account';
 
 @JsonApiModelConfig({
-    endpoint: 'events'
+    endpoint: 'events',
 })
 export class Event extends JsonApiModel<Event> {
     @Attribute()
@@ -25,7 +25,7 @@ export class Event extends JsonApiModel<Event> {
     accountId?: string;
 
     @Attribute()
-    entityId: string;
+    entityId?: string;
 
     @Attribute()
     privateForAccountId?: string;
