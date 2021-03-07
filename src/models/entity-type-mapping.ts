@@ -9,7 +9,7 @@ import { EventType } from './event-type';
 import { ActionType } from './action-type';
 
 @JsonApiModelConfig({
-    endpoint: 'entityTypeMappings'
+    endpoint: 'entityTypeMappings',
 })
 export class EntityTypeMapping extends JsonApiModel<EntityTypeMapping> {
     @Attribute()
@@ -39,6 +39,7 @@ export class EntityTypeMapping extends JsonApiModel<EntityTypeMapping> {
     @Attribute()
     meta?: {
         order?: number;
+        displayInPreview?: boolean;
     };
 
     @Relation('BelongsTo', () => EntityType)
