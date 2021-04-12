@@ -33,11 +33,11 @@ const entities = await bulbthings.entities.findAll({
         gt(attributes.mileage.km, 10000),
         ne(attributes.license, null)
     )`,
-    include: ['entitytype'],
+    include: ['entityType'],
     page: { limit: 3 },
 });
 
-// Or with metadata
+// Or with pagination metadata
 const { data: entities, meta } = await bulbthings.entities.findAll(
     { page: { limit: 3 } },
     true
@@ -47,51 +47,41 @@ const { data: entities, meta } = await bulbthings.entities.findAll(
 ### Find by identifier
 
 ```typescript
-const entity = await bulbthings.entities.findById('1', {
-    include: ['entitytype'],
+const entity = await bulbthings.entities.findById('31845...c8ad6e', {
+    include: ['entityType'],
 });
 ```
 
 ### Create
 
 ```typescript
-const created = await bulbthings.measurements.create({
-    targetEntityId: entity.id,
-    attributeTypeId: '70',
-    value: 'test',
+const measurement = await bulbthings.measurements.create({
+    entityId: entity.id,
+    attributeTypeId: 'mileage',
+    value: 42000,
     period: {
         from: new Date(),
         to: new Date(),
     },
-    unitId: '102',
-});
-```
-
-### TODO: Refresh
-
-```typescript
-await created.refresh({
-    include: ['targetEntity'],
+    unitId: 'km',
 });
 ```
 
 ### Update
 
 ```typescript
-const updated = await bulbthings.measurements.update(created.id, {
-    value: 'edited',
-});
-// (TODO) Shortcut method:
-created.value = 'edited';
-await created.save();
+const updatedMeasurement = await bulbthings.measurements.update(
+    measurement.id,
+    {
+        value: 43000,
+    }
+);
 ```
 
 ### Delete
 
 ```typescript
 await bulbthings.entities.deleteById(entity.id);
-// Shortcut method:
-await entity.delete();
 ```
 
 ## Time Series
@@ -189,8 +179,10 @@ Every creation, modification or deletion of resources will trigger system events
 const eventType = 'entityCreated';
 
 bulbthings.on(eventType, (event) => {
-    // 'data' contains the resource described by the event
-    const entity = event.data;
+    // `data.resource` contains the resource described by the event
+    // In case of an update event, `data.previousData` contains
+    // the values of updated properties before the change
+    const entity = event.data.resource as Entity;
 });
 ```
 

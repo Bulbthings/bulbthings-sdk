@@ -33,6 +33,7 @@ export class AssociationType extends JsonApiModel<AssociationType> {
         isSourcePartOfTarget?: boolean;
         sourceActionLabel: string;
         sourceShouldBeCreated?: boolean;
+        targetShouldBeCreated?: boolean;
         targetActionLabel: string;
     };
 
