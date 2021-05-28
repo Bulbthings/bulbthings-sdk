@@ -8,7 +8,7 @@ import { Company } from './company';
 import { Account } from './account';
 
 @JsonApiModelConfig({
-    endpoint: 'actions'
+    endpoint: 'actions',
 })
 export class Action extends JsonApiModel<Action> {
     @Attribute()
@@ -37,6 +37,15 @@ export class Action extends JsonApiModel<Action> {
 
     @Attribute()
     completedAt?: Date;
+
+    @Attribute()
+    meta?: {
+        geoPosition?: {
+            lat: number;
+            lng: number;
+            elevation?: number;
+        };
+    };
 
     @Relation('BelongsTo', () => Company)
     company?: Company;

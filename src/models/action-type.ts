@@ -7,7 +7,7 @@ import { JsonSchema } from '../interfaces/json-schema';
 import { Company } from './company';
 
 @JsonApiModelConfig({
-    endpoint: 'actionTypes'
+    endpoint: 'actionTypes',
 })
 export class ActionType extends JsonApiModel<ActionType> {
     @Attribute()
@@ -15,6 +15,15 @@ export class ActionType extends JsonApiModel<ActionType> {
 
     @Attribute()
     schema: JsonSchema;
+
+    @Attribute()
+    meta?: {
+        /**
+         * If true, the action should try to provide geoposition
+         * coordinates as metadata when submitted.
+         */
+        useGeoPosition?: boolean;
+    };
 
     @Relation('BelongsTo', () => Company)
     company?: Company;
