@@ -1,64 +1,91 @@
-export type CoreEventType =
-    | 'accountCreated'
-    | 'accountDeleted'
-    | 'accountUpdated'
-    | 'actionCreated'
-    | 'actionDeleted'
-    | 'actionUpdated'
-    | 'associationCreated'
-    | 'associationDeleted'
-    | 'associationUpdated'
-    | 'attributeTypeCreated'
-    | 'attributeTypeDeleted'
-    | 'attributeTypeUpdated'
-    | 'catalogCreated'
-    | 'catalogDeleted'
-    | 'catalogUpdated'
-    | 'catalogMappingCreated'
-    | 'catalogMappingDeleted'
-    | 'catalogMappingUpdated'
-    | 'codeCreated'
-    | 'codeDeleted'
-    | 'codeUpdated'
-    | 'companyCreated'
-    | 'companyDeleted'
-    | 'companyUpdated'
-    | 'entityCreated'
-    | 'entityDeleted'
-    | 'entityUpdated'
-    | 'entityTypeMappingCreated'
-    | 'entityTypeMappingDeleted'
-    | 'entityTypeMappingUpdated'
-    | 'eventCreated'
-    | 'eventDeleted'
-    | 'eventUpdated'
-    | 'fileCreated'
-    | 'fileDeleted'
-    | 'fileUpdated'
-    | 'hookCreated'
-    | 'hookDeleted'
-    | 'hookUpdated'
-    | 'keyCreated'
-    | 'keyDeleted'
-    | 'keyUpdated'
-    | 'measurementCreated'
-    | 'measurementDeleted'
-    | 'measurementUpdated'
-    | 'membershipCreated'
-    | 'membershipDeleted'
-    | 'membershipUpdated'
-    | 'permissionCreated'
-    | 'permissionDeleted'
-    | 'permissionUpdated'
-    | 'roleCreated'
-    | 'roleDeleted'
-    | 'roleUpdated'
-    | 'settingCreated'
-    | 'settingDeleted'
-    | 'settingUpdated'
-    | 'settingTypeCreated'
-    | 'settingTypeDeleted'
-    | 'settingTypeUpdated'
-    | 'unitSettingCreated'
-    | 'unitSettingDeleted'
-    | 'unitSettingUpdated';
+export const allEventTypes = [
+    'accountCreated',
+    'accountDeleted',
+    'accountUpdated',
+    'actionTypeCreated',
+    'actionTypeDeleted',
+    'actionTypeUpdated',
+    'actionCreated',
+    'actionDeleted',
+    'actionUpdated',
+    'associationTypeCreated',
+    'associationTypeDeleted',
+    'associationTypeUpdated',
+    'associationCreated',
+    'associationDeleted',
+    'associationUpdated',
+    'attributeTypeCreated',
+    'attributeTypeDeleted',
+    'attributeTypeUpdated',
+    'catalogMappingCreated',
+    'catalogMappingDeleted',
+    'catalogMappingUpdated',
+    'catalogCreated',
+    'catalogDeleted',
+    'catalogUpdated',
+    'codeCreated',
+    'codeDeleted',
+    'codeUpdated',
+    'companyCreated',
+    'companyDeleted',
+    'companyUpdated',
+    'entityTypeMappingCreated',
+    'entityTypeMappingDeleted',
+    'entityTypeMappingUpdated',
+    'entityTypeCreated',
+    'entityTypeDeleted',
+    'entityTypeUpdated',
+    'entityCreated',
+    'entityDeleted',
+    'entityUpdated',
+    'eventTypeCreated',
+    'eventTypeDeleted',
+    'eventTypeUpdated',
+    'eventCreated',
+    'eventDeleted',
+    'eventUpdated',
+    'fileCreated',
+    'fileDeleted',
+    'fileUpdated',
+    'grantCreated',
+    'grantDeleted',
+    'grantUpdated',
+    'hookCreated',
+    'hookDeleted',
+    'hookUpdated',
+    'keyCreated',
+    'keyDeleted',
+    'keyUpdated',
+    'measurementCreated',
+    'measurementDeleted',
+    'measurementUpdated',
+    'membershipCreated',
+    'membershipDeleted',
+    'membershipUpdated',
+    'pathCreated',
+    'pathDeleted',
+    'pathUpdated',
+    'permissionCreated',
+    'permissionDeleted',
+    'permissionUpdated',
+    'roleCreated',
+    'roleDeleted',
+    'roleUpdated',
+    'settingTypeCreated',
+    'settingTypeDeleted',
+    'settingTypeUpdated',
+    'settingCreated',
+    'settingDeleted',
+    'settingUpdated',
+    'unitSettingCreated',
+    'unitSettingDeleted',
+    'unitSettingUpdated',
+    'unitTypeCreated',
+    'unitTypeDeleted',
+    'unitTypeUpdated',
+    'unitCreated',
+    'unitDeleted',
+    'unitUpdated',
+] as const;
+
+export type CoreEventType = typeof allEventTypes[number];

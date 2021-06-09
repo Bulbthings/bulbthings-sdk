@@ -178,7 +178,7 @@ Every creation, modification or deletion of resources will trigger system events
 // Event types follow the format: [resource][Created|Updated|Deleted]
 const eventType = 'entityCreated';
 
-bulbthings.on(eventType, (event) => {
+bulbthings.on([eventType], (event) => {
     // `data.resource` contains the resource described by the event
     // In case of an update event, `data.previousData` contains
     // the values of updated properties before the change

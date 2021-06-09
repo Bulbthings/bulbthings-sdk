@@ -37,7 +37,7 @@ import {
     Path,
     Grant,
 } from './models';
-import { CoreEventType } from './types/core-event-type';
+import { allEventTypes, CoreEventType } from './types/core-event-type';
 import { CoreEvent } from './interfaces/core-event';
 import { BulbThingsOptions } from './interfaces/bulbthings-options';
 
@@ -94,13 +94,15 @@ export class BulbThings {
     // Event Source interface for Server-Sent Events (SSE)
     private eventSource: EventSource;
 
-    on(type: CoreEventType, listener: (event: CoreEvent) => void) {
-        this.eventSource.addEventListener(type, (evt) => {
-            listener(<CoreEvent>{
-                type,
-                data: JSON.parse(evt['data']),
+    on(types: CoreEventType[] | '*', listener: (event: CoreEvent) => void) {
+        for (const type of types === '*' ? allEventTypes : types) {
+            this.eventSource.addEventListener(type, (evt) => {
+                listener(<CoreEvent>{
+                    type,
+                    data: JSON.parse(evt['data']),
+                });
             });
-        });
+        }
     }
 
     setToken(token: string) {
