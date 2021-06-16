@@ -10,7 +10,7 @@ import { Company } from './company';
 import { Account } from './account';
 
 @JsonApiModelConfig({
-    endpoint: 'measurements'
+    endpoint: 'measurements',
 })
 export class Measurement extends JsonApiModel<Measurement> {
     @Attribute()
@@ -32,7 +32,7 @@ export class Measurement extends JsonApiModel<Measurement> {
     isAbsolute?: boolean;
 
     @Attribute({ converter: periodConverter })
-    period: Period;
+    period?: Period;
 
     @Attribute()
     unitId?: string;
