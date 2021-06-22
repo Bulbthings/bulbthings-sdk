@@ -19,8 +19,12 @@ export class ActionType extends JsonApiModel<ActionType> {
     @Attribute()
     meta?: {
         /**
-         * If true, the action should try to provide geoposition
-         * coordinates as metadata when submitted.
+         * If true, the action will only be available when scanning the associated entity.
+         */
+        requireScan?: boolean;
+        /**
+         * If true, the action should try to provide geoposition coordinates as metadata when
+         * submitted.
          */
         useGeoPosition?: boolean;
     };
