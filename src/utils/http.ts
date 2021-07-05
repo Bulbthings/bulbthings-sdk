@@ -34,7 +34,7 @@ export const request = async (
 
     if (Object.keys(options.params).length) {
         url = `${url}?${qs.stringify(options.params, {
-            arrayFormat: 'comma'
+            arrayFormat: 'comma',
         })}`;
     }
 
@@ -45,8 +45,9 @@ export const request = async (
             Accept: 'application/vnd.api+json',
             'Content-Type': 'application/vnd.api+json',
             Authorization: `Bearer ${apiToken}`,
-            ...options.headers
-        }
+            'Bulbthings-Environment': bulb.options.environment || 'bulbthings',
+            ...options.headers,
+        },
     });
 
     if (res.status >= 400) {

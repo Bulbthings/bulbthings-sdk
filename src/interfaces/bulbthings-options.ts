@@ -3,4 +3,5 @@ export interface BulbThingsOptions {
     coreUrl?: string;
     eventsUrl?: string;
     companyId?: string;
+    environment?: string;
 }

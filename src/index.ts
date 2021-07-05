@@ -36,6 +36,7 @@ import {
     Setting,
     Path,
     Grant,
+    Environment,
 } from './models';
 import { allEventTypes, CoreEventType } from './types/core-event-type';
 import { CoreEvent } from './interfaces/core-event';
@@ -67,6 +68,7 @@ export class BulbThings {
         EntityTypeMapping
     );
     entityTypes = new Resource<EntityType>(this, EntityType);
+    environments = new Resource<Environment>(this, Environment);
     events = new Resource<Event>(this, Event);
     eventTypes = new Resource<EventType>(this, EventType);
     files = new FileResource<File>(this, File);
@@ -112,6 +114,10 @@ export class BulbThings {
 
     setCompanyId(companyId: string) {
         this.options.companyId = companyId;
+    }
+
+    setEnvironment(environment: string) {
+        this.options.environment = environment;
     }
 
     constructor(options: BulbThingsOptions = {}) {
