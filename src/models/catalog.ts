@@ -6,7 +6,7 @@ import { EntityType } from './entity-type';
 import { Hook } from './hook';
 
 @JsonApiModelConfig({
-    endpoint: 'catalogs'
+    endpoint: 'catalogs',
 })
 export class Catalog extends JsonApiModel<Catalog> {
     @Attribute()
@@ -16,14 +16,8 @@ export class Catalog extends JsonApiModel<Catalog> {
     label: string;
 
     @Attribute()
-    version: string;
-
-    @Attribute()
     description?: string;
 
     @Relation('HasMany', () => EntityType)
     entityTypes?: EntityType[];
-
-    @Relation('HasMany', () => Hook)
-    hooks?: Hook[];
 }
