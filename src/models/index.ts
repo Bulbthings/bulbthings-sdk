@@ -28,3 +28,4 @@ export * from './setting';
 export * from './path';
 export * from './grant';
 export * from './environment';
+export * from './acknowledgement';

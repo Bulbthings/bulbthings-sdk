@@ -34,6 +34,9 @@ export class Event extends JsonApiModel<Event> {
     time?: Date;
 
     @Attribute()
+    label?: string;
+
+    @Attribute()
     payload: {
         data: any;
         text: string;

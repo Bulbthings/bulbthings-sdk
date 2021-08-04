@@ -37,6 +37,7 @@ import {
     Path,
     Grant,
     Environment,
+    Acknowledgement,
 } from './models';
 import { allEventTypes, CoreEventType } from './types/core-event-type';
 import { CoreEvent } from './interfaces/core-event';
@@ -52,6 +53,7 @@ export * from './interfaces/ui-node';
 export class BulbThings {
     // API resources
     accounts = new Resource<Account>(this, Account);
+    acknowledgements = new Resource<Acknowledgement>(this, Acknowledgement);
     actions = new Resource<Action>(this, Action);
     actionTypes = new Resource<ActionType>(this, ActionType);
     associations = new Resource<Association>(this, Association);

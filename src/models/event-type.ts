@@ -6,7 +6,7 @@ import { EntityType } from './entity-type';
 import { JsonSchema } from '../interfaces/json-schema';
 
 @JsonApiModelConfig({
-    endpoint: 'eventTypes'
+    endpoint: 'eventTypes',
 })
 export class EventType extends JsonApiModel<EventType> {
     @Attribute()
@@ -16,7 +16,17 @@ export class EventType extends JsonApiModel<EventType> {
     schema: JsonSchema;
 
     @Attribute()
-    isSystem?: boolean;
+    meta?: {
+        /**
+         * Whether or not events of this type are intended to represent long-running operations and
+         * should be displayed accordingly until completion.
+         */
+        isProgress?: boolean;
+        /**
+         * Whether or not events of this type should be hidden from end users.
+         */
+        isSystem?: boolean;
+    };
 
     @Relation('HasMany', () => EntityType)
     entityTypes?: EntityType[];
