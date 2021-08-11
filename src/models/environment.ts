@@ -9,12 +9,14 @@ export class Environment extends JsonApiModel<Environment> {
     @Attribute()
     config: {
         androidAppUrl?: string;
+        emailFromAddress?: string;
         emailTemplate?: string;
         favicon16?: string;
         favicon32?: string;
         faviconAppleTouch?: string;
         faviconIco?: string;
         faviconSafariPinnedTab?: string;
+        features?: string[];
         iosAppUrl?: string;
         logo: string;
         longTitle?: string;
@@ -26,6 +28,12 @@ export class Environment extends JsonApiModel<Environment> {
         };
         primaryColor: string;
         primaryColorVariant?: string;
+        registrationInviteEmail?: {
+            button?: string;
+            content?: string;
+            subtitle?: string;
+            title?: string;
+        };
         secondaryColor?: string;
         secondaryColorVariant?: string;
         title: string;
