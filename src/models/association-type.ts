@@ -35,6 +35,7 @@ export class AssociationType extends JsonApiModel<AssociationType> {
         sourceShouldBeCreated?: boolean;
         targetShouldBeCreated?: boolean;
         targetActionLabel: string;
+        displayInCalendar: boolean;
     };
 
     @Relation('BelongsTo', () => EntityType)
