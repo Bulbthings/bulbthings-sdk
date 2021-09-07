@@ -9,17 +9,42 @@ import { Catalog } from './catalog';
     endpoint: 'companies',
 })
 export class Company extends JsonApiModel<Company> {
-    @Attribute()
-    label: string;
-
+    /**
+     * Identifier of the company's owner account.
+     */
     @Attribute()
     accountId?: string;
 
+    /**
+     * Identifier of the image file object used as the profile picture of the company.
+     */
+    @Attribute()
+    avatarFileId?: string;
+
+    /**
+     * Identifier of the company's active catalog.
+     */
     @Attribute()
     catalogId?: string;
 
+    /**
+     * Time at which the account was created.
+     */
     @Attribute()
-    avatarFileId?: string;
+    createdAt?: Date;
+
+    /**
+     * Full name of the company.
+     */
+    @Attribute()
+    label: string;
+
+    /**
+     * Language code of the company as defined in [BCP
+     * 47](https://en.wikipedia.org/wiki/IETF_language_tag)
+     */
+    @Attribute()
+    locale?: null | string;
 
     @Attribute()
     meta?: {
@@ -30,9 +55,9 @@ export class Company extends JsonApiModel<Company> {
         features?: string[];
     };
 
-    @Attribute()
-    createdAt?: Date;
-
+    /**
+     * Time at which the account was last updated.
+     */
     @Attribute()
     updatedAt?: Date;
 
