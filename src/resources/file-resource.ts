@@ -7,12 +7,12 @@ import { create } from '../utils/create';
 import { update } from '../utils/update';
 import { deleteById } from '../utils/delete';
 import { download } from '../utils/download';
-import { BulbThings } from '..';
+import { Bulbthings } from '..';
 import { RequestOptions } from '../interfaces/request-options';
 
 export class FileResource<T extends JsonApiModel<T>> {
     constructor(
-        private bulbthings: BulbThings,
+        private bulbthings: Bulbthings,
         private modelType: ModelType<T>
     ) {}
 

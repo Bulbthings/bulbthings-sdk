@@ -15,9 +15,9 @@ In `dependencies`, put `"bulbthings-sdk": "https://cb76b2588e677ad6f2a2010a610f2
 ## Usage
 
 ```typescript
-import { BulbThings } from 'bulbthings-sdk';
+import { Bulbthings } from 'bulbthings-sdk';
 
-const bulbthings = new BulbThings({ apiToken: '83945b4eaf...7a37a' });
+const bulbthings = new Bulbthings({ apiToken: '83945b4eaf...7a37a' });
 
 // Authentication can also be overridden per request
 bulbthings.entities.findAll({ apiToken: '83945b4eaf...7a37a' });

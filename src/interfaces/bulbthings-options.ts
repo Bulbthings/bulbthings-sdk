@@ -1,4 +1,4 @@
-export interface BulbThingsOptions {
+export interface BulbthingsOptions {
     apiToken?: string;
     coreUrl?: string;
     eventsUrl?: string;

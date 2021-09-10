@@ -2,11 +2,11 @@ import { JsonApiModel } from '../models/jsonapi-model';
 import { request } from './http';
 import { ModelType } from '../types/model-type';
 import { JsonApiModelConfig } from '../interfaces/json-api-model-config';
-import { BulbThings } from '..';
+import { Bulbthings } from '..';
 import { RequestOptions } from '../interfaces/request-options';
 
 export async function deleteById<T extends JsonApiModel<T>>(
-    bulb: BulbThings,
+    bulb: Bulbthings,
     modelType: ModelType<T>,
     id: string,
     options?: RequestOptions

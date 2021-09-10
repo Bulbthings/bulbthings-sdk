@@ -4,13 +4,13 @@ import { request } from './http';
 import { upload } from './upload';
 import { ModelType } from '../types/model-type';
 import { JsonApiModelConfig } from '../interfaces/json-api-model-config';
-import { BulbThings } from '..';
+import { Bulbthings } from '..';
 import { stringifyModel } from './stringify';
 import { parseResource } from './parse';
 import { RequestOptions } from '../interfaces/request-options';
 
 export async function create<T extends JsonApiModel<T>>(
-    bulb: BulbThings,
+    bulb: Bulbthings,
     modelType: ModelType<T>,
     data: any,
     file?: any,
@@ -31,7 +31,7 @@ export async function create<T extends JsonApiModel<T>>(
         res = await upload(bulb, `${bulb.options.coreUrl}/${endpoint}`, {
             data: stringifyModel(model, modelType),
             file,
-            params: options
+            params: options,
         });
     } else {
         res = await request(
@@ -40,7 +40,7 @@ export async function create<T extends JsonApiModel<T>>(
             `${bulb.options.coreUrl}/${endpoint}`,
             {
                 body: { data: stringifyModel(model, modelType) },
-                params: options
+                params: options,
             }
         );
     }
@@ -49,7 +49,7 @@ export async function create<T extends JsonApiModel<T>>(
     const includedResources: {
         [type: string]: { [id: string]: JSONAPI.ResourceObject };
     } = {};
-    ((res as JSONAPI.SingleResourceDoc).included || []).forEach(r => {
+    ((res as JSONAPI.SingleResourceDoc).included || []).forEach((r) => {
         includedResources[r.type] = includedResources[r.type] || {};
         includedResources[r.type][r.id] = r;
     });

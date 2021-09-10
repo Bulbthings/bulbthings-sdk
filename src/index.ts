@@ -41,7 +41,7 @@ import {
 } from './models';
 import { allEventTypes, CoreEventType } from './types/core-event-type';
 import { CoreEvent } from './interfaces/core-event';
-import { BulbThingsOptions } from './interfaces/bulbthings-options';
+import { BulbthingsOptions } from './interfaces/bulbthings-options';
 
 // Export JSONAPI Error class to parse errors
 export { DocWithErrors as ApiError } from 'jsonapi-typescript';
@@ -50,7 +50,7 @@ export { DocWithErrors as ApiError } from 'jsonapi-typescript';
 export * from './models';
 export * from './interfaces/ui-node';
 
-export class BulbThings {
+export class Bulbthings {
     // API resources
     accounts = new Resource<Account>(this, Account);
     acknowledgements = new Resource<Acknowledgement>(this, Acknowledgement);
@@ -90,28 +90,38 @@ export class BulbThings {
     utils = new UtilsResource(this);
 
     // Options
-    options: BulbThingsOptions = {
+    options: BulbthingsOptions = {
         coreUrl: 'https://api.bulbthings.com',
         eventsUrl: 'https://events.bulbthings.com',
     };
 
     // Event Source interface for Server-Sent Events (SSE)
     private eventSource: EventSource;
+    private listeners: {
+        type: CoreEventType;
+        listener: EventListener;
+        callback: (event: CoreEvent) => void;
+    }[] = [];
+    private retrySeconds = 1;
 
-    on(types: CoreEventType[] | '*', listener: (event: CoreEvent) => void) {
+    /**
+     * Subscribe to real-time events of the API
+     * @param types Types of events to subscribe to
+     * @param callback Event handler function
+     */
+    on(types: CoreEventType[] | '*', callback: (event: CoreEvent) => void) {
         for (const type of types === '*' ? allEventTypes : types) {
-            this.eventSource.addEventListener(type, (evt) => {
-                listener(<CoreEvent>{
-                    type,
-                    data: JSON.parse(evt['data']),
-                });
-            });
+            const listener: EventListener = (evt) =>
+                callback(<CoreEvent>{ type, data: JSON.parse(evt['data']) });
+            this.eventSource.addEventListener(type, listener);
+            this.listeners.push({ type, listener, callback });
         }
     }
 
     setToken(token: string) {
         this.options.apiToken = token;
         // TODO: Reset EventSource when token changes
+        // this.initEventSource();
     }
 
     setCompanyId(companyId: string) {
@@ -122,12 +132,39 @@ export class BulbThings {
         this.options.environment = environment;
     }
 
-    constructor(options: BulbThingsOptions = {}) {
-        // Options init
+    constructor(options: BulbthingsOptions = {}) {
+        // Initialise options
         this.options = { ...this.options, ...options };
+        // Connect to server-sent events
+        this.initEventSource();
+    }
 
-        // Connecting to server-sent events
+    private initEventSource() {
+        console.log('[eventSource] connecting...');
         this.eventSource = new EventSource(`${this.options.eventsUrl}/connect`);
-        this.eventSource.onerror = (evt) => console.error('Error!', evt);
+
+        this.eventSource.onopen = () => {
+            console.warn('[eventSource] connected.');
+            this.retrySeconds = 1;
+        };
+
+        // Handle disconnect errors
+        this.eventSource.onerror = () => {
+            this.eventSource.close();
+            console.warn(
+                `[eventSource] disconnected, retrying in ${this.retrySeconds} seconds`
+            );
+
+            setTimeout(() => {
+                this.initEventSource();
+                // Exponential retry to avoid spamming the server
+                this.retrySeconds = Math.min(60, this.retrySeconds * 2);
+            }, this.retrySeconds * 1000);
+        };
+
+        // Reconnect all the listeners
+        this.listeners.forEach((l) =>
+            this.eventSource.addEventListener(l.type, l.listener)
+        );
     }
 }

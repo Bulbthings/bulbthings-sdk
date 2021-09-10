@@ -1,12 +1,12 @@
 import fetch from 'cross-fetch';
 import qs from 'qs';
 import * as JSONAPI from 'jsonapi-typescript';
-import { BulbThings } from '../../src';
+import { Bulbthings } from '../../src';
 import { RequestOptions } from '../interfaces/request-options';
 import formData from 'isomorphic-form-data';
 
 export const upload = async (
-    bulb: BulbThings,
+    bulb: Bulbthings,
     url: string,
     options: { data?: any; file?: any; params?: RequestOptions } = {}
 ) => {
@@ -25,7 +25,7 @@ export const upload = async (
 
     if (Object.keys(options.params).length) {
         url = `${url}?${qs.stringify(options.params, {
-            arrayFormat: 'comma'
+            arrayFormat: 'comma',
         })}`;
     }
 
@@ -38,7 +38,7 @@ export const upload = async (
     const res = await fetch(url, {
         method: 'POST',
         body,
-        headers: { Authorization: `Bearer ${apiToken}` }
+        headers: { Authorization: `Bearer ${apiToken}` },
     });
 
     if (res.status >= 400) {

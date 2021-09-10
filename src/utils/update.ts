@@ -3,13 +3,13 @@ import { JsonApiModel } from '../models/jsonapi-model';
 import { request } from './http';
 import { ModelType } from '../types/model-type';
 import { JsonApiModelConfig } from '../interfaces/json-api-model-config';
-import { BulbThings } from '..';
+import { Bulbthings } from '..';
 import { parseResource } from './parse';
 import { stringifyModel } from './stringify';
 import { RequestOptions } from '../interfaces/request-options';
 
 export async function update<T extends JsonApiModel<T>>(
-    bulb: BulbThings,
+    bulb: Bulbthings,
     modelType: ModelType<T>,
     id: string,
     data: any,
@@ -36,7 +36,7 @@ export async function update<T extends JsonApiModel<T>>(
     const includedResources: {
         [type: string]: { [id: string]: JSONAPI.ResourceObject };
     } = {};
-    ((res as JSONAPI.SingleResourceDoc).included || []).forEach(r => {
+    ((res as JSONAPI.SingleResourceDoc).included || []).forEach((r) => {
         includedResources[r.type] = includedResources[r.type] || {};
         includedResources[r.type][r.id] = r;
     });

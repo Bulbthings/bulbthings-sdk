@@ -4,11 +4,11 @@ import { JsonApiModel } from '../models/jsonapi-model';
 import { request } from './http';
 import { ModelType } from '../types/model-type';
 import { JsonApiModelConfig } from '../interfaces/json-api-model-config';
-import { BulbThings } from '..';
+import { Bulbthings } from '..';
 import { parseResource } from './parse';
 
 export async function findAll<T extends JsonApiModel<T>>(
-    bulb: BulbThings,
+    bulb: Bulbthings,
     modelType: ModelType<T>,
     options?: JsonApiOptions
 ): Promise<{ meta?: any; data: T[] }> {
@@ -29,13 +29,13 @@ export async function findAll<T extends JsonApiModel<T>>(
     const includedResources: {
         [type: string]: { [id: string]: JSONAPI.ResourceObject };
     } = {};
-    ((res as JSONAPI.CollectionResourceDoc).included || []).forEach(r => {
+    ((res as JSONAPI.CollectionResourceDoc).included || []).forEach((r) => {
         includedResources[r.type] = includedResources[r.type] || {};
         includedResources[r.type][r.id] = r;
     });
 
     // Parse the data and build relationships
-    (res as JSONAPI.CollectionResourceDoc).data.forEach(element => {
+    (res as JSONAPI.CollectionResourceDoc).data.forEach((element) => {
         const model = parseResource(element, modelType, includedResources);
         models.push(model);
     });

@@ -3,11 +3,11 @@ import { JsonApiModel } from '../models/jsonapi-model';
 import { ModelType } from '../types/model-type';
 import { findAll } from '../utils/find-all';
 import { findById } from '../utils/find-by-id';
-import { BulbThings } from '..';
+import { Bulbthings } from '..';
 
 export class ReadonlyResource<T extends JsonApiModel<T>> {
     constructor(
-        private bulbthings: BulbThings,
+        private bulbthings: Bulbthings,
         private modelType: ModelType<T>
     ) {}
 

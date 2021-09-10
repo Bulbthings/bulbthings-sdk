@@ -6,12 +6,12 @@ import { findById } from '../utils/find-by-id';
 import { create } from '../utils/create';
 import { update } from '../utils/update';
 import { deleteById } from '../utils/delete';
-import { BulbThings } from '..';
+import { Bulbthings } from '..';
 import { RequestOptions } from '../interfaces/request-options';
 
 export class Resource<T extends JsonApiModel<T>> {
     constructor(
-        private bulbthings: BulbThings,
+        private bulbthings: Bulbthings,
         private modelType: ModelType<T>
     ) {}
 

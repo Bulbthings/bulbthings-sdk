@@ -1,4 +1,4 @@
-import { BulbThings } from '..';
+import { Bulbthings } from '..';
 import { Mutex } from 'async-mutex';
 import { UINode } from '../interfaces/ui-node';
 import { Entity, Association, EntityType } from '../models';
@@ -8,7 +8,7 @@ export class UtilsResource {
     private entityTypesCache: { [entityTypeId: string]: EntityType } = {};
     private mutexes: { [id: string]: Mutex } = {};
 
-    constructor(private bulbthings: BulbThings) {}
+    constructor(private bulbthings: Bulbthings) {}
 
     clearCache() {
         this.entityTypesCache = {};

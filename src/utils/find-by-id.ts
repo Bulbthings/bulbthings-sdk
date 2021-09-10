@@ -4,11 +4,11 @@ import { JsonApiModel } from '../models/jsonapi-model';
 import { request } from './http';
 import { ModelType } from '../types/model-type';
 import { JsonApiModelConfig } from '../interfaces/json-api-model-config';
-import { BulbThings } from '..';
+import { Bulbthings } from '..';
 import { parseResource } from './parse';
 
 export async function findById<T extends JsonApiModel<T>>(
-    bulb: BulbThings,
+    bulb: Bulbthings,
     modelType: ModelType<T>,
     id: string,
     options?: JsonApiOptions
@@ -29,7 +29,7 @@ export async function findById<T extends JsonApiModel<T>>(
     const includedResources: {
         [type: string]: { [id: string]: JSONAPI.ResourceObject };
     } = {};
-    ((res as JSONAPI.SingleResourceDoc).included || []).forEach(r => {
+    ((res as JSONAPI.SingleResourceDoc).included || []).forEach((r) => {
         includedResources[r.type] = includedResources[r.type] || {};
         includedResources[r.type][r.id] = r;
     });

@@ -3,14 +3,14 @@ import qs from 'qs';
 import * as JSONAPI from 'jsonapi-typescript';
 import { JsonApiOptions } from '../interfaces/json-api-options';
 import { TimeSeriesOptions } from '../interfaces/time-series-options';
-import { BulbThings } from '../../src';
+import { Bulbthings } from '../../src';
 
 interface HttpHeaders {
     [header: string]: string | string[];
 }
 
 export const request = async (
-    bulb: BulbThings,
+    bulb: Bulbthings,
     method: 'GET' | 'POST' | 'PATCH' | 'DELETE',
     url: string,
     options: {

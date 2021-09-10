@@ -1,4 +1,4 @@
-import { BulbThings } from '../index';
+import { Bulbthings } from '../index';
 import { request } from '../utils/http';
 import { Key } from '../models/key';
 import { parseResource } from '../utils/parse';
@@ -7,7 +7,7 @@ import { Account } from '../models';
 export class AuthenticationResource {
     private loginKey: Key;
 
-    constructor(private bulbthings: BulbThings) {}
+    constructor(private bulbthings: Bulbthings) {}
 
     async register(params: {
         label: string;
