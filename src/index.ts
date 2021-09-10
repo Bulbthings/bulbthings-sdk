@@ -144,7 +144,7 @@ export class Bulbthings {
         this.eventSource = new EventSource(`${this.options.eventsUrl}/connect`);
 
         this.eventSource.onopen = () => {
-            console.warn('[eventSource] connected.');
+            console.log('[eventSource] connected.');
             this.retrySeconds = 1;
         };
 
