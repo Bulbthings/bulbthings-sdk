@@ -38,8 +38,11 @@ export class EntityTypeMapping extends JsonApiModel<EntityTypeMapping> {
 
     @Attribute()
     meta?: {
-        order?: number;
         displayInPreview?: boolean;
+        excludedCompanies?: string[];
+        isReadOnly?: boolean;
+        isRequired?: boolean;
+        order?: number;
     };
 
     @Relation('BelongsTo', () => EntityType)
