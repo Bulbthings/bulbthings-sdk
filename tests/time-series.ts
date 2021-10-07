@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import { BulbThings } from '../src';
+import { Bulbthings } from '../src';
 import MockDate from 'mockdate';
 const nock = require('nock');
 
@@ -63,10 +63,10 @@ const reportObjectExpected = {
 };
 
 describe('Entities', () => {
-    let bulb: BulbThings;
+    let bulb: Bulbthings;
 
     before(() => {
-        bulb = new BulbThings();
+        bulb = new Bulbthings();
         bulb.options.coreUrl = 'http://test';
     });
 

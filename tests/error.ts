@@ -1,13 +1,13 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import { BulbThings } from '../src';
+import { Bulbthings } from '../src';
 
 describe('Errors', () => {
-    let bulb: BulbThings;
+    let bulb: Bulbthings;
     let entityId: string;
 
     before(() => {
-        bulb = new BulbThings();
+        bulb = new Bulbthings();
     });
 
     it('should throw an error when an "Not Found" API error is returned', async () => {

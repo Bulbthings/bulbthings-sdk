@@ -5,7 +5,6 @@ import { ReadonlyResource } from './resources/readonly-resource';
 import { FileResource } from './resources/file-resource';
 import { TimeSeriesResource } from './resources/time-series';
 import { AuthenticationResource } from './resources/authentication-resource';
-import { UtilsResource } from './resources/utils';
 
 import {
     Entity,
@@ -87,7 +86,6 @@ export class Bulbthings {
     timeSeries = new TimeSeriesResource(this);
     units = new ReadonlyResource<Unit>(this, Unit);
     unitSettings = new Resource<UnitSetting>(this, UnitSetting);
-    utils = new UtilsResource(this);
 
     // Options
     options: BulbthingsOptions = {

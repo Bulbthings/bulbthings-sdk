@@ -1,14 +1,14 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import { BulbThings } from '../src';
+import { Bulbthings } from '../src';
 
 describe('Actions', () => {
-    let bulb: BulbThings;
+    let bulb: Bulbthings;
     let actionTypeId: string;
     let actionId: string;
 
     before(() => {
-        bulb = new BulbThings();
+        bulb = new Bulbthings();
     });
 
     it('should create an action type', async () => {

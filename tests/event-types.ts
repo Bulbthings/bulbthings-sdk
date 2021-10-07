@@ -1,18 +1,18 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import { BulbThings } from '../src';
+import { Bulbthings } from '../src';
 
 describe('Event types', () => {
-    let bulb: BulbThings;
+    let bulb: Bulbthings;
     let eventTypeId: string;
 
     before(() => {
-        bulb = new BulbThings();
+        bulb = new Bulbthings();
     });
 
     it('should fetch event types', async () => {
         const eventTypes = await bulb.eventTypes.findAll({
-            page: { limit: 3 }
+            page: { limit: 3 },
         });
         eventTypeId = eventTypes[0].id;
         expect(eventTypes).to.be.have.lengthOf(3);
@@ -34,11 +34,11 @@ describe('Event types', () => {
                 type: 'object',
                 properties: {
                     temperature: {
-                        type: 'number'
-                    }
+                        type: 'number',
+                    },
                 },
-                required: ['temperature']
-            }
+                required: ['temperature'],
+            },
         });
         eventTypeId = eventType.id;
         expect(eventType.id).to.not.be.undefined;

@@ -1,18 +1,18 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import { BulbThings } from '../src';
+import { Bulbthings } from '../src';
 
 describe('Entity types', () => {
-    let bulb: BulbThings;
+    let bulb: Bulbthings;
     let entityTypeId: string;
 
     before(() => {
-        bulb = new BulbThings();
+        bulb = new Bulbthings();
     });
 
     it('should fetch entity types', async () => {
         const entityTypes = await bulb.entityTypes.findAll({
-            page: { limit: 3 }
+            page: { limit: 3 },
         });
         entityTypeId = entityTypes[0].id;
         expect(entityTypes).to.be.have.lengthOf(3);
@@ -28,7 +28,7 @@ describe('Entity types', () => {
         const entityType = await bulb.entityTypes.create({
             id: 'test',
             label: 'Test',
-            description: 'A description'
+            description: 'A description',
         });
         entityTypeId = entityType.id;
         expect(entityType.id).to.not.be.undefined;

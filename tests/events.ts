@@ -1,16 +1,16 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import { BulbThings, Action, EventType, Event, ActionType } from '../src';
+import { Bulbthings, Action, EventType, Event, ActionType } from '../src';
 
 describe('Events', () => {
-    let bulb: BulbThings;
+    let bulb: Bulbthings;
     let eventType: EventType;
     let event: Event;
     let actionType: ActionType;
     let action: Action;
 
     before(async () => {
-        bulb = new BulbThings({ coreUrl: 'http://localhost:3060' });
+        bulb = new Bulbthings({ coreUrl: 'http://localhost:3060' });
 
         eventType = await bulb.eventTypes.create({
             id: `overheatingEngine${Date.now()}`,
@@ -21,11 +21,11 @@ describe('Events', () => {
                 type: 'object',
                 properties: {
                     temperature: {
-                        type: 'number'
-                    }
+                        type: 'number',
+                    },
                 },
-                required: ['temperature']
-            }
+                required: ['temperature'],
+            },
         });
 
         actionType = await bulb.actionTypes.create({
@@ -33,15 +33,15 @@ describe('Events', () => {
             schema: {
                 title: 'Toggle engine',
                 description: 'Start or stop the engine',
-                type: 'boolean'
-            }
+                type: 'boolean',
+            },
         });
 
         action = await bulb.actions.create({
             actionTypeId: actionType.id,
             status: 'available',
             input: true,
-            entityId: '22'
+            entityId: '22',
         });
     });
 
@@ -58,18 +58,17 @@ describe('Events', () => {
             priority: 'danger',
             payload: {
                 data: {
-                    temperature: 100
+                    temperature: 100,
                 },
                 text: `Alert: the engine is overheating!`,
                 sections: [
                     {
                         type: 'text',
-                        value:
-                            'The engine temperature is *waaay* higher than it should be'
-                    }
-                ]
+                        value: 'The engine temperature is *waaay* higher than it should be',
+                    },
+                ],
             },
-            actions: [action]
+            actions: [action],
         });
         expect(event.id).to.be.not.be.undefined;
         expect(event.eventTypeId).to.be.equal(eventType.id);

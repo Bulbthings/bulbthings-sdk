@@ -1,17 +1,17 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import { BulbThings } from '../src';
+import { Bulbthings } from '../src';
 
 describe('Attribute types', () => {
-    let bulb: BulbThings;
+    let bulb: Bulbthings;
 
     before(() => {
-        bulb = new BulbThings();
+        bulb = new Bulbthings();
     });
 
     it('should fetch attribute types with entity types', async () => {
         const attributeTypes = await bulb.attributeTypes.findAll({
-            include: ['entityTypes']
+            include: ['entityTypes'],
         });
 
         for (const type of attributeTypes) {
