@@ -9,7 +9,7 @@ import { UnitSetting } from './unit-setting';
 import { Setting } from './setting';
 
 @JsonApiModelConfig({
-    endpoint: 'accounts'
+    endpoint: 'accounts',
 })
 export class Account extends JsonApiModel<Account> {
     @Attribute()
@@ -29,6 +29,11 @@ export class Account extends JsonApiModel<Account> {
 
     @Attribute()
     locale?: string;
+
+    @Attribute()
+    meta?: {
+        timezone?: string;
+    };
 
     @Attribute()
     avatarFileId?: string;
