@@ -39,5 +39,10 @@ export class Environment extends JsonApiModel<Environment> {
         title: string;
         webmanifest?: string;
         webUrl: string;
+        helpMenuOptions?: {
+            supportEmail?: string;
+            hasChatSupport?: boolean;
+            tutorialLink?: string;
+        };
     };
 }
