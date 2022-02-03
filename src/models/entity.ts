@@ -17,9 +17,6 @@ export class Entity extends JsonApiModel<Entity> {
     companyId?: string;
 
     @Attribute()
-    parentId?: string;
-
-    @Attribute()
     entityTypeId: string;
 
     @Attribute()
@@ -49,7 +46,7 @@ export class Entity extends JsonApiModel<Entity> {
     updatedAt?: Date;
 
     @Attribute()
-    deletedAt?: Date;
+    status?: 'active' | 'archived' | 'draft';
 
     @Attribute()
     meta?: {
