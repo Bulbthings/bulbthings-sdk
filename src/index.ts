@@ -14,6 +14,7 @@ import {
     Association,
     AssociationType,
     Unit,
+    UnitType,
     EventType,
     Event,
     ActionType,
@@ -85,6 +86,7 @@ export class Bulbthings {
     settings = new Resource<Setting>(this, Setting);
     timeSeries = new TimeSeriesResource(this);
     units = new ReadonlyResource<Unit>(this, Unit);
+    unitTypes = new ReadonlyResource<UnitType>(this, UnitType);
     unitSettings = new Resource<UnitSetting>(this, UnitSetting);
 
     // Options

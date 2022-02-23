@@ -1,9 +1,11 @@
 import { JsonApiModel } from '../models/jsonapi-model';
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
+import { Relation } from '../decorators/relation';
+import { UnitType } from './unit-type';
 
 @JsonApiModelConfig({
-    endpoint: 'units'
+    endpoint: 'units',
 })
 export class Unit extends JsonApiModel<Unit> {
     @Attribute()
@@ -21,6 +23,6 @@ export class Unit extends JsonApiModel<Unit> {
     @Attribute()
     isBaseUnit: boolean;
 
-    // @Relation('BelongsTo', () => UnitType)
-    // unittype: UnitType;
+    @Relation('BelongsTo', () => UnitType)
+    unitType?: UnitType;
 }
