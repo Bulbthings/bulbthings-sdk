@@ -97,11 +97,7 @@ export class Bulbthings {
 
     // Event Source interface for Server-Sent Events (SSE)
     private eventSource: EventSource;
-    private listeners: {
-        type: CoreEventType;
-        listener: EventListener;
-        callback: (event: CoreEvent) => void;
-    }[] = [];
+    private listeners: { type: CoreEventType; listener: EventListener }[] = [];
     private retrySeconds = 1;
 
     /**
@@ -110,12 +106,27 @@ export class Bulbthings {
      * @param callback Event handler function
      */
     on(types: CoreEventType[] | '*', callback: (event: CoreEvent) => void) {
+        const subscriptions: {
+            type: CoreEventType;
+            listener: EventListener;
+        }[] = [];
+
         for (const type of types === '*' ? allEventTypes : types) {
             const listener: EventListener = (evt) =>
                 callback(<CoreEvent>{ type, data: JSON.parse(evt['data']) });
             this.eventSource.addEventListener(type, listener);
-            this.listeners.push({ type, listener, callback });
+            subscriptions.push({ type, listener });
         }
+
+        this.listeners.push(...subscriptions);
+
+        // Return a function to unsubscribe
+        return () =>
+            subscriptions.forEach((s) => {
+                const idx = this.listeners.findIndex((x) => x === s);
+                this.listeners.splice(idx, 1);
+                this.eventSource.removeEventListener(s.type, s.listener);
+            });
     }
 
     setToken(token: string) {
