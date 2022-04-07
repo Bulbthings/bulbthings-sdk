@@ -7,19 +7,12 @@ import { AssociationType } from './association-type';
 import { AttributeType } from './attribute-type';
 import { EventType } from './event-type';
 import { ActionType } from './action-type';
+import { Role } from './role';
 
-@JsonApiModelConfig({
-    endpoint: 'entityTypeMappings',
-})
+@JsonApiModelConfig({ endpoint: 'entityTypeMappings' })
 export class EntityTypeMapping extends JsonApiModel<EntityTypeMapping> {
     @Attribute()
-    companyId?: string;
-
-    @Attribute()
-    entityTypeId: string;
-
-    @Attribute()
-    type: 'associationType' | 'attributeType' | 'eventType' | 'actionType';
+    actionTypeId?: string;
 
     @Attribute()
     associationTypeId?: string;
@@ -28,10 +21,13 @@ export class EntityTypeMapping extends JsonApiModel<EntityTypeMapping> {
     attributeTypeId?: string;
 
     @Attribute()
-    eventTypeId?: string;
+    companyId?: string;
 
     @Attribute()
-    actionTypeId?: string;
+    entityTypeId: string;
+
+    @Attribute()
+    eventTypeId?: string;
 
     @Attribute()
     isInherited?: boolean;
@@ -40,10 +36,18 @@ export class EntityTypeMapping extends JsonApiModel<EntityTypeMapping> {
     meta?: {
         displayInPreview?: boolean;
         excludedCompanies?: string[];
+        isImportant?: boolean;
+        isPublic?: boolean;
         isReadOnly?: boolean;
         isRequired?: boolean;
         order?: number;
     };
+
+    @Attribute()
+    roleId?: string;
+
+    @Attribute()
+    type: 'associationType' | 'attributeType' | 'eventType' | 'actionType';
 
     @Relation('BelongsTo', () => EntityType)
     entityType?: EntityType;
@@ -59,4 +63,7 @@ export class EntityTypeMapping extends JsonApiModel<EntityTypeMapping> {
 
     @Relation('BelongsTo', () => ActionType)
     actionType?: ActionType;
+
+    @Relation('BelongsTo', () => Role)
+    role?: Role;
 }
