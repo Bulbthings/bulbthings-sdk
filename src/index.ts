@@ -143,6 +143,10 @@ export class Bulbthings {
         this.options.environment = environment;
     }
 
+    setGeoPosition(pos: { lat: number; lng: number }) {
+        this.options.geoPosition = pos;
+    }
+
     constructor(options: BulbthingsOptions = {}) {
         // Initialise options
         this.options = { ...this.options, ...options };
