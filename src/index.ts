@@ -5,6 +5,7 @@ import { ReadonlyResource } from './resources/readonly-resource';
 import { FileResource } from './resources/file-resource';
 import { TimeSeriesResource } from './resources/time-series';
 import { AuthenticationResource } from './resources/authentication-resource';
+import { PathResource } from './resources/path-resource';
 
 import {
     Entity,
@@ -79,7 +80,7 @@ export class Bulbthings {
     keys = new Resource<Key>(this, Key);
     measurements = new Resource<Measurement>(this, Measurement);
     memberships = new Resource<Membership>(this, Membership);
-    paths = new ReadonlyResource<Path>(this, Path);
+    paths = new PathResource(this);
     permissions = new Resource<Permission>(this, Permission);
     roles = new Resource<Role>(this, Role);
     settingTypes = new Resource<SettingType>(this, SettingType);
