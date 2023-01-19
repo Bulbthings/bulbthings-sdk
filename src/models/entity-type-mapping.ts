@@ -36,6 +36,7 @@ export class EntityTypeMapping extends JsonApiModel<EntityTypeMapping> {
     meta?: {
         displayInPreview?: boolean;
         excludedCompanies?: string[];
+        isHidden?: boolean;
         isImportant?: boolean;
         isPublic?: boolean;
         isReadOnly?: boolean;
