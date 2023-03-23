@@ -1,55 +1,53 @@
-import 'reflect-metadata';
 import EventSource from 'cross-eventsource';
-import { Resource } from './resources/resource';
-import { ReadonlyResource } from './resources/readonly-resource';
-import { FileResource } from './resources/file-resource';
-import { TimeSeriesResource } from './resources/time-series';
-import { AuthenticationResource } from './resources/authentication-resource';
-import { PathResource } from './resources/path-resource';
-
+import 'reflect-metadata';
+import { BulbthingsOptions } from './interfaces/bulbthings-options';
+import { CoreEvent } from './interfaces/core-event';
 import {
-    Entity,
-    EntityType,
-    AttributeType,
-    Measurement,
+    Account,
+    Acknowledgement,
+    Action,
+    ActionType,
     Association,
     AssociationType,
-    Unit,
-    UnitType,
-    EventType,
-    Event,
-    ActionType,
-    Action,
-    Hook,
-    File,
-    Company,
-    Account,
-    Key,
-    Membership,
-    Role,
-    Permission,
+    AttributeType,
     Catalog,
     CatalogMapping,
     Code,
+    Company,
+    Entity,
+    EntityType,
     EntityTypeMapping,
-    UnitSetting,
-    SettingType,
-    Setting,
-    Path,
-    Grant,
     Environment,
-    Acknowledgement,
+    Event,
+    EventType,
+    File,
+    Grant,
+    Hook,
+    Key,
+    Measurement,
+    Membership,
+    Permission,
+    Role,
+    Setting,
+    SettingType,
+    Unit,
+    UnitSetting,
+    UnitType,
 } from './models';
+import { AuthenticationResource } from './resources/authentication-resource';
+import { CacheResource } from './resources/cache-resource';
+import { FileResource } from './resources/file-resource';
+import { PathResource } from './resources/path-resource';
+import { ReadonlyResource } from './resources/readonly-resource';
+import { Resource } from './resources/resource';
+import { TimeSeriesResource } from './resources/time-series';
 import { allEventTypes, CoreEventType } from './types/core-event-type';
-import { CoreEvent } from './interfaces/core-event';
-import { BulbthingsOptions } from './interfaces/bulbthings-options';
 
 // Export JSONAPI Error class to parse errors
 export { DocWithErrors as ApiError } from 'jsonapi-typescript';
-
+export * from './interfaces/ui-node';
 // Export all models so they can be used from outside
 export * from './models';
-export * from './interfaces/ui-node';
 
 export class Bulbthings {
     // API resources
@@ -61,6 +59,7 @@ export class Bulbthings {
     associationTypes = new Resource<AssociationType>(this, AssociationType);
     attributeTypes = new Resource<AttributeType>(this, AttributeType);
     authentication = new AuthenticationResource(this);
+    cache = new CacheResource();
     codes = new Resource<Code>(this, Code);
     catalogs = new Resource<Catalog>(this, Catalog);
     catalogMappings = new Resource<CatalogMapping>(this, CatalogMapping);
@@ -132,6 +131,7 @@ export class Bulbthings {
 
     setToken(token: string) {
         this.options.apiToken = token;
+        this.cache.clear();
         // TODO: Reset EventSource when token changes
         // this.initEventSource();
     }

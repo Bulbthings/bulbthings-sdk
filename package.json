@@ -1,6 +1,6 @@
 {
     "name": "bulbthings-sdk",
-    "version": "0.19.1",
+    "version": "0.20.0",
     "description": "Isomorphic JavaScript/TypeScript SDK for the Bulbthings API",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -20,6 +20,7 @@
     },
     "dependencies": {
         "@types/json-schema": "^7.0.9",
+        "async-mutex": "^0.4.0",
         "cross-eventsource": "https://github.com/Bulbthings/cross-eventsource.git#0.1.0",
         "cross-fetch": "^3.0.5",
         "form-data": "^3.0.0",

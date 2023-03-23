@@ -1,13 +1,14 @@
+import { ApiError, Bulbthings } from '..';
+import { JsonApiModelConfig } from '../interfaces/json-api-model-config';
 import { JsonApiOptions } from '../interfaces/json-api-options';
+import { RequestOptions } from '../interfaces/request-options';
 import { JsonApiModel } from '../models/jsonapi-model';
 import { ModelType } from '../types/model-type';
+import { create } from '../utils/create';
+import { deleteById } from '../utils/delete';
 import { findAll } from '../utils/find-all';
 import { findById } from '../utils/find-by-id';
-import { create } from '../utils/create';
 import { update } from '../utils/update';
-import { deleteById } from '../utils/delete';
-import { Bulbthings } from '..';
-import { RequestOptions } from '../interfaces/request-options';
 
 export class Resource<T extends JsonApiModel<T>> {
     constructor(
@@ -40,6 +41,27 @@ export class Resource<T extends JsonApiModel<T>> {
         return findById(this.bulbthings, this.modelType, id, options);
     }
 
+    async getCached(id: string): Promise<T> {
+        const endpoint = this.getEndpoint();
+        let cached = this.bulbthings.cache.get(endpoint, id);
+        if (!cached) {
+            const mId = `${this.getEndpoint()}-${id}`;
+            const release = await this.bulbthings.cache.getMutex(mId).acquire();
+            try {
+                cached =
+                    this.bulbthings.cache.get(endpoint, id) ??
+                    (await this.findById(id));
+            } catch (err) {
+                if ((err as ApiError)?.errors?.[0]?.status !== '404') {
+                    console.error(`[${endpoint}][getCached]`, err);
+                }
+            } finally {
+                release();
+            }
+        }
+        return cached;
+    }
+
     async create(
         data: Omit<T, 'getRelationMetadata' | 'getAttributeMetadata'>,
         options?: RequestOptions
@@ -57,5 +79,14 @@ export class Resource<T extends JsonApiModel<T>> {
 
     async deleteById(id: string, options?: RequestOptions): Promise<void> {
         return deleteById(this.bulbthings, this.modelType, id, options);
+    }
+
+    private getEndpoint() {
+        return (
+            Reflect.getMetadata(
+                'JsonApiModelConfig',
+                this.modelType
+            ) as JsonApiModelConfig
+        ).endpoint;
     }
 }

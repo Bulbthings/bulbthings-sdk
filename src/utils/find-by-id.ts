@@ -13,10 +13,10 @@ export async function findById<T extends JsonApiModel<T>>(
     id: string,
     options?: JsonApiOptions
 ): Promise<T> {
-    const endpoint = (Reflect.getMetadata(
+    const { endpoint } = Reflect.getMetadata(
         'JsonApiModelConfig',
         modelType
-    ) as JsonApiModelConfig).endpoint;
+    ) as JsonApiModelConfig;
 
     const res = await request(
         bulb,
@@ -34,11 +34,12 @@ export async function findById<T extends JsonApiModel<T>>(
         includedResources[r.type][r.id] = r;
     });
 
-    const model = parseResource(
-        (res as JSONAPI.SingleResourceDoc).data,
-        modelType,
-        includedResources
-    );
+    const model = parseResource({
+        resource: (res as JSONAPI.SingleResourceDoc).data,
+        type: modelType,
+        includedResources,
+        cache: !options?.fields ? bulb.cache : null,
+    });
 
     return model;
 }

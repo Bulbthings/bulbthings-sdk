@@ -15,10 +15,10 @@ export async function update<T extends JsonApiModel<T>>(
     data: any,
     options?: RequestOptions
 ): Promise<T> {
-    const endpoint = (Reflect.getMetadata(
+    const { endpoint } = Reflect.getMetadata(
         'JsonApiModelConfig',
         modelType
-    ) as JsonApiModelConfig).endpoint;
+    ) as JsonApiModelConfig;
 
     // Build the request
     const model = new modelType({ id, ...data });
@@ -41,6 +41,10 @@ export async function update<T extends JsonApiModel<T>>(
         includedResources[r.type][r.id] = r;
     });
 
-    const updated = parseResource(res.data, modelType, includedResources);
+    const updated = parseResource({
+        resource: res.data,
+        type: modelType,
+        includedResources,
+    });
     return updated;
 }

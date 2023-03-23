@@ -13,10 +13,10 @@ export async function findAll<T extends JsonApiModel<T>>(
     options?: JsonApiOptions
 ): Promise<{ meta?: any; data: T[] }> {
     const models: T[] = [];
-    const endpoint = (Reflect.getMetadata(
+    const { endpoint } = Reflect.getMetadata(
         'JsonApiModelConfig',
         modelType
-    ) as JsonApiModelConfig).endpoint;
+    ) as JsonApiModelConfig;
 
     const res = await request(
         bulb,
@@ -36,7 +36,12 @@ export async function findAll<T extends JsonApiModel<T>>(
 
     // Parse the data and build relationships
     (res as JSONAPI.CollectionResourceDoc).data.forEach((element) => {
-        const model = parseResource(element, modelType, includedResources);
+        const model = parseResource({
+            resource: element,
+            type: modelType,
+            includedResources,
+            cache: !options?.fields ? bulb.cache : null,
+        });
         models.push(model);
     });
 

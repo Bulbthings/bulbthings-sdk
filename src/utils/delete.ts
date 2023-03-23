@@ -11,10 +11,10 @@ export async function deleteById<T extends JsonApiModel<T>>(
     id: string,
     options?: RequestOptions
 ): Promise<void> {
-    const endpoint = (Reflect.getMetadata(
+    const { endpoint } = Reflect.getMetadata(
         'JsonApiModelConfig',
         modelType
-    ) as JsonApiModelConfig).endpoint;
+    ) as JsonApiModelConfig;
 
     return request(
         bulb,

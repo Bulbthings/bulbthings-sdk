@@ -22,7 +22,7 @@ export class AuthenticationResource {
             `${this.bulbthings.options.coreUrl}/authentication/register`,
             { body: params }
         );
-        return parseResource(res.data, Account, {});
+        return parseResource({ resource: res.data, type: Account });
     }
 
     async login(email: string, password: string): Promise<Key> {
@@ -32,7 +32,7 @@ export class AuthenticationResource {
             `${this.bulbthings.options.coreUrl}/authentication/login`,
             { body: { email, password } }
         );
-        this.loginKey = parseResource(res.data, Key, {});
+        this.loginKey = parseResource({ resource: res.data, type: Key });
         this.bulbthings.setToken(this.loginKey.value);
         return this.loginKey;
     }
@@ -66,6 +66,6 @@ export class AuthenticationResource {
             `${this.bulbthings.options.coreUrl}/authentication/changePassword/${emailToken}`,
             { body: { password: newPassword } }
         );
-        return parseResource(res.data, Account, {});
+        return parseResource({ resource: res.data, type: Account });
     }
 }

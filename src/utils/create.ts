@@ -16,10 +16,10 @@ export async function create<T extends JsonApiModel<T>>(
     file?: any,
     options?: RequestOptions
 ): Promise<T> {
-    const endpoint = (Reflect.getMetadata(
+    const { endpoint } = Reflect.getMetadata(
         'JsonApiModelConfig',
         modelType
-    ) as JsonApiModelConfig).endpoint;
+    ) as JsonApiModelConfig;
 
     // Build the request
     const model = new modelType(data);
@@ -54,6 +54,10 @@ export async function create<T extends JsonApiModel<T>>(
         includedResources[r.type][r.id] = r;
     });
 
-    const created = parseResource(res.data, modelType, includedResources);
+    const created = parseResource({
+        resource: res.data,
+        type: modelType,
+        includedResources,
+    });
     return created;
 }
