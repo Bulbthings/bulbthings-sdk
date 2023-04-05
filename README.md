@@ -1,5 +1,33 @@
 # Bulbthings SDK
 
+-   [🚧 Documentation 🚧](#---documentation---)
+-   [Installation](#installation)
+    -   [package.json](#packagejson)
+    -   [TODO: npm package](#todo--npm-package)
+-   [Authentication](#authentication)
+-   [API resources](#api-resources)
+    -   [findAll](#findall)
+    -   [findById](#findbyid)
+    -   [create](#create)
+    -   [updateById](#updatebyid)
+    -   [deleteById](#deletebyid)
+-   [Creating notifications](#creating-notifications)
+    -   [Event payload](#event-payload)
+        -   [data](#data)
+        -   [sections](#sections)
+        -   [text](#text)
+-   [Time Series](#time-series)
+    -   [Get a report](#get-a-report)
+        -   [Options](#options)
+        -   [Explanation](#explanation)
+            -   [Step 0: raw data](#step-0--raw-data)
+            -   [Step 1: Resampling](#step-1--resampling)
+            -   [Step 2: Aggregating](#step-2--aggregating)
+        -   [Other examples](#other-examples)
+-   [Events](#events)
+    -   [Example usage](#example-usage)
+    -   [Testing](#testing)
+
 ## 🚧 Documentation 🚧
 
 (Work in progress) See full documentation [here](https://api.bulbthings.com)
@@ -27,7 +55,7 @@ bulbthings.entities.findAll({ apiToken: '83945b4eaf...7a37a' });
 
 Most API resources follow the same CRUD model with the following methods:
 
-### findAll()
+### findAll
 
 This method returns a list of resources.
 
