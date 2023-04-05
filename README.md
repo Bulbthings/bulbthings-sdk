@@ -12,7 +12,7 @@ In `dependencies`, put `"bulbthings-sdk": "https://cb76b2588e677ad6f2a2010a610f2
 
 ### TODO: npm package
 
-## Usage
+## Authentication
 
 ```typescript
 import { Bulbthings } from 'bulbthings-sdk';
@@ -23,9 +23,13 @@ const bulbthings = new Bulbthings({ apiToken: '83945b4eaf...7a37a' });
 bulbthings.entities.findAll({ apiToken: '83945b4eaf...7a37a' });
 ```
 
-## Resource
+## API resources
 
-### Find all
+Most API resources follow the same CRUD model with the following methods:
+
+### findAll()
+
+This method returns a list of resources.
 
 ```typescript
 const entities = await bulbthings.entities.findAll({
@@ -44,7 +48,9 @@ const { data: entities, meta } = await bulbthings.entities.findAll(
 );
 ```
 
-### Find by identifier
+### findById
+
+This method returns a single resource, using its identifier:
 
 ```typescript
 const entity = await bulbthings.entities.findById('31845...c8ad6e', {
@@ -52,7 +58,9 @@ const entity = await bulbthings.entities.findById('31845...c8ad6e', {
 });
 ```
 
-### Create
+### create
+
+This method creates a new resource:
 
 ```typescript
 const measurement = await bulbthings.measurements.create({
@@ -67,21 +75,227 @@ const measurement = await bulbthings.measurements.create({
 });
 ```
 
-### Update
+### updateById
+
+This method updates a resource:
 
 ```typescript
 const updatedMeasurement = await bulbthings.measurements.update(
     measurement.id,
-    {
-        value: 43000,
-    }
+    { value: 43000 }
 );
 ```
 
-### Delete
+### deleteById
+
+This method deletes a resource:
 
 ```typescript
 await bulbthings.entities.deleteById(entity.id);
+```
+
+## Creating notifications
+
+Notifications are created using the Event resource:
+
+```typescript
+const self = await bulbthings.accounts.findById('self');
+const text = (raw = true) =>
+    raw ? `Hello "${getLabel(opts.asset)}"` : `Hello <#${opts.asset.id}>`;
+
+await bulbthings.events.create({
+    // Identifier of the workspace the event belongs to
+    companyId: workspaceId,
+    // (Optional) Identifier of the entity the event belongs to
+    entityId: entityId,
+    // Type of event
+    eventTypeId: 'message',
+    // Level of priority
+    priority: 'danger',
+    // (Optional) Only show the event to a given account
+    privateForAccountId: opts.account.id,
+    // See explanation below
+    payload: {
+        data: null,
+        sections: [
+            { type: 'text', value: text(false) },
+            { type: 'entity', value: opts.attendance.id },
+        ],
+        text: `${self.label}: ${text(true)}`,
+    },
+});
+```
+
+### Event payload
+
+The event payload is an object containing 3 properties:
+
+#### data
+
+This property can be used to store data associated with the event. For example, consider the following Event type:
+
+```json
+{
+    "id": "upcomingMaintenance",
+    "schema": {
+        "title": "Upcoming maintenance",
+        "description": "An asset is due for a maintenance soon.",
+        "category": "Maintenances",
+        "type": "object",
+        "properties": {
+            "maintenanceDate": {
+                "type": "string",
+                "format": "date-time"
+            }
+        },
+        "required": ["maintenanceDate"]
+    }
+}
+```
+
+If we then create an event of type `upcomingMaintenance`, we can provide data that will match the format described by the `schema` property:
+
+```typescript
+await bulbthings.events.create({
+    ...
+    eventTypeId: 'upcomingMaintenance',
+    payload: {
+        data: { maintenanceDate: "2023-04-05T15:41:00.714Z" },
+        ...
+    },
+});
+```
+
+#### sections
+
+The `sections` property is an array that describes the content of the notification. It can contain rich content, such as text mentions, images, reports, documents or maps.
+Sections of different types can be combined and will be displayed in the same order as they appear.
+
+For example the following sections:
+
+```typescript
+const sections = [
+    {
+        type: 'text',
+        value: `This is text section mentioning an entity <#${entityId}>`,
+    },
+    {
+        type: 'text',
+        value: `This is text section mentioning an account <@${accountId}>`,
+    },
+    {
+        type: 'entity',
+        // The value is the identifier of a Entity resource
+        value: `${entityId}`,
+    },
+    {
+        type: 'file',
+        // The value is the identifier of a File resource
+        value: `${fileId}`,
+    },
+    {
+        type: 'progressBar',
+        value: {
+            label: 'Mileage consumption',
+            // Value should be between 0-100
+            value: 83,
+            // Optional, color of the progress bar
+            color: '#e91c09',
+        },
+    },
+    {
+        type: 'code',
+        value: `This is a code section`,
+    },
+    {
+        type: 'map',
+        value: {
+            markers: [{ position: { lat: 51.512536, lng: -0.035122 } }],
+            circles: [
+                { center: { lat: 51.5007591, lng: 0.0047272 }, radius: 2000 },
+            ],
+        },
+    },
+    {
+        type: 'report',
+        value: {
+            id: 'costsByCategoryOvertime',
+            category: 'Financials',
+            title: 'Actual costs by category',
+            description:
+                'This report shows the actual costs by category overtime',
+            query: {
+                resource: 'entities',
+                fields: {
+                    entities: [
+                        `as(dateTrunc(attributes.billDate,"{{period}}",timezone()),"billDate")`,
+                        `as(attributes.costCategory,"costCategory")`,
+                        `as(sum(attributes.totalGrossAmount.{{yAxisUnitId}}),"totalGrossAmount")`,
+                    ],
+                },
+                filter: `and(${[
+                    `contains(entityType.path,["cost"])`,
+                    `ne(attributes.billDate,null)`,
+                    `eq(attributes.costStatus,"Actual")`,
+                    `contains(range("date","{{from}}","{{to}}"),cast(attributes.billDate,"date"))`,
+                ]})`,
+                group: [
+                    `dateTrunc(attributes.billDate,"{{period}}",timezone())`,
+                    `attributes.costCategory`,
+                ],
+            },
+            callback: {
+                resource: 'entities',
+                filter: `and(${[
+                    `contains(entityType.path,["cost"])`,
+                    `ne(attributes.billDate,null)`,
+                    `eq(attributes.costStatus,"Actual")`,
+                    `eq(${[
+                        `dateTrunc(attributes.billDate,"{{period}}",timezone())`,
+                        `"{{x}}"`,
+                    ]})`,
+                    `eq(attributes.costCategory,"{{z}}")`,
+                ]})`,
+            },
+            callbackEntityTypeId: 'cost',
+            chart: {
+                type: 'bar',
+                subType: 'stacked',
+                xAxis: 'billDate',
+                xAxisType: 'time',
+                yAxis: 'totalGrossAmount',
+                yAxisType: 'attributeType',
+                zAxis: 'costCategory',
+                zAxisType: 'attributeType',
+                expectedTrendDirection: 'down',
+            },
+        },
+    },
+];
+```
+
+Will generate a notification that looks like this:
+
+![Notification example](https://storage.googleapis.com/bulbthings-catalog/bulbthings-sdk/event-example.png)
+
+#### text
+
+Unlike the `sections` property, the `text` property is used in text-only environments where the rich display is not possible, such as push notifications for iOS/Android.
+The value of `text` should be a text-only equivalent of the content displayed in sections. It is good practise to prefix the text with the label of the account sending the notification, for example:
+
+```typescript
+const self = await bulbthings.accounts.findById('self');
+const text = (raw = true) =>
+    raw ? `Hello "${getLabel(opts.asset)}"` : `Hello <#${opts.asset.id}>`;
+
+await bulbthings.events.create({
+    ...
+    payload: {
+        data: null,
+        sections: [ { type: 'text', value: text(false) } ],
+        text: `${self.label}: ${text(true)}`,
+    },
+});
 ```
 
 ## Time Series
