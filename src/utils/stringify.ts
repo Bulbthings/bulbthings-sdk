@@ -7,10 +7,12 @@ export function stringifyModel<T extends JsonApiModel<T>>(
     model: T,
     modelType: ModelType<T>
 ): JSONAPI.ResourceObject {
-    const type = (Reflect.getMetadata(
-        'JsonApiModelConfig',
-        modelType
-    ) as JsonApiModelConfig).endpoint;
+    const type = (
+        Reflect.getMetadata(
+            'JsonApiModelConfig',
+            modelType
+        ) as JsonApiModelConfig
+    ).endpoint;
 
     // Build the attributes object
     const attributes: JSONAPI.AttributesObject = model
@@ -30,19 +32,21 @@ export function stringifyModel<T extends JsonApiModel<T>>(
     // 'HasMany';
     model
         .getRelationMetadata('HasMany')
-        .filter(p => model[p.propertyName] !== undefined)
-        .forEach(p => {
+        .filter((p) => model[p.propertyName] !== undefined)
+        .forEach((p) => {
             // Get the JSONAPI type of the related resource
-            const type = (Reflect.getMetadata(
-                'JsonApiModelConfig',
-                p.type()
-            ) as JsonApiModelConfig).endpoint;
+            const type = (
+                Reflect.getMetadata(
+                    'JsonApiModelConfig',
+                    p.type()
+                ) as JsonApiModelConfig
+            ).endpoint;
 
             // Build the relationship data array
             relationships[p.propertyName] = {
                 data: model[p.propertyName]
-                    .filter((r: any) => r.id)
-                    .map((r: any) => ({ type, id: r.id }))
+                    .filter((r: any) => r?.id)
+                    .map((r: any) => ({ type, id: r.id })),
             };
         });
 
