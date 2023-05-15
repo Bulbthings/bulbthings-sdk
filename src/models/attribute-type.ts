@@ -1,13 +1,13 @@
-import { JsonApiModel } from './jsonapi-model';
-import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Attribute } from '../decorators/attribute';
+import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Relation } from '../decorators/relation';
-import { EntityType } from './entity-type';
-import { Unit } from './unit';
 import { JsonSchema } from '../interfaces/json-schema';
+import { EntityType } from './entity-type';
+import { JsonApiModel } from './jsonapi-model';
+import { Unit } from './unit';
 
 @JsonApiModelConfig({
-    endpoint: 'attributeTypes'
+    endpoint: 'attributeTypes',
 })
 export class AttributeType extends JsonApiModel<AttributeType> {
     @Attribute()
@@ -24,6 +24,30 @@ export class AttributeType extends JsonApiModel<AttributeType> {
 
     @Attribute()
     isReadOnly?: boolean;
+
+    @Attribute()
+    meta?: {
+        defaultUnits?: {
+            britishImperial?: string;
+        };
+        display?: {
+            icon?: {
+                fontAwesome?: string[] | string;
+            };
+            ranges?: {
+                displayValue?: any;
+                schema?: JsonSchema;
+                style?: {
+                    backgroundColor?: string;
+                    color?: string;
+                };
+            }[];
+            style?: {
+                backgroundColor?: string;
+                color?: string;
+            };
+        };
+    };
 
     @Relation('HasMany', () => EntityType)
     entityTypes?: EntityType[];
