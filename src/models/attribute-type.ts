@@ -34,6 +34,10 @@ export class AttributeType extends JsonApiModel<AttributeType> {
             icon?: {
                 fontAwesome?: string[] | string;
             };
+            numberFormat?: {
+                maximumFractionDigits?: number;
+                minimumFractionDigits?: number;
+            };
             ranges?: {
                 displayValue?: any;
                 schema?: JsonSchema;
