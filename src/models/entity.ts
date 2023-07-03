@@ -37,9 +37,6 @@ export class Entity extends JsonApiModel<Entity> {
     avatarFileId?: string;
 
     @Attribute()
-    quantity?: number;
-
-    @Attribute()
     createdAt?: Date;
 
     @Attribute()

@@ -37,6 +37,9 @@ export class Measurement extends JsonApiModel<Measurement> {
     @Attribute()
     unitId?: string;
 
+    @Attribute()
+    createdAt?: Date;
+
     @Relation('BelongsTo', () => Company)
     company?: Company;
 
