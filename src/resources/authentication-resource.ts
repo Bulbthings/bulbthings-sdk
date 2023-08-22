@@ -1,8 +1,8 @@
 import { Bulbthings } from '../index';
-import { request } from '../utils/http';
-import { Key } from '../models/key';
-import { parseResource } from '../utils/parse';
 import { Account } from '../models';
+import { Key } from '../models/key';
+import { request } from '../utils/http';
+import { parseResource } from '../utils/parse';
 
 export class AuthenticationResource {
     private loginKey: Key;
@@ -67,5 +67,20 @@ export class AuthenticationResource {
             { body: { password: newPassword } }
         );
         return parseResource({ resource: res.data, type: Account });
+    }
+
+    async signInWithApple(params: {
+        token: string;
+        nonce?: string;
+    }): Promise<Key> {
+        const res = await request(
+            this.bulbthings,
+            'POST',
+            `${this.bulbthings.options.coreUrl}/authentication/apple/login`,
+            { body: params }
+        );
+        this.loginKey = parseResource({ resource: res.data, type: Key });
+        this.bulbthings.setToken(this.loginKey.value);
+        return this.loginKey;
     }
 }
