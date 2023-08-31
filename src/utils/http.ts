@@ -38,6 +38,10 @@ export const request = async (
         })}`;
     }
 
+    if (bulb.options.log) {
+        console.log(`[bulbthings-sdk][${method} ${url}]`);
+    }
+
     const res = await fetch(url, {
         method,
         body: options.body && JSON.stringify(options.body),

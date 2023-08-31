@@ -5,4 +5,5 @@ export interface BulbthingsOptions {
     companyId?: string;
     environment?: string;
     geoPosition?: { lat: number; lng: number };
+    log?: boolean;
 }
