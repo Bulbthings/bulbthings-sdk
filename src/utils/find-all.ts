@@ -1,10 +1,10 @@
 import * as JSONAPI from 'jsonapi-typescript';
+import { Bulbthings } from '..';
+import { JsonApiModelConfig } from '../interfaces/json-api-model-config';
 import { JsonApiOptions } from '../interfaces/json-api-options';
 import { JsonApiModel } from '../models/jsonapi-model';
-import { request } from './http';
 import { ModelType } from '../types/model-type';
-import { JsonApiModelConfig } from '../interfaces/json-api-model-config';
-import { Bulbthings } from '..';
+import { request } from './http';
 import { parseResource } from './parse';
 
 export async function findAll<T extends JsonApiModel<T>>(

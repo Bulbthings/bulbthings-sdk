@@ -36,12 +36,13 @@ import {
 } from './models';
 import { AuthenticationResource } from './resources/authentication-resource';
 import { CacheResource } from './resources/cache-resource';
+import { EntityResource } from './resources/entity-resource';
 import { FileResource } from './resources/file-resource';
 import { PathResource } from './resources/path-resource';
 import { ReadonlyResource } from './resources/readonly-resource';
 import { Resource } from './resources/resource';
 import { TimeSeriesResource } from './resources/time-series';
-import { allEventTypes, CoreEventType } from './types/core-event-type';
+import { CoreEventType, allEventTypes } from './types/core-event-type';
 
 // Export JSONAPI Error class to parse errors
 export { DocWithErrors as ApiError } from 'jsonapi-typescript';
@@ -64,7 +65,7 @@ export class Bulbthings {
     catalogs = new Resource<Catalog>(this, Catalog);
     catalogMappings = new Resource<CatalogMapping>(this, CatalogMapping);
     companies = new Resource<Company>(this, Company);
-    entities = new Resource<Entity>(this, Entity);
+    entities = new EntityResource(this);
     entityTypeMappings = new Resource<EntityTypeMapping>(
         this,
         EntityTypeMapping

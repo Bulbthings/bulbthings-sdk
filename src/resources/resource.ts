@@ -12,8 +12,8 @@ import { update } from '../utils/update';
 
 export class Resource<T extends JsonApiModel<T>> {
     constructor(
-        private bulbthings: Bulbthings,
-        private modelType: ModelType<T>
+        protected bulbthings: Bulbthings,
+        protected modelType: ModelType<T>
     ) {}
 
     // Allow different return types
