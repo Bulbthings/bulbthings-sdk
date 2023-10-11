@@ -17,7 +17,7 @@ export class EntityResource extends Resource<Entity> {
             (await request(
                 this.bulbthings,
                 'GET',
-                `${this.bulbthings.options.coreUrl}/${id}/accounts`
+                `${this.bulbthings.options.coreUrl}/entities/${id}/accounts`
             )) as JSONAPI.CollectionResourceDoc
         )?.data.map((x) => parseResource({ resource: x, type: Account }));
     }
@@ -27,7 +27,7 @@ export class EntityResource extends Resource<Entity> {
             (await request(
                 this.bulbthings,
                 'GET',
-                `${this.bulbthings.options.coreUrl}/${id}/permissions`
+                `${this.bulbthings.options.coreUrl}/entities/${id}/permissions`
             )) as JSONAPI.CollectionResourceDoc
         )?.data.map((x) =>
             parseResource({ resource: x, type: EntityPermission })
