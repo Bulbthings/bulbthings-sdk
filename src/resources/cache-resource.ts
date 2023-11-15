@@ -9,7 +9,7 @@ export class CacheResource {
         return this.mutexes[mutexId];
     }
 
-    get(endpoint: string, id: string) {
+    get<T = any>(endpoint: string, id: string): T {
         return this.cached[endpoint]?.[id];
     }
 
