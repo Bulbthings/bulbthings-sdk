@@ -14,7 +14,6 @@ import {
     CatalogMapping,
     Code,
     Company,
-    Entity,
     EntityType,
     EntityTypeMapping,
     Environment,
@@ -96,9 +95,9 @@ export class Bulbthings {
         eventsUrl: 'https://events.bulbthings.com',
     };
 
-    // Event Source interface for Server-Sent Events (SSE)
+    // Server-Sent Events (SSE)
+    listeners: { type: CoreEventType; listener: EventListener }[] = [];
     private eventSource: EventSource;
-    private listeners: { type: CoreEventType; listener: EventListener }[] = [];
     private retrySeconds = 1;
 
     /**

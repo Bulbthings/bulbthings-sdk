@@ -89,6 +89,7 @@ export const allEventTypes = [
     'unitCreated',
     'unitDeleted',
     'unitUpdated',
+    'networkError',
 ] as const;
 
 export type CoreEventType = typeof allEventTypes[number];
