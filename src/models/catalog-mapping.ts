@@ -1,12 +1,12 @@
-import { JsonApiModel } from './jsonapi-model';
-import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Attribute } from '../decorators/attribute';
+import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Relation } from '../decorators/relation';
 import { Catalog } from './catalog';
 import { EntityType } from './entity-type';
+import { JsonApiModel } from './jsonapi-model';
 
 @JsonApiModelConfig({
-    endpoint: 'catalogMappings'
+    endpoint: 'catalogMappings',
 })
 export class CatalogMapping extends JsonApiModel<CatalogMapping> {
     @Attribute()
@@ -17,6 +17,11 @@ export class CatalogMapping extends JsonApiModel<CatalogMapping> {
 
     @Attribute()
     entityTypeId: string;
+
+    @Attribute()
+    meta?: {
+        isReadOnly?: boolean;
+    };
 
     @Relation('BelongsTo', () => Catalog)
     catalog?: Catalog;
