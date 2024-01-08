@@ -115,7 +115,7 @@ export class Bulbthings {
         for (const type of types === '*' ? allEventTypes : types) {
             const listener: EventListener = (evt) =>
                 callback(<CoreEvent>{ type, data: JSON.parse(evt['data']) });
-            this.eventSource.addEventListener(type, listener);
+            this.eventSource?.addEventListener(type, listener);
             subscriptions.push({ type, listener });
         }
 
@@ -126,7 +126,7 @@ export class Bulbthings {
             subscriptions.forEach((s) => {
                 const idx = this.listeners.findIndex((x) => x === s);
                 this.listeners.splice(idx, 1);
-                this.eventSource.removeEventListener(s.type, s.listener);
+                this.eventSource?.removeEventListener(s.type, s.listener);
             });
     }
 
