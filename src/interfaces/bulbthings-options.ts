@@ -6,4 +6,5 @@ export interface BulbthingsOptions {
     environment?: string;
     geoPosition?: { lat: number; lng: number };
     log?: boolean;
+    disableEvents?: boolean;
 }

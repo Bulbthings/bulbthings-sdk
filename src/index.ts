@@ -46,6 +46,7 @@ import { CoreEventType, allEventTypes } from './types/core-event-type';
 // Export JSONAPI Error class to parse errors
 export { DocWithErrors as ApiError } from 'jsonapi-typescript';
 export * from './interfaces/ui-node';
+export * from './types/core-event-type';
 // Export all models so they can be used from outside
 export * from './models';
 
@@ -152,7 +153,9 @@ export class Bulbthings {
         // Initialise options
         this.options = { ...this.options, ...options };
         // Connect to server-sent events
-        this.initEventSource();
+        if (!this.options.disableEvents) {
+            this.initEventSource();
+        }
     }
 
     private initEventSource() {
