@@ -5,6 +5,8 @@ export interface CoreEvent {
     type: CoreEventType;
     data: {
         keyId?: string;
+        environmentId: string | null;
+        contextId?: string;
         resource: any;
         previousData?: any;
     };

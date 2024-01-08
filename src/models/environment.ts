@@ -17,8 +17,13 @@ export class Environment extends JsonApiModel<Environment> {
         faviconIco?: string;
         faviconSafariPinnedTab?: string;
         features?: string[];
+        helpMenuOptions?: {
+            hasChatSupport?: boolean;
+            supportEmail?: string;
+            tutorialLink?: string;
+        };
         iosAppUrl?: string;
-        logo: string;
+        logo?: string;
         longTitle?: string;
         masterAccountAvatar?: string;
         masterAccountLabel?: string;
@@ -26,7 +31,7 @@ export class Environment extends JsonApiModel<Environment> {
             content?: string;
             title?: string;
         };
-        primaryColor: string;
+        primaryColor?: string;
         primaryColorVariant?: string;
         registrationInviteEmail?: {
             button?: string;
@@ -36,13 +41,8 @@ export class Environment extends JsonApiModel<Environment> {
         };
         secondaryColor?: string;
         secondaryColorVariant?: string;
-        title: string;
+        title?: string;
         webmanifest?: string;
-        webUrl: string;
-        helpMenuOptions?: {
-            supportEmail?: string;
-            hasChatSupport?: boolean;
-            tutorialLink?: string;
-        };
+        webUrl?: string;
     };
 }
