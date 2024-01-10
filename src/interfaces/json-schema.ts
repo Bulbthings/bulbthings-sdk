@@ -1,7 +1,13 @@
 import { JSONSchema7 } from 'json-schema';
 
 export interface JsonSchema extends JSONSchema7 {
-    inputType?: 'file' | 'textarea' | 'entity' | 'entityType' | 'signature';
+    inputType?:
+        | 'file'
+        | 'files'
+        | 'textarea'
+        | 'entity'
+        | 'entityType'
+        | 'signature';
     mediaTypes?: string[];
     propertyOrder?: string[];
     display?: {
