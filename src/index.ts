@@ -133,12 +133,12 @@ export class Bulbthings {
     setToken(token: string) {
         this.options.apiToken = token;
         this.cache.clear();
-        // TODO: Reset EventSource when token changes
-        // this.initEventSource();
+        this.connectEventSource();
     }
 
     setCompanyId(companyId: string) {
         this.options.companyId = companyId;
+        this.connectEventSource();
     }
 
     setEnvironment(environment: string) {
@@ -153,14 +153,21 @@ export class Bulbthings {
         // Initialise options
         this.options = { ...this.options, ...options };
         // Connect to server-sent events
-        if (!this.options.disableEvents) {
-            this.initEventSource();
-        }
+        this.connectEventSource();
     }
 
-    private initEventSource() {
+    private connectEventSource() {
+        if (this.options.disableEvents) {
+            return;
+        }
+
+        this.disconnectEventSource();
         console.log('[eventSource] connecting...');
-        this.eventSource = new EventSource(`${this.options.eventsUrl}/connect`);
+        this.eventSource = new EventSource(
+            `${this.options.eventsUrl}/connect?workspaceId=${
+                this.options.companyId || ''
+            }`
+        );
 
         this.eventSource.onopen = () => {
             console.log('[eventSource] connected.');
@@ -169,13 +176,13 @@ export class Bulbthings {
 
         // Handle disconnect errors
         this.eventSource.onerror = () => {
-            this.eventSource.close();
+            this.disconnectEventSource();
             console.warn(
                 `[eventSource] disconnected, retrying in ${this.retrySeconds} seconds`
             );
 
             setTimeout(() => {
-                this.initEventSource();
+                this.connectEventSource();
                 // Exponential retry to avoid spamming the server
                 this.retrySeconds = Math.min(60, this.retrySeconds * 2);
             }, this.retrySeconds * 1000);
@@ -185,5 +192,12 @@ export class Bulbthings {
         this.listeners.forEach((l) =>
             this.eventSource.addEventListener(l.type, l.listener)
         );
+    }
+
+    private disconnectEventSource() {
+        if (this.eventSource) {
+            console.log('[eventSource] closing...');
+            this.eventSource.close();
+        }
     }
 }
