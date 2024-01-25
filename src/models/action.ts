@@ -46,6 +46,8 @@ export class Action extends JsonApiModel<Action> {
             elevation?: number;
         };
         timezone?: string;
+        isPublic?: boolean;
+        isHidden?: boolean;
     };
 
     @Relation('BelongsTo', () => Company)
