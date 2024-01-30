@@ -1,11 +1,10 @@
-import { JsonApiModel } from './jsonapi-model';
-import { Relation } from '../decorators/relation';
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
+import { Relation } from '../decorators/relation';
 import { Company } from './company';
-import { Membership } from './membership';
-import { Permission } from './permission';
 import { Grant } from './grant';
+import { JsonApiModel } from './jsonapi-model';
+import { Permission } from './permission';
 
 @JsonApiModelConfig({
     endpoint: 'roles',
@@ -19,6 +18,14 @@ export class Role extends JsonApiModel<Role> {
 
     @Attribute()
     description?: string;
+
+    @Attribute()
+    meta?: {
+        /**
+         * Whether or not roles of this type should be hidden from end users.
+         */
+        isSystem?: boolean;
+    };
 
     @Relation('BelongsTo', () => Company)
     company?: Company;
