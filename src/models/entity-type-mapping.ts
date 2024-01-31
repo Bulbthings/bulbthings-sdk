@@ -1,12 +1,12 @@
-import { JsonApiModel } from './jsonapi-model';
-import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Attribute } from '../decorators/attribute';
+import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Relation } from '../decorators/relation';
-import { EntityType } from './entity-type';
+import { ActionType } from './action-type';
 import { AssociationType } from './association-type';
 import { AttributeType } from './attribute-type';
+import { EntityType } from './entity-type';
 import { EventType } from './event-type';
-import { ActionType } from './action-type';
+import { JsonApiModel } from './jsonapi-model';
 import { Role } from './role';
 
 @JsonApiModelConfig({ endpoint: 'entityTypeMappings' })
@@ -22,6 +22,9 @@ export class EntityTypeMapping extends JsonApiModel<EntityTypeMapping> {
 
     @Attribute()
     companyId?: string;
+
+    @Attribute()
+    entityId?: string;
 
     @Attribute()
     entityTypeId: string;
@@ -43,6 +46,9 @@ export class EntityTypeMapping extends JsonApiModel<EntityTypeMapping> {
         isRequired?: boolean;
         order?: number;
     };
+
+    @Attribute()
+    privateForAccountId?: string;
 
     @Attribute()
     roleId?: string;
