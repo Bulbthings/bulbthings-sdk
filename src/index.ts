@@ -19,7 +19,6 @@ import {
     Environment,
     Event,
     EventType,
-    File,
     Grant,
     Hook,
     Key,
@@ -74,7 +73,7 @@ export class Bulbthings {
     environments = new Resource<Environment>(this, Environment);
     events = new Resource<Event>(this, Event);
     eventTypes = new Resource<EventType>(this, EventType);
-    files = new FileResource<File>(this, File);
+    files = new FileResource(this);
     grants = new Resource<Grant>(this, Grant);
     hooks = new Resource<Hook>(this, Hook);
     keys = new Resource<Key>(this, Key);
