@@ -41,7 +41,7 @@ export class Resource<T extends JsonApiModel<T>> {
         return findById(this.bulbthings, this.modelType, id, options);
     }
 
-    async getCached(id: string): Promise<T> {
+    async getCached(id: string, options?: JsonApiOptions): Promise<T> {
         const endpoint = this.getEndpoint();
         let cached = this.bulbthings.cache.get(endpoint, id);
         if (!cached) {
@@ -50,7 +50,7 @@ export class Resource<T extends JsonApiModel<T>> {
             try {
                 cached =
                     this.bulbthings.cache.get(endpoint, id) ??
-                    (await this.findById(id));
+                    (await this.findById(id, options));
             } catch (err) {
                 if ((err as ApiError)?.errors?.[0]?.status !== '404') {
                     console.error(`[${endpoint}][getCached]`, err);
