@@ -41,7 +41,11 @@ export class FileResource<T extends JsonApiModel<T>> {
         return findById(this.bulbthings, this.modelType, id, options);
     }
 
-    async create(data: any, file?: any, options?: RequestOptions): Promise<T> {
+    async create(
+        data: Omit<T, 'getRelationMetadata' | 'getAttributeMetadata'>,
+        file?: any,
+        options?: RequestOptions
+    ): Promise<T> {
         return create(this.bulbthings, this.modelType, data, file, options);
     }
 
