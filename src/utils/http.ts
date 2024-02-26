@@ -97,10 +97,11 @@ export const request = async (
                     );
 
                 if (retries > 0) {
+                    const delay = Math.floor(Math.max(3000, 9000 / retries));
                     console.warn(
-                        `[bulbthings-sdk][${method} ${url}] Network error, retrying in 3s...`
+                        `[bulbthings-sdk][${method} ${url}] Network error, retrying in ${delay} ms...`
                     );
-                    await new Promise((resolve) => setTimeout(resolve, 3000));
+                    await new Promise((resolve) => setTimeout(resolve, delay));
                     return await executeRequest(retries - 1);
                 }
             }
