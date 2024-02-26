@@ -43,16 +43,20 @@ export class Resource<T extends JsonApiModel<T>> {
 
     async getCached(id: string, options?: JsonApiOptions): Promise<T> {
         const endpoint = this.getEndpoint();
-        let cached = this.bulbthings.cache.get(endpoint, id);
-        if (!cached) {
-            const mId = `${this.getEndpoint()}-${id}`;
+        let cached = this.bulbthings.cache.get<T>(endpoint, id);
+        if (cached === undefined) {
+            const mId = `${endpoint}-${id}`;
             const release = await this.bulbthings.cache.getMutex(mId).acquire();
             try {
                 cached =
                     this.bulbthings.cache.get(endpoint, id) ??
+                    // findById will update the cache value
                     (await this.findById(id, options));
             } catch (err) {
-                if ((err as ApiError)?.errors?.[0]?.status !== '404') {
+                const status = (err as ApiError)?.errors?.[0]?.status;
+                if (status === '404') {
+                    this.bulbthings.cache.set(endpoint, id, null);
+                } else {
                     console.error(`[${endpoint}][getCached]`, err);
                 }
             } finally {

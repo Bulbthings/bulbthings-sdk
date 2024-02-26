@@ -67,36 +67,48 @@ export const request = async (
 
     let res: Response;
 
-    try {
-        res = await fetch(url, {
-            method,
-            body: options.body && JSON.stringify(options.body),
-            headers: {
-                Accept: 'application/vnd.api+json',
-                'Content-Type': 'application/vnd.api+json',
-                Authorization: `Bearer ${apiToken}`,
-                'Bulbthings-Environment':
-                    bulb.options.environment || 'bulbthings',
-                'Geo-Position': bulb.options.geoPosition
-                    ? `${bulb.options.geoPosition.lat};${bulb.options.geoPosition.lng}`
-                    : undefined,
-                ...options.headers,
-            },
-        });
-    } catch (error) {
-        if (isNetworkError(error)) {
-            bulb.listeners
-                .filter((l) => l.type === 'networkError')
-                .forEach((l) =>
-                    l.listener(<any>{
-                        data: JSON.stringify({
-                            resource: { message: error.message },
-                        }),
-                    })
-                );
+    const executeRequest = async (retries = 3) => {
+        try {
+            res = await fetch(url, {
+                method,
+                body: options.body && JSON.stringify(options.body),
+                headers: {
+                    Accept: 'application/vnd.api+json',
+                    'Content-Type': 'application/vnd.api+json',
+                    Authorization: `Bearer ${apiToken}`,
+                    'Bulbthings-Environment':
+                        bulb.options.environment || 'bulbthings',
+                    'Geo-Position': bulb.options.geoPosition
+                        ? `${bulb.options.geoPosition.lat};${bulb.options.geoPosition.lng}`
+                        : undefined,
+                    ...options.headers,
+                },
+            });
+        } catch (error) {
+            if (isNetworkError(error)) {
+                bulb.listeners
+                    .filter((l) => l.type === 'networkError')
+                    .forEach((l) =>
+                        l.listener(<any>{
+                            data: JSON.stringify({
+                                resource: { message: error.message },
+                            }),
+                        })
+                    );
+
+                if (retries > 0) {
+                    console.warn(
+                        `[bulbthings-sdk][${method} ${url}] Network error, retrying in 3s...`
+                    );
+                    await new Promise((resolve) => setTimeout(resolve, 3000));
+                    return await executeRequest(retries - 1);
+                }
+            }
+            throw error;
         }
-        throw error;
-    }
+    };
+
+    await executeRequest(method === 'GET' ? 3 : 0);
 
     if (res.status >= 400) {
         throw (await res.json()) as JSONAPI.DocWithErrors;
