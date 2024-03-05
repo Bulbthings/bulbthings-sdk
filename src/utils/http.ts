@@ -17,18 +17,20 @@ const isNetworkError = (error: any) => {
         'Load failed', // Safari 17+
         'Network request failed', // `cross-fetch`
         'fetch failed', // Undici (Node.js)
+        'FetchError', // node-fetch (Node.js)
     ];
     const isValid =
         error &&
-        Object.prototype.toString.call(error) === '[object Error]' &&
-        error.name === 'TypeError' &&
+        (error.name === 'TypeError' || error.name === 'FetchError') &&
         typeof error.message === 'string';
+
     // Extra check for Safari 17+ as it has a very generic error message.
     // Network errors in Safari have no stack.
     return isValid
         ? error.message === 'Load failed'
             ? error.stack === undefined
-            : networkErrorMessages.includes(error.message)
+            : networkErrorMessages.includes(error.message) ||
+              networkErrorMessages.includes(error.name)
         : false;
 };
 
@@ -84,6 +86,14 @@ export const request = async (
                     ...options.headers,
                 },
             });
+
+            if (res.status >= 400) {
+                throw (await res.json()) as JSONAPI.DocWithErrors;
+            }
+
+            // Check if body is empty or not
+            const text = await res.text();
+            return text.length ? JSON.parse(text) : {};
         } catch (error) {
             if (isNetworkError(error)) {
                 bulb.listeners
@@ -95,7 +105,6 @@ export const request = async (
                             }),
                         })
                     );
-
                 if (retries > 0) {
                     const delay = Math.floor(Math.max(3000, 9000 / retries));
                     console.warn(
@@ -109,13 +118,5 @@ export const request = async (
         }
     };
 
-    await executeRequest(method === 'GET' ? 3 : 0);
-
-    if (res.status >= 400) {
-        throw (await res.json()) as JSONAPI.DocWithErrors;
-    }
-
-    // Check if body is empty or not
-    const text = await res.text();
-    return text.length ? JSON.parse(text) : {};
+    return await executeRequest(method === 'GET' ? 3 : 0);
 };
