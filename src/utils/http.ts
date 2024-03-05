@@ -79,7 +79,7 @@ export const request = async (
                     'Content-Type': 'application/vnd.api+json',
                     Authorization: `Bearer ${apiToken}`,
                     'Bulbthings-Environment':
-                        bulb.options.environment || 'bulbthings',
+                        bulb.options.environment || 'app.bulbthings.com',
                     'Geo-Position': bulb.options.geoPosition
                         ? `${bulb.options.geoPosition.lat};${bulb.options.geoPosition.lng}`
                         : undefined,
