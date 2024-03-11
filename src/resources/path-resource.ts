@@ -1,6 +1,6 @@
-import { Path } from '../models/path';
 import { Bulbthings } from '..';
 import { PathOptions } from '../interfaces/path-options';
+import { Path } from '../models/path';
 import { findAll } from '../utils/find-all';
 
 export class PathResource {
