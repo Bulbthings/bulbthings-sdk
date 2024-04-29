@@ -1,13 +1,14 @@
 import * as JSONAPI from 'jsonapi-typescript';
-import { JsonApiModel } from '../models/jsonapi-model';
-import { request } from './http';
-import { upload } from './upload';
-import { ModelType } from '../types/model-type';
-import { JsonApiModelConfig } from '../interfaces/json-api-model-config';
+import { v4 as uuidv4 } from 'uuid';
 import { Bulbthings } from '..';
-import { stringifyModel } from './stringify';
-import { parseResource } from './parse';
+import { JsonApiModelConfig } from '../interfaces/json-api-model-config';
 import { RequestOptions } from '../interfaces/request-options';
+import { JsonApiModel } from '../models/jsonapi-model';
+import { ModelType } from '../types/model-type';
+import { request } from './http';
+import { parseResource } from './parse';
+import { stringifyModel } from './stringify';
+import { upload } from './upload';
 
 export async function create<T extends JsonApiModel<T>>(
     bulb: Bulbthings,
@@ -23,6 +24,8 @@ export async function create<T extends JsonApiModel<T>>(
 
     // Build the request
     const model = new modelType(data);
+
+    model.id = model.id || uuidv4();
 
     // Fetch the results
     let res: JSONAPI.SingleResourceDoc;

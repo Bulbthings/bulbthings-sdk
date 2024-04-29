@@ -118,5 +118,5 @@ export const request = async (
         }
     };
 
-    return await executeRequest(method === 'GET' ? 3 : 0);
+    return await executeRequest(3);
 };

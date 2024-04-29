@@ -1,6 +1,6 @@
 {
     "name": "bulbthings-sdk",
-    "version": "0.32.0",
+    "version": "0.33.0",
     "description": "Isomorphic JavaScript/TypeScript SDK for the Bulbthings API",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -27,7 +27,8 @@
         "isomorphic-form-data": "^2.0.0",
         "jsonapi-typescript": "^0.1.3",
         "qs": "^6.11.2",
-        "reflect-metadata": "^0.1.13"
+        "reflect-metadata": "^0.1.13",
+        "uuid": "^9.0.1"
     },
     "devDependencies": {
         "@types/chai": "^4.2.11",
