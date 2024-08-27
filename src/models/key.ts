@@ -5,23 +5,23 @@ import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Account } from './account';
 
 @JsonApiModelConfig({
-    endpoint: 'keys'
+    endpoint: 'keys',
 })
 export class Key extends JsonApiModel<Key> {
     @Attribute()
-    accountId: string;
+    accountId?: string;
 
     @Attribute()
     label?: string;
 
     @Attribute()
-    type: 'login' | 'api' | 'email';
+    type?: 'login' | 'api' | 'email';
 
     @Attribute()
     value?: string;
 
     @Attribute()
-    hash: string;
+    hash?: string;
 
     @Attribute()
     meta?: {
