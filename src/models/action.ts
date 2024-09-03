@@ -45,6 +45,10 @@ export class Action extends JsonApiModel<Action> {
             lng: number;
             elevation?: number;
         };
+        /**
+         * True if the action originated from an unauthenticated user
+         */
+        isPublic?: boolean;
         timezone?: string;
     };
 
