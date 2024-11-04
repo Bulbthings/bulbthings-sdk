@@ -1,15 +1,10 @@
 import { JSONSchema7 } from 'json-schema';
 
 export interface JsonSchema extends JSONSchema7 {
-    inputType?:
-        | 'file'
-        | 'files'
-        | 'textarea'
-        | 'entity'
-        | 'entityType'
-        | 'signature';
+    inputType?: 'file' | 'files' | 'entity' | 'entityType' | 'signature';
     mediaTypes?: string[];
     propertyOrder?: string[];
+    enumNames?: string[];
     display?: {
         icon?: { fontAwesome?: string[] | string };
         numberFormat?: {
