@@ -42,6 +42,12 @@ export class Entity extends JsonApiModel<Entity> {
     @Attribute()
     updatedAt?: Date;
 
+    /**
+     * Time at which the entity status was changed to `deleted`.
+     */
+    @Attribute()
+    deletedAt?: Date;
+
     @Attribute()
     status?: 'active' | 'archived' | 'draft';
 
