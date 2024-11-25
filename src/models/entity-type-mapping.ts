@@ -44,6 +44,10 @@ export class EntityTypeMapping extends JsonApiModel<EntityTypeMapping> {
         isPublic?: boolean;
         isReadOnly?: boolean;
         isRequired?: boolean;
+        /**
+         * System mappings are generated automatically for association types and cannot be edited.
+         */
+        isSystem?: boolean;
         order?: number;
     };
 
