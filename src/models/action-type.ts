@@ -1,14 +1,12 @@
-import { JsonApiModel } from './jsonapi-model';
-import { Relation } from '../decorators/relation';
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
-import { EntityType } from './entity-type';
+import { Relation } from '../decorators/relation';
 import { JsonSchema } from '../interfaces/json-schema';
 import { Company } from './company';
+import { EntityType } from './entity-type';
+import { JsonApiModel } from './jsonapi-model';
 
-@JsonApiModelConfig({
-    endpoint: 'actionTypes',
-})
+@JsonApiModelConfig({ endpoint: 'actionTypes' })
 export class ActionType extends JsonApiModel<ActionType> {
     @Attribute()
     companyId?: string;
@@ -18,6 +16,17 @@ export class ActionType extends JsonApiModel<ActionType> {
 
     @Attribute()
     meta?: {
+        /**
+         * If provided, the action will open the corresponding front-end component.
+         */
+        redirectTo?: {
+            routeId: 'entityCreation';
+            routeParams?: {
+                associationTypes?: string[];
+                entityTypes?: string[];
+                isSource?: boolean;
+            };
+        };
         /**
          * If true, the action will only be available when scanning the associated entity.
          */
