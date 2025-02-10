@@ -1,9 +1,9 @@
-import { JsonApiModel } from '../models/jsonapi-model';
-import { request } from './http';
-import { ModelType } from '../types/model-type';
-import { JsonApiModelConfig } from '../interfaces/json-api-model-config';
 import { Bulbthings } from '..';
+import { JsonApiModelConfig } from '../interfaces/json-api-model-config';
 import { RequestOptions } from '../interfaces/request-options';
+import { JsonApiModel } from '../models/jsonapi-model';
+import { ModelType } from '../types/model-type';
+import { request } from './http';
 
 export async function deleteById<T extends JsonApiModel<T>>(
     bulb: Bulbthings,
@@ -19,7 +19,7 @@ export async function deleteById<T extends JsonApiModel<T>>(
     return request(
         bulb,
         'DELETE',
-        `${bulb.options.coreUrl}/${endpoint}/${id}`,
+        `${bulb.options.coreUrl}/${endpoint}/${encodeURIComponent(id)}`,
         { params: options }
     );
 }

@@ -1,10 +1,10 @@
 import * as JSONAPI from 'jsonapi-typescript';
+import { Bulbthings } from '..';
+import { JsonApiModelConfig } from '../interfaces/json-api-model-config';
 import { JsonApiOptions } from '../interfaces/json-api-options';
 import { JsonApiModel } from '../models/jsonapi-model';
-import { request } from './http';
 import { ModelType } from '../types/model-type';
-import { JsonApiModelConfig } from '../interfaces/json-api-model-config';
-import { Bulbthings } from '..';
+import { request } from './http';
 import { parseResource } from './parse';
 
 export async function findById<T extends JsonApiModel<T>>(
@@ -21,7 +21,7 @@ export async function findById<T extends JsonApiModel<T>>(
     const res = await request(
         bulb,
         'GET',
-        `${bulb.options.coreUrl}/${endpoint}/${id}`,
+        `${bulb.options.coreUrl}/${endpoint}/${encodeURIComponent(id)}`,
         { params: options }
     );
 
