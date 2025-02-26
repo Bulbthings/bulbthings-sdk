@@ -21,7 +21,9 @@ export async function findById<T extends JsonApiModel<T>>(
     const res = await request(
         bulb,
         'GET',
-        `${bulb.options.coreUrl}/${endpoint}/${encodeURIComponent(id)}`,
+        `${bulb.options.coreUrl}/${endpoint}/${encodeURIComponent(
+            id === '' ? undefined : id
+        )}`,
         { params: options }
     );
 

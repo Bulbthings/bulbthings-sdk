@@ -19,7 +19,9 @@ export async function deleteById<T extends JsonApiModel<T>>(
     return request(
         bulb,
         'DELETE',
-        `${bulb.options.coreUrl}/${endpoint}/${encodeURIComponent(id)}`,
+        `${bulb.options.coreUrl}/${endpoint}/${encodeURIComponent(
+            id === '' ? undefined : id
+        )}`,
         { params: options }
     );
 }

@@ -28,7 +28,9 @@ export async function update<T extends JsonApiModel<T>>(
     const res: JSONAPI.SingleResourceDoc = await request(
         bulb,
         'PATCH',
-        `${bulb.options.coreUrl}/${endpoint}/${encodeURIComponent(id)}`,
+        `${bulb.options.coreUrl}/${endpoint}/${encodeURIComponent(
+            id === '' ? undefined : id
+        )}`,
         { body, params: options }
     );
 
