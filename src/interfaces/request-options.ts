@@ -3,4 +3,5 @@ export interface RequestOptions {
     companyId?: string;
     contextId?: string;
     showDeleted?: boolean;
+    skipEmail?: boolean;
 }

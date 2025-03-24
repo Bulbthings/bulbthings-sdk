@@ -27,7 +27,6 @@ export class Resource<T extends JsonApiModel<T>> {
             limit: number;
             rowCount: number;
             pageCount: number;
-            total: number;
         };
         data: T[];
     }>;
