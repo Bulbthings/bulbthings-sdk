@@ -49,7 +49,7 @@ export class Entity extends JsonApiModel<Entity> {
     deletedAt?: Date;
 
     @Attribute()
-    status?: 'active' | 'archived' | 'deleted' | 'draft';
+    status?: 'active' | 'archived' | 'deleted' | 'draft' | 'locked';
 
     @Attribute()
     meta?: {
