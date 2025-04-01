@@ -1,8 +1,8 @@
-import { JsonApiModel } from './jsonapi-model';
-import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Attribute } from '../decorators/attribute';
+import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Relation } from '../decorators/relation';
 import { EntityType } from './entity-type';
+import { JsonApiModel } from './jsonapi-model';
 
 @JsonApiModelConfig({
     endpoint: 'associationTypes',
@@ -48,6 +48,10 @@ export class AssociationType extends JsonApiModel<AssociationType> {
          * lists.
          */
         displayInTargetList?: boolean;
+        /**
+         * Array of paid features required to use this type.
+         */
+        features?: string[];
         /**
          * Specifies if associations of this type are always bound to a period of time.
          */

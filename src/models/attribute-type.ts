@@ -51,6 +51,10 @@ export class AttributeType extends JsonApiModel<AttributeType> {
                 color?: string;
             };
         };
+        /**
+         * Array of paid features required to use this type.
+         */
+        features?: string[];
     };
 
     @Relation('HasMany', () => EntityType)

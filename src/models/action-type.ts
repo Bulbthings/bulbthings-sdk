@@ -17,6 +17,10 @@ export class ActionType extends JsonApiModel<ActionType> {
     @Attribute()
     meta?: {
         /**
+         * Array of paid features required to use this type.
+         */
+        features?: string[];
+        /**
          * If provided, the action will open the corresponding front-end component.
          */
         redirectTo?: {
