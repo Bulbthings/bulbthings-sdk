@@ -168,13 +168,13 @@ export class Bulbthings {
             }`
         );
 
-        this.eventSource.onopen = () => {
+        this.eventSource.addEventListener('open', () => {
             console.log('[eventSource] connected.');
             this.retrySeconds = 1;
-        };
+        });
 
         // Handle disconnect errors
-        this.eventSource.onerror = () => {
+        this.eventSource.addEventListener('error', () => {
             this.disconnectEventSource();
             console.warn(
                 `[eventSource] disconnected, retrying in ${this.retrySeconds} seconds`
@@ -185,7 +185,7 @@ export class Bulbthings {
                 // Exponential retry to avoid spamming the server
                 this.retrySeconds = Math.min(60, this.retrySeconds * 2);
             }, this.retrySeconds * 1000);
-        };
+        });
 
         // Reconnect all the listeners
         this.listeners.forEach((l) =>
