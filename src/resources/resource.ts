@@ -74,7 +74,7 @@ export class Resource<T extends JsonApiModel<T>> {
 
     async updateById(
         id: string,
-        data: any,
+        data: Partial<Omit<T, 'getRelationMetadata' | 'getAttributeMetadata'>>,
         options?: RequestOptions
     ): Promise<T> {
         return update(this.bulbthings, this.modelType, id, data, options);
