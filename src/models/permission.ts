@@ -1,14 +1,17 @@
-import { Relation } from '../decorators/relation';
 import { Attribute } from '../decorators/attribute';
-import { JsonApiModel } from './jsonapi-model';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
+import { Relation } from '../decorators/relation';
 import { Company } from './company';
+import { JsonApiModel } from './jsonapi-model';
 import { Role } from './role';
 
 @JsonApiModelConfig({
-    endpoint: 'permissions'
+    endpoint: 'permissions',
 })
 export class Permission extends JsonApiModel<Permission> {
+    @Attribute()
+    bypassScope?: boolean;
+
     @Attribute()
     companyId?: string;
 
@@ -19,7 +22,7 @@ export class Permission extends JsonApiModel<Permission> {
     resource: string;
 
     @Attribute()
-    filter?: any;
+    filter?: string;
 
     @Attribute()
     rights: string[];

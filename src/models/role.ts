@@ -22,6 +22,10 @@ export class Role extends JsonApiModel<Role> {
     @Attribute()
     meta?: {
         /**
+         * Whether or not the role is editable.
+         */
+        isReadOnly?: boolean;
+        /**
          * Whether or not roles of this type should be hidden from end users.
          */
         isSystem?: boolean;
