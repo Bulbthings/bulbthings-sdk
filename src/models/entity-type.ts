@@ -35,8 +35,19 @@ export class EntityType extends JsonApiModel<EntityType> {
         icon?: {
             fontAwesome?: string[] | string;
         };
-        isRootType?: boolean;
+        /**
+         * Specifies if the type is abstract and should not be used to create entities.
+         */
         isAbstract?: boolean;
+        /**
+         * Specifies if entities of this type should only be visible to their creator.
+         */
+        isPrivate?: boolean;
+        /**
+         * Specifies if entities of this type can be created on their own or are always created via
+         * another type.
+         */
+        isRootType?: boolean;
     };
 
     @Relation('HasMany', () => AssociationType)
