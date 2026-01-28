@@ -1,12 +1,12 @@
-import { Relation } from '../decorators/relation';
-import { JsonApiModel } from './jsonapi-model';
-import { AssociationType } from './association-type';
-import { Entity } from './entity';
-import { Period } from '../interfaces/period';
-import { JsonApiModelConfig } from '../decorators/json-api-model';
-import { Attribute } from '../decorators/attribute';
 import { periodConverter } from '../converters/period';
+import { Attribute } from '../decorators/attribute';
+import { JsonApiModelConfig } from '../decorators/json-api-model';
+import { Relation } from '../decorators/relation';
+import { Period } from '../interfaces/period';
+import { AssociationType } from './association-type';
 import { Company } from './company';
+import { Entity } from './entity';
+import { JsonApiModel } from './jsonapi-model';
 
 @JsonApiModelConfig({
     endpoint: 'associations',
@@ -41,6 +41,14 @@ export class Association extends JsonApiModel<Association> {
 
     @Attribute()
     updatedAt?: Date;
+
+    @Attribute()
+    meta?: {
+        /**
+         * Identifier of the origin of the association, for example an import ID, a booking ID, etc.
+         */
+        originId?: string;
+    };
 
     @Relation('BelongsTo', () => Company)
     company?: Company;
