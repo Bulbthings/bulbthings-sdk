@@ -49,6 +49,10 @@ export class AssociationType extends JsonApiModel<AssociationType> {
          */
         displayInTargetList?: boolean;
         /**
+         * Whether or not associations of this type should be ignored when calculating paths.
+         */
+        excludeFromPaths?: boolean;
+        /**
          * Array of paid features required to use this type.
          */
         features?: string[];
