@@ -30,6 +30,10 @@ export class AssociationType extends JsonApiModel<AssociationType> {
          */
         category?: string;
         /**
+         * Stop the calculation of paths when reaching the target of this association type.
+         */
+        disablePathfinding?: boolean;
+        /**
          * Whether or not this association type should be used as to display in calendars.
          */
         displayInCalendar?: boolean;
@@ -48,10 +52,6 @@ export class AssociationType extends JsonApiModel<AssociationType> {
          * lists.
          */
         displayInTargetList?: boolean;
-        /**
-         * Whether or not associations of this type should be ignored when calculating paths.
-         */
-        excludeFromPaths?: boolean;
         /**
          * Array of paid features required to use this type.
          */
