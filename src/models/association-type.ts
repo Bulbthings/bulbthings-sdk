@@ -1,7 +1,7 @@
-import { Include } from 'include';
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Relation } from '../decorators/relation';
+import { Include } from '../types/include';
 import { EntityType } from './entity-type';
 import { JsonApiModel } from './jsonapi-model';
 

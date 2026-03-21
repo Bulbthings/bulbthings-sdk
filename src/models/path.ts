@@ -1,9 +1,9 @@
-import { Include } from 'include';
 import { periodConverter } from '../converters/period';
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Relation } from '../decorators/relation';
 import { Period } from '../interfaces/period';
+import { Include } from '../types/include';
 import { Company } from './company';
 import { Entity } from './entity';
 import { JsonApiModel } from './jsonapi-model';

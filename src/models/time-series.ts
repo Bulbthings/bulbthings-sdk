@@ -1,9 +1,9 @@
-import { Include } from 'include';
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Relation } from '../decorators/relation';
 import { Entity } from '../models/entity';
 import { JsonApiModel } from '../models/jsonapi-model';
+import { Include } from '../types/include';
 
 @JsonApiModelConfig({
     endpoint: 'timeSeries',

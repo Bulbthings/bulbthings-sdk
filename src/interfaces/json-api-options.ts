@@ -1,4 +1,4 @@
-import { IncludePaths, IsAny } from 'include';
+import { IncludePaths, IsAny } from '../types/include';
 import { RequestOptions } from './request-options';
 
 export interface JsonApiOptions<T = any> extends RequestOptions {
