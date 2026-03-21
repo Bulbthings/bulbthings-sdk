@@ -1,9 +1,17 @@
 {
-    "name": "bulbthings-sdk",
-    "version": "1.0.0",
+    "name": "@bulbthings/bulbthings-sdk",
+    "version": "1.0.1",
     "description": "Isomorphic JavaScript/TypeScript SDK for the Bulbthings API",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Bulbthings/bulbthings-sdk.git"
+    },
+    "files": [
+        "dist",
+        "README.md"
+    ],
     "scripts": {
         "prepare": "npm run build",
         "build": "tsc --declaration && copyfiles -u 1 src/*.js dist/"
