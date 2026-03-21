@@ -1,9 +1,10 @@
-import { JsonApiModel } from './jsonapi-model';
-import { Relation } from '../decorators/relation';
+import { Include } from 'include';
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
-import { EntityType } from './entity-type';
+import { Relation } from '../decorators/relation';
 import { JsonSchema } from '../interfaces/json-schema';
+import { EntityType } from './entity-type';
+import { JsonApiModel } from './jsonapi-model';
 
 @JsonApiModelConfig({
     endpoint: 'eventTypes',
@@ -29,5 +30,5 @@ export class EventType extends JsonApiModel<EventType> {
     };
 
     @Relation('HasMany', () => EntityType)
-    entityTypes?: EntityType[];
+    entityTypes?: Include<EntityType[]>;
 }

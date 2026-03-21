@@ -1,11 +1,12 @@
-import { Relation } from '../decorators/relation';
-import { JsonApiModel } from './jsonapi-model';
-import { Entity } from './entity';
-import { Period } from '../interfaces/period';
-import { JsonApiModelConfig } from '../decorators/json-api-model';
-import { Attribute } from '../decorators/attribute';
-import { Company } from './company';
+import { Include } from 'include';
 import { periodConverter } from '../converters/period';
+import { Attribute } from '../decorators/attribute';
+import { JsonApiModelConfig } from '../decorators/json-api-model';
+import { Relation } from '../decorators/relation';
+import { Period } from '../interfaces/period';
+import { Company } from './company';
+import { Entity } from './entity';
+import { JsonApiModel } from './jsonapi-model';
 
 @JsonApiModelConfig({
     endpoint: 'paths',
@@ -39,11 +40,11 @@ export class Path extends JsonApiModel<Path> {
     depth?: number;
 
     @Relation('BelongsTo', () => Company)
-    company?: Company;
+    company?: Include<Company>;
 
     @Relation('BelongsTo', () => Entity)
-    sourceEntity?: Entity;
+    sourceEntity?: Include<Entity>;
 
     @Relation('BelongsTo', () => Entity)
-    targetEntity?: Entity;
+    targetEntity?: Include<Entity>;
 }

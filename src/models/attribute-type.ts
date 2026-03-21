@@ -1,3 +1,4 @@
+import { Include } from 'include';
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Relation } from '../decorators/relation';
@@ -20,7 +21,7 @@ export class AttributeType extends JsonApiModel<AttributeType> {
     unitId?: string;
 
     @Attribute()
-    timeSeriesOptions: object;
+    timeSeriesOptions?: object;
 
     @Attribute()
     isReadOnly?: boolean;
@@ -58,8 +59,8 @@ export class AttributeType extends JsonApiModel<AttributeType> {
     };
 
     @Relation('HasMany', () => EntityType)
-    entityTypes?: EntityType[];
+    entityTypes?: Include<EntityType[]>;
 
     @Relation('BelongsTo', () => Unit)
-    unit?: Unit;
+    unit?: Include<Unit>;
 }

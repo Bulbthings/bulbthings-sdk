@@ -1,11 +1,12 @@
-import { JsonApiModel } from './jsonapi-model';
-import { Relation } from '../decorators/relation';
+import { Include } from 'include';
 import { Attribute } from '../decorators/attribute';
-import { AttributeType } from './attribute-type';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
-import { AssociationType } from './association-type';
-import { EventType } from './event-type';
+import { Relation } from '../decorators/relation';
 import { ActionType } from './action-type';
+import { AssociationType } from './association-type';
+import { AttributeType } from './attribute-type';
+import { EventType } from './event-type';
+import { JsonApiModel } from './jsonapi-model';
 
 @JsonApiModelConfig({
     endpoint: 'entityTypes',
@@ -51,14 +52,14 @@ export class EntityType extends JsonApiModel<EntityType> {
     };
 
     @Relation('HasMany', () => AssociationType)
-    associationTypes?: AssociationType[];
+    associationTypes?: Include<AssociationType[]>;
 
     @Relation('HasMany', () => AttributeType)
-    attributeTypes?: AttributeType[];
+    attributeTypes?: Include<AttributeType[]>;
 
     @Relation('HasMany', () => EventType)
-    eventTypes?: EventType[];
+    eventTypes?: Include<EventType[]>;
 
     @Relation('HasMany', () => ActionType)
-    actionTypes?: ActionType[];
+    actionTypes?: Include<ActionType[]>;
 }

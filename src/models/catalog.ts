@@ -1,9 +1,9 @@
-import { Relation } from '../decorators/relation';
+import { Include } from 'include';
 import { Attribute } from '../decorators/attribute';
-import { JsonApiModel } from './jsonapi-model';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
+import { Relation } from '../decorators/relation';
 import { EntityType } from './entity-type';
-import { Hook } from './hook';
+import { JsonApiModel } from './jsonapi-model';
 
 @JsonApiModelConfig({
     endpoint: 'catalogs',
@@ -19,5 +19,5 @@ export class Catalog extends JsonApiModel<Catalog> {
     description?: string;
 
     @Relation('HasMany', () => EntityType)
-    entityTypes?: EntityType[];
+    entityTypes?: Include<EntityType[]>;
 }

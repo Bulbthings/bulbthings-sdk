@@ -1,3 +1,4 @@
+import { Include } from 'include';
 import { periodConverter } from '../converters/period';
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
@@ -51,14 +52,14 @@ export class Association extends JsonApiModel<Association> {
     };
 
     @Relation('BelongsTo', () => Company)
-    company?: Company;
+    company?: Include<Company>;
 
     @Relation('BelongsTo', () => AssociationType)
-    associationType?: AssociationType;
+    associationType?: Include<AssociationType>;
 
     @Relation('BelongsTo', () => Entity)
-    sourceEntity?: Entity;
+    sourceEntity?: Include<Entity>;
 
     @Relation('BelongsTo', () => Entity)
-    targetEntity?: Entity;
+    targetEntity?: Include<Entity>;
 }

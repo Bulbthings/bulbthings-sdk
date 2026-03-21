@@ -1,13 +1,14 @@
-import { Relation } from '../decorators/relation';
+import { Include } from 'include';
 import { Attribute } from '../decorators/attribute';
-import { JsonApiModel } from './jsonapi-model';
+import { JsonApiModelConfig } from '../decorators/json-api-model';
+import { Relation } from '../decorators/relation';
+import { Account } from './account';
+import { Association } from './association';
+import { Code } from './code';
+import { Company } from './company';
 import { EntityType } from './entity-type';
 import { File } from './file';
-import { JsonApiModelConfig } from '../decorators/json-api-model';
-import { Company } from './company';
-import { Account } from './account';
-import { Code } from './code';
-import { Association } from './association';
+import { JsonApiModel } from './jsonapi-model';
 
 @JsonApiModelConfig({
     endpoint: 'entities',
@@ -57,23 +58,23 @@ export class Entity extends JsonApiModel<Entity> {
     };
 
     @Relation('BelongsTo', () => Company)
-    company?: Company;
+    company?: Include<Company>;
 
     @Relation('BelongsTo', () => EntityType)
-    entityType?: EntityType;
+    entityType?: Include<EntityType>;
 
     @Relation('BelongsTo', () => Account)
-    account?: Account;
+    account?: Include<Account>;
 
     @Relation('HasMany', () => Association)
-    associations?: Association[];
+    associations?: Include<Association[]>;
 
     @Relation('BelongsTo', () => File)
-    avatarFile?: File;
+    avatarFile?: Include<File>;
 
     @Relation('HasMany', () => File)
-    files?: File[];
+    files?: Include<File[]>;
 
     @Relation('HasMany', () => Code)
-    codes?: Code[];
+    codes?: Include<Code[]>;
 }

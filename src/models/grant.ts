@@ -1,11 +1,12 @@
-import { Relation } from '../decorators/relation';
+import { Include } from 'include';
 import { Attribute } from '../decorators/attribute';
-import { JsonApiModel } from './jsonapi-model';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
+import { Relation } from '../decorators/relation';
 import { Company } from './company';
-import { Role } from './role';
 import { Entity } from './entity';
+import { JsonApiModel } from './jsonapi-model';
 import { Membership } from './membership';
+import { Role } from './role';
 
 @JsonApiModelConfig({
     endpoint: 'grants',
@@ -24,14 +25,14 @@ export class Grant extends JsonApiModel<Grant> {
     entityId?: string;
 
     @Relation('BelongsTo', () => Company)
-    company?: Company;
+    company?: Include<Company>;
 
     @Relation('BelongsTo', () => Membership)
-    membership?: Membership;
+    membership?: Include<Membership>;
 
     @Relation('BelongsTo', () => Role)
-    role?: Role;
+    role?: Include<Role>;
 
     @Relation('BelongsTo', () => Entity)
-    entity?: Entity;
+    entity?: Include<Entity>;
 }

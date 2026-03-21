@@ -1,14 +1,15 @@
-import { JsonApiModel } from '../models/jsonapi-model';
+import { Include } from 'include';
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Relation } from '../decorators/relation';
-import { Company } from './company';
+import { JsonApiModel } from '../models/jsonapi-model';
 import { Account } from './account';
 import { AttributeType } from './attribute-type';
+import { Company } from './company';
 import { Unit } from './unit';
 
 @JsonApiModelConfig({
-    endpoint: 'unitSettings'
+    endpoint: 'unitSettings',
 })
 export class UnitSetting extends JsonApiModel<UnitSetting> {
     @Attribute()
@@ -24,14 +25,14 @@ export class UnitSetting extends JsonApiModel<UnitSetting> {
     unitId: string;
 
     @Relation('BelongsTo', () => Company)
-    company?: Company;
+    company?: Include<Company>;
 
     @Relation('BelongsTo', () => Account)
-    account?: Account;
+    account?: Include<Account>;
 
     @Relation('BelongsTo', () => AttributeType)
-    attributeType?: AttributeType;
+    attributeType?: Include<AttributeType>;
 
     @Relation('BelongsTo', () => Unit)
-    unit?: Unit;
+    unit?: Include<Unit>;
 }

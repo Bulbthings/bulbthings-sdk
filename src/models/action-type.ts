@@ -1,3 +1,4 @@
+import { Include } from 'include';
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Relation } from '../decorators/relation';
@@ -43,8 +44,8 @@ export class ActionType extends JsonApiModel<ActionType> {
     };
 
     @Relation('BelongsTo', () => Company)
-    company?: Company;
+    company?: Include<Company>;
 
     @Relation('HasMany', () => EntityType)
-    entityTypes?: EntityType[];
+    entityTypes?: Include<EntityType[]>;
 }

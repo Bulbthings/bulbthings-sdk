@@ -1,11 +1,12 @@
-import { JsonApiModel } from './jsonapi-model';
-import { Relation } from '../decorators/relation';
+import { Include } from 'include';
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
-import { ActionType } from './action-type';
-import { Entity } from './entity';
-import { Company } from './company';
+import { Relation } from '../decorators/relation';
 import { Account } from './account';
+import { ActionType } from './action-type';
+import { Company } from './company';
+import { Entity } from './entity';
+import { JsonApiModel } from './jsonapi-model';
 
 @JsonApiModelConfig({
     endpoint: 'actions',
@@ -53,14 +54,14 @@ export class Action extends JsonApiModel<Action> {
     };
 
     @Relation('BelongsTo', () => Company)
-    company?: Company;
+    company?: Include<Company>;
 
     @Relation('BelongsTo', () => ActionType)
-    actionType?: ActionType;
+    actionType?: Include<ActionType>;
 
     @Relation('BelongsTo', () => Account)
-    account?: Account;
+    account?: Include<Account>;
 
     @Relation('BelongsTo', () => Entity)
-    entity?: Entity;
+    entity?: Include<Entity>;
 }

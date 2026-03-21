@@ -1,12 +1,13 @@
-import { Relation } from '../decorators/relation';
+import { Include } from 'include';
 import { Attribute } from '../decorators/attribute';
-import { JsonApiModel } from './jsonapi-model';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
+import { Relation } from '../decorators/relation';
 import { Company } from './company';
 import { Entity } from './entity';
+import { JsonApiModel } from './jsonapi-model';
 
 @JsonApiModelConfig({
-    endpoint: 'codes'
+    endpoint: 'codes',
 })
 export class Code extends JsonApiModel<Code> {
     @Attribute()
@@ -22,8 +23,8 @@ export class Code extends JsonApiModel<Code> {
     value: string;
 
     @Relation('BelongsTo', () => Company)
-    company?: Company;
+    company?: Include<Company>;
 
     @Relation('BelongsTo', () => Entity)
-    entity?: Entity;
+    entity?: Include<Entity>;
 }

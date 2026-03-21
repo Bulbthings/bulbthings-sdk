@@ -1,10 +1,11 @@
-import { JsonApiModel } from './jsonapi-model';
-import { Relation } from '../decorators/relation';
+import { Include } from 'include';
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
-import { Company } from './company';
+import { Relation } from '../decorators/relation';
 import { Account } from './account';
+import { Company } from './company';
 import { Event } from './event';
+import { JsonApiModel } from './jsonapi-model';
 
 @JsonApiModelConfig({
     endpoint: 'acknowledgements',
@@ -23,11 +24,11 @@ export class Acknowledgement extends JsonApiModel<Acknowledgement> {
     createdAt?: Date;
 
     @Relation('BelongsTo', () => Company)
-    company?: Company;
+    company?: Include<Company>;
 
     @Relation('BelongsTo', () => Account)
-    account?: Account;
+    account?: Include<Account>;
 
     @Relation('BelongsTo', () => Event)
-    event?: Event;
+    event?: Include<Event>;
 }

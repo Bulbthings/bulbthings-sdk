@@ -1,12 +1,13 @@
-import { JsonApiModel } from './jsonapi-model';
-import { Relation } from '../decorators/relation';
+import { Include } from 'include';
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
-import { EventType } from './event-type';
-import { Entity } from './entity';
+import { Relation } from '../decorators/relation';
+import { Account } from './account';
 import { Action } from './action';
 import { Company } from './company';
-import { Account } from './account';
+import { Entity } from './entity';
+import { EventType } from './event-type';
+import { JsonApiModel } from './jsonapi-model';
 
 @JsonApiModelConfig({
     endpoint: 'events',
@@ -44,17 +45,17 @@ export class Event extends JsonApiModel<Event> {
     };
 
     @Relation('BelongsTo', () => Company)
-    company?: Company;
+    company?: Include<Company>;
 
     @Relation('BelongsTo', () => EventType)
-    eventType?: EventType;
+    eventType?: Include<EventType>;
 
     @Relation('BelongsTo', () => Account)
-    account?: Account;
+    account?: Include<Account>;
 
     @Relation('BelongsTo', () => Entity)
-    entity?: Entity;
+    entity?: Include<Entity>;
 
     @Relation('HasMany', () => Action)
-    actions?: Action[];
+    actions?: Include<Action[]>;
 }

@@ -6,7 +6,7 @@ export interface UINode {
     data?: any;
     children?: UINode[];
     parents?: UINode[];
-    callback?: ({ event: MouseEvent, item: UINode }) => void;
+    callback?: (data: { event: MouseEvent; item: UINode }) => void;
     isDivider?: boolean;
     isSelected?: boolean;
     fetchChildren?: (

@@ -1,13 +1,14 @@
-import { JsonApiModel } from './jsonapi-model';
-import { Relation } from '../decorators/relation';
+import { Include } from 'include';
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
-import { SettingType } from './setting-type';
-import { Company } from './company';
+import { Relation } from '../decorators/relation';
 import { Account } from './account';
+import { Company } from './company';
+import { JsonApiModel } from './jsonapi-model';
+import { SettingType } from './setting-type';
 
 @JsonApiModelConfig({
-    endpoint: 'settings'
+    endpoint: 'settings',
 })
 export class Setting extends JsonApiModel<Setting> {
     @Attribute()
@@ -23,11 +24,11 @@ export class Setting extends JsonApiModel<Setting> {
     value: any;
 
     @Relation('BelongsTo', () => Company)
-    company?: Company;
+    company?: Include<Company>;
 
     @Relation('BelongsTo', () => Account)
-    account?: Account;
+    account?: Include<Account>;
 
     @Relation('BelongsTo', () => SettingType)
-    settingType?: SettingType;
+    settingType?: Include<SettingType>;
 }

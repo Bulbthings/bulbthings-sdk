@@ -13,9 +13,9 @@ export class ReadonlyResource<T extends JsonApiModel<T>> {
     ) {}
 
     // Allow different return types
-    findAll(options?: JsonApiOptions, withMeta?: false): Promise<T[]>;
+    findAll(options?: JsonApiOptions<T>, withMeta?: false): Promise<T[]>;
     findAll(
-        options: JsonApiOptions,
+        options: JsonApiOptions<T>,
         withMeta: true
     ): Promise<{
         meta: {
@@ -27,16 +27,16 @@ export class ReadonlyResource<T extends JsonApiModel<T>> {
         data: T[];
     }>;
 
-    async findAll(options?: JsonApiOptions, withMeta = false) {
+    async findAll(options?: JsonApiOptions<T>, withMeta = false) {
         const res = await findAll(this.bulbthings, this.modelType, options);
         return withMeta ? res : res.data;
     }
 
-    async findById(id: string, options?: JsonApiOptions): Promise<T> {
+    async findById(id: string, options?: JsonApiOptions<T>): Promise<T> {
         return findById(this.bulbthings, this.modelType, id, options);
     }
 
-    async getCached(id: string, options?: JsonApiOptions): Promise<T> {
+    async getCached(id: string, options?: JsonApiOptions<T>): Promise<T> {
         const endpoint = this.getEndpoint();
         let cached = this.bulbthings.cache.get<T>(endpoint, id);
         if (cached === undefined) {

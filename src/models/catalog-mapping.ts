@@ -1,3 +1,4 @@
+import { Include } from 'include';
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Relation } from '../decorators/relation';
@@ -24,8 +25,8 @@ export class CatalogMapping extends JsonApiModel<CatalogMapping> {
     };
 
     @Relation('BelongsTo', () => Catalog)
-    catalog?: Catalog;
+    catalog?: Include<Catalog>;
 
     @Relation('BelongsTo', () => EntityType)
-    entityType?: EntityType;
+    entityType?: Include<EntityType>;
 }

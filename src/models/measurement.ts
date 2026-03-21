@@ -1,13 +1,14 @@
-import { Period } from '../interfaces/period';
-import { JsonApiModel } from '../models/jsonapi-model';
-import { Entity } from '../models/entity';
-import { Relation } from '../decorators/relation';
-import { JsonApiModelConfig } from '../decorators/json-api-model';
-import { Attribute } from '../decorators/attribute';
+import { Include } from 'include';
 import { periodConverter } from '../converters/period';
+import { Attribute } from '../decorators/attribute';
+import { JsonApiModelConfig } from '../decorators/json-api-model';
+import { Relation } from '../decorators/relation';
+import { Period } from '../interfaces/period';
+import { Entity } from '../models/entity';
+import { JsonApiModel } from '../models/jsonapi-model';
+import { Account } from './account';
 import { AttributeType } from './attribute-type';
 import { Company } from './company';
-import { Account } from './account';
 
 @JsonApiModelConfig({
     endpoint: 'measurements',
@@ -41,14 +42,14 @@ export class Measurement extends JsonApiModel<Measurement> {
     createdAt?: Date;
 
     @Relation('BelongsTo', () => Company)
-    company?: Company;
+    company?: Include<Company>;
 
     @Relation('BelongsTo', () => AttributeType)
-    attributeType?: AttributeType;
+    attributeType?: Include<AttributeType>;
 
     @Relation('BelongsTo', () => Account)
-    account?: Account;
+    account?: Include<Account>;
 
     @Relation('BelongsTo', () => Entity)
-    entity?: Entity;
+    entity?: Include<Entity>;
 }
