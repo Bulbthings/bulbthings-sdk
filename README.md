@@ -1,6 +1,12 @@
 # Bulbthings SDK
 
-## Documentation
+![npm](https://img.shields.io/npm/v/@bulbthings/bulbthings-sdk)
+
+The Bulbthings SDK allows you to conveniently interact with the Bulbthings API. The SDK is compatible with any environment where JavaScript/TypeScript is supported, including web browsers, React Native or Node.js applications.
+
+Learn more about Bulbthings on our website: [https://bulbthings.com](https://bulbthings.com)
+
+## Full documentation
 
 -   [HTTP API reference](https://api.bulbthings.com)
 -   [Wiki documentation](https://github.com/Bulbthings/bulbthings-sdk/wiki)
@@ -54,7 +60,7 @@ const customField = await bulbthings.attributeTypes.create({
 });
 
 // Show the field on the category profiles
-bulbthings.entityTypeMappings.create({
+await bulbthings.entityTypeMappings.create({
     companyId: workspace.id,
     entityTypeId: customCategory.id,
     type: 'attributeType',

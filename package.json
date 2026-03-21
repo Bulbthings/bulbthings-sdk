@@ -1,6 +1,6 @@
 {
     "name": "@bulbthings/bulbthings-sdk",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "Isomorphic JavaScript/TypeScript SDK for the Bulbthings API",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -8,6 +8,15 @@
         "type": "git",
         "url": "git+https://github.com/Bulbthings/bulbthings-sdk.git"
     },
+    "keywords": [
+        "asset management",
+        "asset tracking",
+        "cmms",
+        "fleet management",
+        "maintenance",
+        "inventory",
+        "stock management"
+    ],
     "files": [
         "dist",
         "README.md"
