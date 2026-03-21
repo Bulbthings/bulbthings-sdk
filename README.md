@@ -20,7 +20,7 @@ npm install @bulbthings/bulbthings-sdk
 ## Authentication
 
 ```TypeScript
-import { Bulbthings } from 'bulbthings-sdk';
+import { Bulbthings } from '@bulbthings/bulbthings-sdk';
 
 const bulbthings = new Bulbthings({ apiToken: '83945b4eaf...7a37a' });
 
