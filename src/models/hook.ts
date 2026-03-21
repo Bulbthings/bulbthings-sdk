@@ -1,7 +1,6 @@
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Relation } from '../decorators/relation';
-import { Include } from '../types/include';
 import { Company } from './company';
 import { JsonApiModel } from './jsonapi-model';
 
@@ -28,5 +27,5 @@ export class Hook extends JsonApiModel<Hook> {
     triggeredOn: string[];
 
     @Relation('BelongsTo', () => Company)
-    company?: Include<Company>;
+    company?: Company;
 }

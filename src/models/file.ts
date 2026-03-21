@@ -1,7 +1,6 @@
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Relation } from '../decorators/relation';
-import { Include } from '../types/include';
 import { Account } from './account';
 import { Company } from './company';
 import { Entity } from './entity';
@@ -83,11 +82,11 @@ export class File extends JsonApiModel<File> {
     updatedAt?: Date;
 
     @Relation('BelongsTo', () => Company)
-    company?: Include<Company>;
+    company?: Company;
 
     @Relation('BelongsTo', () => Account)
-    account?: Include<Account>;
+    account?: Account;
 
     @Relation('BelongsTo', () => Entity)
-    entity?: Include<Entity>;
+    entity?: Entity;
 }

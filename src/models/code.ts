@@ -1,7 +1,6 @@
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Relation } from '../decorators/relation';
-import { Include } from '../types/include';
 import { Company } from './company';
 import { Entity } from './entity';
 import { JsonApiModel } from './jsonapi-model';
@@ -23,8 +22,8 @@ export class Code extends JsonApiModel<Code> {
     value: string;
 
     @Relation('BelongsTo', () => Company)
-    company?: Include<Company>;
+    company?: Company;
 
     @Relation('BelongsTo', () => Entity)
-    entity?: Include<Entity>;
+    entity?: Entity;
 }

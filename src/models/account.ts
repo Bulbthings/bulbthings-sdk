@@ -1,7 +1,6 @@
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Relation } from '../decorators/relation';
-import { Include } from '../types/include';
 import { Company } from './company';
 import { JsonApiModel } from './jsonapi-model';
 import { Key } from './key';
@@ -46,17 +45,17 @@ export class Account extends JsonApiModel<Account> {
     updatedAt?: Date;
 
     @Relation('HasMany', () => Company)
-    companies?: Include<Company[]>;
+    companies?: Company[];
 
     @Relation('HasMany', () => Membership)
-    memberships?: Include<Membership[]>;
+    memberships?: Membership[];
 
     @Relation('HasMany', () => Key)
-    keys?: Include<Key[]>;
+    keys?: Key[];
 
     @Relation('HasMany', () => Setting)
-    settings?: Include<Setting[]>;
+    settings?: Setting[];
 
     @Relation('HasMany', () => UnitSetting)
-    unitSettings?: Include<UnitSetting[]>;
+    unitSettings?: UnitSetting[];
 }

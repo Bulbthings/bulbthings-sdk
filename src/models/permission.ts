@@ -1,7 +1,6 @@
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Relation } from '../decorators/relation';
-import { Include } from '../types/include';
 import { Company } from './company';
 import { JsonApiModel } from './jsonapi-model';
 import { Role } from './role';
@@ -29,8 +28,8 @@ export class Permission extends JsonApiModel<Permission> {
     rights: string[];
 
     @Relation('BelongsTo', () => Company)
-    company?: Include<Company>;
+    company?: Company;
 
     @Relation('BelongsTo', () => Role)
-    role?: Include<Role>;
+    role?: Role;
 }

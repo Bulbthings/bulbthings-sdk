@@ -1,6 +1,4 @@
-declare const relationMarker: unique symbol;
-
-export type Include<T> = T & { [relationMarker]: true };
+import { JsonApiModel } from '../models/jsonapi-model';
 
 type Unarray<T> = T extends (infer U)[] ? U : T;
 type Prev = [never, 0, 1, 2, 3, 4, 5];
@@ -10,7 +8,7 @@ export type IsAny<T> = 0 extends 1 & T ? true : false;
 type IncludeKeys<T> = {
     [K in keyof T]: IsAny<T[K]> extends true
         ? never
-        : T[K] extends { [relationMarker]: true }
+        : Unarray<T[K]> extends JsonApiModel<any>
         ? K
         : never;
 }[keyof T] &

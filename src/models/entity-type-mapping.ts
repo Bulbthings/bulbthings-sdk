@@ -1,7 +1,6 @@
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Relation } from '../decorators/relation';
-import { Include } from '../types/include';
 import { ActionType } from './action-type';
 import { AssociationType } from './association-type';
 import { AttributeType } from './attribute-type';
@@ -62,20 +61,20 @@ export class EntityTypeMapping extends JsonApiModel<EntityTypeMapping> {
     type: 'associationType' | 'attributeType' | 'eventType' | 'actionType';
 
     @Relation('BelongsTo', () => EntityType)
-    entityType?: Include<EntityType>;
+    entityType?: EntityType;
 
     @Relation('BelongsTo', () => AssociationType)
-    associationType?: Include<AssociationType>;
+    associationType?: AssociationType;
 
     @Relation('BelongsTo', () => AttributeType)
-    attributeType?: Include<AttributeType>;
+    attributeType?: AttributeType;
 
     @Relation('BelongsTo', () => EventType)
-    eventType?: Include<EventType>;
+    eventType?: EventType;
 
     @Relation('BelongsTo', () => ActionType)
-    actionType?: Include<ActionType>;
+    actionType?: ActionType;
 
     @Relation('BelongsTo', () => Role)
-    role?: Include<Role>;
+    role?: Role;
 }

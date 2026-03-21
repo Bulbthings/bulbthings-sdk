@@ -5,7 +5,6 @@ import { Relation } from '../decorators/relation';
 import { Period } from '../interfaces/period';
 import { Entity } from '../models/entity';
 import { JsonApiModel } from '../models/jsonapi-model';
-import { Include } from '../types/include';
 import { Account } from './account';
 import { AttributeType } from './attribute-type';
 import { Company } from './company';
@@ -42,14 +41,14 @@ export class Measurement extends JsonApiModel<Measurement> {
     createdAt?: Date;
 
     @Relation('BelongsTo', () => Company)
-    company?: Include<Company>;
+    company?: Company;
 
     @Relation('BelongsTo', () => AttributeType)
-    attributeType?: Include<AttributeType>;
+    attributeType?: AttributeType;
 
     @Relation('BelongsTo', () => Account)
-    account?: Include<Account>;
+    account?: Account;
 
     @Relation('BelongsTo', () => Entity)
-    entity?: Include<Entity>;
+    entity?: Entity;
 }

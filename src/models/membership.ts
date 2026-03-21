@@ -3,7 +3,6 @@ import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Relation } from '../decorators/relation';
 import { Period } from '../interfaces/period';
-import { Include } from '../types/include';
 import { Account } from './account';
 import { Company } from './company';
 import { Entity } from './entity';
@@ -33,14 +32,14 @@ export class Membership extends JsonApiModel<Membership> {
     period?: Period;
 
     @Relation('BelongsTo', () => Company)
-    company?: Include<Company>;
+    company?: Company;
 
     @Relation('BelongsTo', () => Account)
-    account?: Include<Account>;
+    account?: Account;
 
     @Relation('BelongsTo', () => Entity)
-    entity?: Include<Entity>;
+    entity?: Entity;
 
     @Relation('HasMany', () => Grant)
-    grants?: Include<Grant[]>;
+    grants?: Grant[];
 }

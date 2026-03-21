@@ -3,7 +3,6 @@ import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Relation } from '../decorators/relation';
 import { Period } from '../interfaces/period';
-import { Include } from '../types/include';
 import { AssociationType } from './association-type';
 import { Company } from './company';
 import { Entity } from './entity';
@@ -52,14 +51,14 @@ export class Association extends JsonApiModel<Association> {
     };
 
     @Relation('BelongsTo', () => Company)
-    company?: Include<Company>;
+    company?: Company;
 
     @Relation('BelongsTo', () => AssociationType)
-    associationType?: Include<AssociationType>;
+    associationType?: AssociationType;
 
     @Relation('BelongsTo', () => Entity)
-    sourceEntity?: Include<Entity>;
+    sourceEntity?: Entity;
 
     @Relation('BelongsTo', () => Entity)
-    targetEntity?: Include<Entity>;
+    targetEntity?: Entity;
 }

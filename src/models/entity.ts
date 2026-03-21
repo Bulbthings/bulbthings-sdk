@@ -1,7 +1,6 @@
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Relation } from '../decorators/relation';
-import { Include } from '../types/include';
 import { Account } from './account';
 import { Association } from './association';
 import { Code } from './code';
@@ -58,23 +57,23 @@ export class Entity extends JsonApiModel<Entity> {
     };
 
     @Relation('BelongsTo', () => Company)
-    company?: Include<Company>;
+    company?: Company;
 
     @Relation('BelongsTo', () => EntityType)
-    entityType?: Include<EntityType>;
+    entityType?: EntityType;
 
     @Relation('BelongsTo', () => Account)
-    account?: Include<Account>;
+    account?: Account;
 
     @Relation('HasMany', () => Association)
-    associations?: Include<Association[]>;
+    associations?: Association[];
 
     @Relation('BelongsTo', () => File)
-    avatarFile?: Include<File>;
+    avatarFile?: File;
 
     @Relation('HasMany', () => File)
-    files?: Include<File[]>;
+    files?: File[];
 
     @Relation('HasMany', () => Code)
-    codes?: Include<Code[]>;
+    codes?: Code[];
 }

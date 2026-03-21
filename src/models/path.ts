@@ -3,7 +3,6 @@ import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Relation } from '../decorators/relation';
 import { Period } from '../interfaces/period';
-import { Include } from '../types/include';
 import { Company } from './company';
 import { Entity } from './entity';
 import { JsonApiModel } from './jsonapi-model';
@@ -40,11 +39,11 @@ export class Path extends JsonApiModel<Path> {
     depth?: number;
 
     @Relation('BelongsTo', () => Company)
-    company?: Include<Company>;
+    company?: Company;
 
     @Relation('BelongsTo', () => Entity)
-    sourceEntity?: Include<Entity>;
+    sourceEntity?: Entity;
 
     @Relation('BelongsTo', () => Entity)
-    targetEntity?: Include<Entity>;
+    targetEntity?: Entity;
 }

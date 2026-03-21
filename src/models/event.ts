@@ -1,7 +1,6 @@
 import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Relation } from '../decorators/relation';
-import { Include } from '../types/include';
 import { Account } from './account';
 import { Action } from './action';
 import { Company } from './company';
@@ -45,17 +44,17 @@ export class Event extends JsonApiModel<Event> {
     };
 
     @Relation('BelongsTo', () => Company)
-    company?: Include<Company>;
+    company?: Company;
 
     @Relation('BelongsTo', () => EventType)
-    eventType?: Include<EventType>;
+    eventType?: EventType;
 
     @Relation('BelongsTo', () => Account)
-    account?: Include<Account>;
+    account?: Account;
 
     @Relation('BelongsTo', () => Entity)
-    entity?: Include<Entity>;
+    entity?: Entity;
 
     @Relation('HasMany', () => Action)
-    actions?: Include<Action[]>;
+    actions?: Action[];
 }

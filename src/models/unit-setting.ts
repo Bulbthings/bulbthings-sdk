@@ -2,7 +2,6 @@ import { Attribute } from '../decorators/attribute';
 import { JsonApiModelConfig } from '../decorators/json-api-model';
 import { Relation } from '../decorators/relation';
 import { JsonApiModel } from '../models/jsonapi-model';
-import { Include } from '../types/include';
 import { Account } from './account';
 import { AttributeType } from './attribute-type';
 import { Company } from './company';
@@ -25,14 +24,14 @@ export class UnitSetting extends JsonApiModel<UnitSetting> {
     unitId: string;
 
     @Relation('BelongsTo', () => Company)
-    company?: Include<Company>;
+    company?: Company;
 
     @Relation('BelongsTo', () => Account)
-    account?: Include<Account>;
+    account?: Account;
 
     @Relation('BelongsTo', () => AttributeType)
-    attributeType?: Include<AttributeType>;
+    attributeType?: AttributeType;
 
     @Relation('BelongsTo', () => Unit)
-    unit?: Include<Unit>;
+    unit?: Unit;
 }
