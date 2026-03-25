@@ -41,12 +41,15 @@ import { ReadonlyResource } from './resources/readonly-resource';
 import { Resource } from './resources/resource';
 import { TimeSeriesResource } from './resources/time-series';
 import { CoreEventType, allEventTypes } from './types/core-event-type';
+import { Mutex } from 'async-mutex';
 
 // Export JSONAPI Error class to parse errors
 export { DocWithErrors as ApiError } from 'jsonapi-typescript';
+export * from './interfaces/core-event';
+export * from './interfaces/json-api-options';
 export * from './interfaces/ui-node';
 export * from './types/core-event-type';
-// Export all models so they can be used from outside
+// Export all models
 export * from './models';
 
 export class Bulbthings {
@@ -99,6 +102,7 @@ export class Bulbthings {
     listeners: { type: CoreEventType; listener: EventListener }[] = [];
     private eventSource: EventSource;
     private retrySeconds = 1;
+    private eventSourceMutex = new Mutex();
 
     /**
      * Subscribe to real-time events of the API
@@ -155,42 +159,74 @@ export class Bulbthings {
         this.connectEventSource();
     }
 
-    private connectEventSource() {
-        if (this.options.disableEvents) {
-            return;
+    private async getEventSourceCode(): Promise<string | null> {
+        try {
+            if (!this.options.apiToken) {
+                return null;
+            }
+
+            const res = await fetch(`${this.options.eventsUrl}/auth`, {
+                method: 'GET',
+                headers: { Authorization: `Bearer ${this.options.apiToken}` },
+            });
+
+            if (res.status >= 400) {
+                throw await res.json();
+            }
+
+            const { code } = await res.json();
+            return code;
+        } catch (err) {
+            console.error('[getEventSourceCode]', err);
+            return null;
         }
+    }
 
-        this.disconnectEventSource();
-        console.log('[eventSource] connecting...');
-        this.eventSource = new EventSource(
-            `${this.options.eventsUrl}/connect?workspaceId=${
-                this.options.companyId || ''
-            }`
-        );
+    private async connectEventSource() {
+        const release = await this.eventSourceMutex.acquire();
+        try {
+            if (this.options.disableEvents) {
+                return;
+            }
 
-        this.eventSource.addEventListener('open', () => {
-            console.log('[eventSource] connected.');
-            this.retrySeconds = 1;
-        });
-
-        // Handle disconnect errors
-        this.eventSource.addEventListener('error', () => {
             this.disconnectEventSource();
-            console.warn(
-                `[eventSource] disconnected, retrying in ${this.retrySeconds} seconds`
+            console.log('[eventSource] connecting...');
+
+            const code = (await this.getEventSourceCode()) || '';
+            const workspaceId = this.options.companyId || '';
+
+            this.eventSource = new EventSource(
+                `${this.options.eventsUrl}/feed?code=${code}&workspaceId=${workspaceId}`
             );
 
-            setTimeout(() => {
-                this.connectEventSource();
-                // Exponential retry to avoid spamming the server
-                this.retrySeconds = Math.min(60, this.retrySeconds * 2);
-            }, this.retrySeconds * 1000);
-        });
+            this.eventSource.addEventListener('open', () => {
+                console.log('[eventSource] connected.');
+                this.retrySeconds = 1;
+            });
 
-        // Reconnect all the listeners
-        this.listeners.forEach((l) =>
-            this.eventSource.addEventListener(l.type, l.listener)
-        );
+            // Handle disconnect errors
+            this.eventSource.addEventListener('error', () => {
+                this.disconnectEventSource();
+                console.warn(
+                    `[eventSource] disconnected, retrying in ${this.retrySeconds} seconds`
+                );
+
+                setTimeout(() => {
+                    this.connectEventSource();
+                    // Exponential retry to avoid spamming the server
+                    this.retrySeconds = Math.min(60, this.retrySeconds * 2);
+                }, this.retrySeconds * 1000);
+            });
+
+            // Reconnect all the listeners
+            this.listeners.forEach((l) =>
+                this.eventSource.addEventListener(l.type, l.listener)
+            );
+        } catch (err) {
+            console.error(`[connectEventSource]`, err);
+        } finally {
+            release();
+        }
     }
 
     private disconnectEventSource() {
