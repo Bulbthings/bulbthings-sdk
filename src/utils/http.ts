@@ -53,6 +53,7 @@ export const request = async (
     );
 
     const apiToken = options.params.apiToken || bulb.options.apiToken;
+    const environmentId = bulb.options.environment || 'app.bulbthings.com';
 
     // Avoid leaking the token in the URL
     delete options.params.apiToken;
@@ -64,7 +65,7 @@ export const request = async (
     }
 
     if (bulb.options.log) {
-        console.log(`[bulbthings-sdk][${method} ${url}]`);
+        console.log(`[bulbthings][${method} ${url}]`);
     }
 
     let res: Response;
@@ -78,8 +79,7 @@ export const request = async (
                     Accept: 'application/vnd.api+json',
                     'Content-Type': 'application/vnd.api+json',
                     Authorization: `Bearer ${apiToken}`,
-                    'Bulbthings-Environment':
-                        bulb.options.environment || 'app.bulbthings.com',
+                    'Bulbthings-Environment': environmentId,
                     'Geo-Position': bulb.options.geoPosition
                         ? `${bulb.options.geoPosition.lat};${bulb.options.geoPosition.lng}`
                         : undefined,
@@ -97,18 +97,25 @@ export const request = async (
         } catch (error) {
             if (isNetworkError(error)) {
                 bulb.listeners
-                    .filter((l) => l.type === 'networkError')
+                    .filter(
+                        (l) =>
+                            l.events === '*' ||
+                            l.events.includes('networkError')
+                    )
                     .forEach((l) =>
-                        l.listener(<any>{
-                            data: JSON.stringify({
+                        l.callback({
+                            id: null,
+                            type: 'networkError',
+                            data: {
+                                environmentId,
                                 resource: { message: error.message },
-                            }),
+                            },
                         })
                     );
                 if (retries > 0) {
                     const delay = Math.floor(Math.max(3000, 9000 / retries));
                     console.warn(
-                        `[bulbthings-sdk][${method} ${url}] Network error, retrying in ${delay} ms...`
+                        `[bulbthings][${method} ${url}] Network error, retrying in ${delay} ms...`
                     );
                     await new Promise((resolve) => setTimeout(resolve, delay));
                     return await executeRequest(retries - 1);

@@ -1,5 +1,5 @@
-import { Period } from '../interfaces/period';
 import { Converter } from '../interfaces/converter';
+import { Period } from '../interfaces/period';
 
 export const periodConverter: Converter = {
     parse: (value: { from: 'string'; to: 'string'; bounds: 'string' }) => {
@@ -8,13 +8,13 @@ export const periodConverter: Converter = {
                 ? {
                       from: value.from ? new Date(value.from) : null,
                       to: value.to ? new Date(value.to) : null,
-                      bounds: value.bounds
+                      bounds: value.bounds,
                   }
                 : value;
         } catch (err) {
-            console.warn(`periodConverter error with value ${value}:`, err);
+            console.warn(`[bulbthings][periodConverter] error ${value}:`, err);
             return value;
         }
     },
-    stringify: (value: Period) => value
+    stringify: (value: Period) => value,
 };

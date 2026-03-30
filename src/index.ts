@@ -1,7 +1,9 @@
+import { Mutex } from 'async-mutex';
 import EventSource from 'cross-eventsource';
 import 'reflect-metadata';
 import { BulbthingsOptions } from './interfaces/bulbthings-options';
 import { CoreEvent } from './interfaces/core-event';
+import { EventSourceListener } from './interfaces/eventsource-listener';
 import {
     Account,
     Acknowledgement,
@@ -40,8 +42,7 @@ import { PathResource } from './resources/path-resource';
 import { ReadonlyResource } from './resources/readonly-resource';
 import { Resource } from './resources/resource';
 import { TimeSeriesResource } from './resources/time-series';
-import { CoreEventType, allEventTypes } from './types/core-event-type';
-import { Mutex } from 'async-mutex';
+import { CoreEventType } from './types/core-event-type';
 
 // Export JSONAPI Error class to parse errors
 export { DocWithErrors as ApiError } from 'jsonapi-typescript';
@@ -99,7 +100,7 @@ export class Bulbthings {
     };
 
     // Server-Sent Events (SSE)
-    listeners: { type: CoreEventType; listener: EventListener }[] = [];
+    listeners: EventSourceListener[] = [];
     private eventSource: EventSource;
     private retrySeconds = 1;
     private eventSourceMutex = new Mutex();
@@ -109,28 +110,12 @@ export class Bulbthings {
      * @param types Types of events to subscribe to
      * @param callback Event handler function
      */
-    on(types: CoreEventType[] | '*', callback: (event: CoreEvent) => void) {
-        const subscriptions: {
-            type: CoreEventType;
-            listener: EventListener;
-        }[] = [];
-
-        for (const type of types === '*' ? allEventTypes : types) {
-            const listener: EventListener = (evt) =>
-                callback(<CoreEvent>{ type, data: JSON.parse(evt['data']) });
-            this.eventSource?.addEventListener(type, listener);
-            subscriptions.push({ type, listener });
-        }
-
-        this.listeners.push(...subscriptions);
-
+    on(types: CoreEventType[] | '*', callback: (event: CoreEvent) => any) {
+        const subscription: EventSourceListener = { events: types, callback };
+        this.listeners.push(subscription);
         // Return a function to unsubscribe
         return () =>
-            subscriptions.forEach((s) => {
-                const idx = this.listeners.findIndex((x) => x === s);
-                this.listeners.splice(idx, 1);
-                this.eventSource?.removeEventListener(s.type, s.listener);
-            });
+            this.listeners.splice(this.listeners.indexOf(subscription), 1);
     }
 
     setToken(token: string) {
@@ -177,7 +162,7 @@ export class Bulbthings {
             const { code } = await res.json();
             return code;
         } catch (err) {
-            console.error('[getEventSourceCode]', err);
+            console.error('[bulbthings][getEventSourceCode]', err);
             return null;
         }
     }
@@ -190,7 +175,7 @@ export class Bulbthings {
             }
 
             this.disconnectEventSource();
-            console.log('[eventSource] connecting...');
+            console.log('[bulbthings] connecting...');
 
             const code = (await this.getEventSourceCode()) || '';
             const workspaceId = this.options.companyId || '';
@@ -200,15 +185,42 @@ export class Bulbthings {
             );
 
             this.eventSource.addEventListener('open', () => {
-                console.log('[eventSource] connected.');
+                console.log('[bulbthings] connected.');
                 this.retrySeconds = 1;
+            });
+
+            // Listen to all messages
+            this.eventSource.addEventListener('message', (event) => {
+                try {
+                    console.log('event source message', event);
+                    const coreEvent = JSON.parse(event.data) as CoreEvent;
+                    console.log('coreEvent', coreEvent);
+                    this.listeners
+                        .filter(
+                            (l) =>
+                                l.events === '*' ||
+                                l.events.includes(coreEvent.type)
+                        )
+                        .forEach((l) => {
+                            try {
+                                l.callback(coreEvent);
+                            } catch (err) {
+                                console.error(
+                                    '[bulbthings] callback error',
+                                    err
+                                );
+                            }
+                        });
+                } catch (err) {
+                    console.error('[bulbthings] error processing event', err);
+                }
             });
 
             // Handle disconnect errors
             this.eventSource.addEventListener('error', () => {
                 this.disconnectEventSource();
                 console.warn(
-                    `[eventSource] disconnected, retrying in ${this.retrySeconds} seconds`
+                    `[bulbthings] disconnected, retrying in ${this.retrySeconds} seconds`
                 );
 
                 setTimeout(() => {
@@ -217,13 +229,8 @@ export class Bulbthings {
                     this.retrySeconds = Math.min(60, this.retrySeconds * 2);
                 }, this.retrySeconds * 1000);
             });
-
-            // Reconnect all the listeners
-            this.listeners.forEach((l) =>
-                this.eventSource.addEventListener(l.type, l.listener)
-            );
         } catch (err) {
-            console.error(`[connectEventSource]`, err);
+            console.error(`[bulbthings][connectEventSource]`, err);
         } finally {
             release();
         }
@@ -231,7 +238,7 @@ export class Bulbthings {
 
     private disconnectEventSource() {
         if (this.eventSource) {
-            console.log('[eventSource] closing...');
+            console.log('[bulbthings] closing event feed...');
             this.eventSource.close();
         }
     }

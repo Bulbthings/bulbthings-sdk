@@ -56,7 +56,7 @@ export class Resource<T extends JsonApiModel<T>> {
                 if (status === '404') {
                     this.bulbthings.cache.set(endpoint, id, null);
                 } else {
-                    console.error(`[${endpoint}][getCached]`, err);
+                    console.error(`[bulbthings][${endpoint}][getCached]`, err);
                 }
             } finally {
                 release();
