@@ -97,11 +97,7 @@ export const request = async (
         } catch (error) {
             if (isNetworkError(error)) {
                 bulb.listeners
-                    .filter(
-                        (l) =>
-                            l.events === '*' ||
-                            l.events.includes('networkError')
-                    )
+                    .filter((l) => l.events.includes('networkError'))
                     .forEach((l) =>
                         l.callback({
                             id: null,

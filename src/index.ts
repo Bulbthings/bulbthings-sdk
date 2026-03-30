@@ -42,7 +42,7 @@ import { PathResource } from './resources/path-resource';
 import { ReadonlyResource } from './resources/readonly-resource';
 import { Resource } from './resources/resource';
 import { TimeSeriesResource } from './resources/time-series';
-import { CoreEventType } from './types/core-event-type';
+import { allEventTypes, CoreEventType } from './types/core-event-type';
 
 // Export JSONAPI Error class to parse errors
 export { DocWithErrors as ApiError } from 'jsonapi-typescript';
@@ -111,7 +111,8 @@ export class Bulbthings {
      * @param callback Event handler function
      */
     on(types: CoreEventType[] | '*', callback: (event: CoreEvent) => any) {
-        const subscription: EventSourceListener = { events: types, callback };
+        const events = [...(types === '*' ? allEventTypes : types)];
+        const subscription: EventSourceListener = { events, callback };
         this.listeners.push(subscription);
         // Return a function to unsubscribe
         return () =>
@@ -196,11 +197,7 @@ export class Bulbthings {
                     const coreEvent = JSON.parse(event.data) as CoreEvent;
                     console.log('coreEvent', coreEvent);
                     this.listeners
-                        .filter(
-                            (l) =>
-                                l.events === '*' ||
-                                l.events.includes(coreEvent.type)
-                        )
+                        .filter((l) => l.events.includes(coreEvent.type))
                         .forEach((l) => {
                             try {
                                 l.callback(coreEvent);
