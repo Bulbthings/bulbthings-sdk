@@ -193,9 +193,7 @@ export class Bulbthings {
             // Listen to all messages
             this.eventSource.addEventListener('message', (event) => {
                 try {
-                    console.log('event source message', event);
                     const coreEvent = JSON.parse(event.data) as CoreEvent;
-                    console.log('coreEvent', coreEvent);
                     this.listeners
                         .filter((l) => l.events.includes(coreEvent.type))
                         .forEach((l) => {
