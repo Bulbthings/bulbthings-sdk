@@ -18,32 +18,65 @@ export async function findAll<T extends JsonApiModel<T>>(
         modelType
     ) as JsonApiModelConfig;
 
-    const res = await request(
-        bulb,
-        'GET',
-        `${bulb.options.coreUrl}/${endpoint}`,
-        { params: options }
-    );
+    let autoPage = false;
+    let offset = options?.page?.offset || 0;
+    let limit = options?.page?.limit || 100;
+    let page = 0;
+    let start: number;
+    let res: JSONAPI.CollectionResourceDoc & { meta: any };
 
-    // Build a map of included resources by id for fast access
-    const includedResources: {
-        [type: string]: { [id: string]: JSONAPI.ResourceObject };
-    } = {};
-    ((res as JSONAPI.CollectionResourceDoc).included || []).forEach((r) => {
-        includedResources[r.type] = includedResources[r.type] || {};
-        includedResources[r.type][r.id] = r;
-    });
+    while (!page || (autoPage && models.length < res?.meta?.rowCount - start)) {
+        res = await request(
+            bulb,
+            'GET',
+            `${bulb.options.coreUrl}/${endpoint}`,
+            { params: { ...options, page: { offset, limit } } }
+        );
 
-    // Parse the data and build relationships
-    (res as JSONAPI.CollectionResourceDoc).data.forEach((element) => {
-        const model = parseResource({
-            resource: element,
-            type: modelType,
-            includedResources,
-            cache: !options?.fields ? bulb.cache : null,
+        // Build a map of included resources by id for fast access
+        const includedResources: {
+            [type: string]: { [id: string]: JSONAPI.ResourceObject };
+        } = {};
+        (res.included || []).forEach((r) => {
+            includedResources[r.type] = includedResources[r.type] || {};
+            includedResources[r.type][r.id] = r;
         });
-        models.push(model);
-    });
 
-    return { meta: res.meta || {}, data: models };
+        // Parse the data and build relationships
+        (res.data || []).forEach((element) => {
+            const model = parseResource({
+                resource: element,
+                type: modelType,
+                includedResources,
+                cache: !options?.fields ? bulb.cache : null,
+            });
+            models.push(model);
+        });
+
+        // Update pagination values
+        offset = res.meta.offset + res.meta.limit;
+        limit = res.meta.limit;
+        page++;
+
+        if (page === 1) {
+            start = res.meta.offset;
+            autoPage =
+                options?.page?.limit === undefined ||
+                options?.page?.limit > limit;
+        }
+
+        console.log(`[bulbthings][findAll][${endpoint}]`, {
+            models: models.length,
+            ...res.meta,
+            autoPage,
+            page,
+        });
+    }
+
+    return {
+        meta: autoPage
+            ? { ...res.meta, offset: start, limit: limit * page }
+            : { ...res.meta },
+        data: models,
+    };
 }
