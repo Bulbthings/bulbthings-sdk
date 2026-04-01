@@ -18,7 +18,7 @@ export async function findAll<T extends JsonApiModel<T>>(
         modelType
     ) as JsonApiModelConfig;
 
-    const autoPage = options?.page?.limit === undefined;
+    let autoPage = false;
     let offset = options?.page?.offset || 0;
     let limit = options?.page?.limit || 100;
     let page = 0;
@@ -54,12 +54,18 @@ export async function findAll<T extends JsonApiModel<T>>(
         });
 
         // Update pagination values
-        start = start ?? res.meta.offset;
         offset = res.meta.offset + res.meta.limit;
         limit = res.meta.limit;
         page++;
 
-        console.log(`[bulbthings][findAll][${modelType}]`, {
+        if (page === 1) {
+            start = res.meta.offset;
+            autoPage =
+                options?.page?.limit === undefined ||
+                options?.page?.limit > limit;
+        }
+
+        console.log(`[bulbthings][findAll][${endpoint}]`, {
             models: models.length,
             ...res.meta,
             autoPage,
