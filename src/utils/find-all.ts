@@ -18,13 +18,14 @@ export async function findAll<T extends JsonApiModel<T>>(
         modelType
     ) as JsonApiModelConfig;
 
+    const autoPaginate = options?.page?.limit === undefined;
     let offset = options?.page?.offset || 0;
     let limit = options?.page?.limit || 100;
-    let hasMoreRows = true;
-    let autoPaginate = true;
-    let res: JSONAPI.CollectionResourceDoc;
+    let page = 0;
+    let firstOffset: number;
+    let res: JSONAPI.CollectionResourceDoc & { meta: any };
 
-    while (hasMoreRows && autoPaginate) {
+    while (!page || (autoPaginate && models.length < res?.meta?.rowCount)) {
         res = await request(
             bulb,
             'GET',
@@ -53,19 +54,23 @@ export async function findAll<T extends JsonApiModel<T>>(
         });
 
         // Update pagination values
-        const meta = res.meta as any;
-        hasMoreRows = models.length < meta.rowCount;
-        autoPaginate = options?.page?.limit === undefined;
-        offset = meta.offset + meta.limit;
-        limit = meta.limit;
+        firstOffset = firstOffset ?? res.meta.offset;
+        offset = res.meta.offset + res.meta.limit;
+        limit = res.meta.limit;
+        page++;
 
         console.log(`[bulbthings][findAll][${modelType}]`, {
-            ...meta,
-            rows: models.length,
-            hasMoreRows,
+            models: models.length,
+            ...res.meta,
             autoPaginate,
+            page,
         });
     }
 
-    return { meta: { ...res.meta }, data: models };
+    return {
+        meta: autoPaginate
+            ? { ...res.meta, offset: firstOffset, limit: limit * page }
+            : { ...res.meta },
+        data: models,
+    };
 }
