@@ -18,32 +18,54 @@ export async function findAll<T extends JsonApiModel<T>>(
         modelType
     ) as JsonApiModelConfig;
 
-    const res = await request(
-        bulb,
-        'GET',
-        `${bulb.options.coreUrl}/${endpoint}`,
-        { params: options }
-    );
+    let offset = options?.page?.offset || 0;
+    let limit = options?.page?.limit || 100;
+    let hasMoreRows = true;
+    let autoPaginate = true;
+    let res: JSONAPI.CollectionResourceDoc;
 
-    // Build a map of included resources by id for fast access
-    const includedResources: {
-        [type: string]: { [id: string]: JSONAPI.ResourceObject };
-    } = {};
-    ((res as JSONAPI.CollectionResourceDoc).included || []).forEach((r) => {
-        includedResources[r.type] = includedResources[r.type] || {};
-        includedResources[r.type][r.id] = r;
-    });
+    while (hasMoreRows && autoPaginate) {
+        res = await request(
+            bulb,
+            'GET',
+            `${bulb.options.coreUrl}/${endpoint}`,
+            { params: { ...options, page: { offset, limit } } }
+        );
 
-    // Parse the data and build relationships
-    (res as JSONAPI.CollectionResourceDoc).data.forEach((element) => {
-        const model = parseResource({
-            resource: element,
-            type: modelType,
-            includedResources,
-            cache: !options?.fields ? bulb.cache : null,
+        // Build a map of included resources by id for fast access
+        const includedResources: {
+            [type: string]: { [id: string]: JSONAPI.ResourceObject };
+        } = {};
+        (res.included || []).forEach((r) => {
+            includedResources[r.type] = includedResources[r.type] || {};
+            includedResources[r.type][r.id] = r;
         });
-        models.push(model);
-    });
 
-    return { meta: res.meta || {}, data: models };
+        // Parse the data and build relationships
+        (res.data || []).forEach((element) => {
+            const model = parseResource({
+                resource: element,
+                type: modelType,
+                includedResources,
+                cache: !options?.fields ? bulb.cache : null,
+            });
+            models.push(model);
+        });
+
+        // Update pagination values
+        const meta = res.meta as any;
+        hasMoreRows = models.length < meta.rowCount;
+        autoPaginate = options?.page?.limit === undefined;
+        offset = meta.offset + meta.limit;
+        limit = meta.limit;
+
+        console.log(`[bulbthings][findAll][${modelType}]`, {
+            ...meta,
+            rows: models.length,
+            hasMoreRows,
+            autoPaginate,
+        });
+    }
+
+    return { meta: { ...res.meta }, data: models };
 }
