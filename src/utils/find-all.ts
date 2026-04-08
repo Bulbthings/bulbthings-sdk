@@ -7,6 +7,8 @@ import { ModelType } from '../types/model-type';
 import { request } from './http';
 import { parseResource } from './parse';
 
+const param = (value: any) => (value === Infinity ? undefined : value);
+
 export async function findAll<T extends JsonApiModel<T>>(
     bulb: Bulbthings,
     modelType: ModelType<T>,
@@ -18,19 +20,18 @@ export async function findAll<T extends JsonApiModel<T>>(
         modelType
     ) as JsonApiModelConfig;
 
-    let autoPage = false;
-    let offset = options?.page?.offset || 0;
-    let limit = options?.page?.limit || 100;
-    let page = 0;
+    let offset = options?.page?.offset ?? 0;
+    let limit = options?.page?.limit ?? Infinity;
     let start: number;
-    let res: JSONAPI.CollectionResourceDoc & { meta: any };
+    let remainingRows = 0;
+    let res: JSONAPI.CollectionResourceDoc & { meta?: any };
 
-    while (!page || (autoPage && models.length < res?.meta?.rowCount - start)) {
+    while (start === undefined || remainingRows) {
         res = await request(
             bulb,
             'GET',
             `${bulb.options.coreUrl}/${endpoint}`,
-            { params: { ...options, page: { offset, limit } } }
+            { params: { ...options, page: { offset, limit: param(limit) } } }
         );
 
         // Build a map of included resources by id for fast access
@@ -54,29 +55,23 @@ export async function findAll<T extends JsonApiModel<T>>(
         });
 
         // Update pagination values
-        offset = res.meta.offset + res.meta.limit;
-        limit = res.meta.limit;
-        page++;
-
-        if (page === 1) {
-            start = res.meta.offset;
-            autoPage =
-                options?.page?.limit === undefined ||
-                options?.page?.limit > limit;
-        }
+        start = start ?? res.meta?.offset ?? 0;
+        offset = (res.meta?.offset ?? 0) + (res.data?.length || 0);
+        limit = limit - (res.data?.length || 0);
+        remainingRows = res.meta?.rowCount
+            ? Math.min(res.meta.rowCount - start - models.length, limit)
+            : 0;
 
         console.log(`[bulbthings][findAll][${endpoint}]`, {
-            models: models.length,
             ...res.meta,
-            autoPage,
-            page,
+            models: models.length,
+            remainingRows,
+            next: { offset, limit },
         });
     }
 
     return {
-        meta: autoPage
-            ? { ...res.meta, offset: start, limit: limit * page }
-            : { ...res.meta },
+        meta: { ...res.meta, offset: start, limit: options?.page?.limit },
         data: models,
     };
 }
