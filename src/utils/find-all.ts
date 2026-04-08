@@ -20,7 +20,7 @@ export async function findAll<T extends JsonApiModel<T>>(
         modelType
     ) as JsonApiModelConfig;
 
-    let offset = options?.page?.offset ?? 0;
+    let offset = options?.page?.offset;
     let limit = options?.page?.limit ?? Infinity;
     let start: number;
     let remainingRows = 0;
@@ -71,7 +71,11 @@ export async function findAll<T extends JsonApiModel<T>>(
     }
 
     return {
-        meta: { ...res.meta, offset: start, limit: options?.page?.limit },
+        meta: {
+            ...res.meta,
+            offset: start,
+            limit: options?.page?.limit ?? models.length,
+        },
         data: models,
     };
 }
