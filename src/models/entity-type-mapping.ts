@@ -37,10 +37,20 @@ export class EntityTypeMapping extends JsonApiModel<EntityTypeMapping> {
 
     @Attribute()
     meta?: {
+        /**
+         * Use this attribute when previewing an entity.
+         */
         displayInPreview?: boolean;
         excludedCompanies?: string[];
+        /**
+         * For association type mappings, override the `associationType.meta.hasPeriod` value
+         */
+        hasPeriod?: boolean;
         isHidden?: boolean;
         isImportant?: boolean;
+        /**
+         * Allow unauthenticated visibility of this resource.
+         */
         isPublic?: boolean;
         isReadOnly?: boolean;
         isRequired?: boolean;
@@ -48,6 +58,9 @@ export class EntityTypeMapping extends JsonApiModel<EntityTypeMapping> {
          * System mappings are generated automatically for association types and cannot be edited.
          */
         isSystem?: boolean;
+        /**
+         * Numeric value used to sort attribute types for display purposes.
+         */
         order?: number;
     };
 
