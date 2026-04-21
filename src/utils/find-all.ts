@@ -57,6 +57,7 @@ export async function findAll<T extends JsonApiModel<T>>(
         // Update pagination values
         start = start ?? res.meta?.offset ?? 0;
         offset = (res.meta?.offset ?? 0) + (res.data?.length || 0);
+        // TODO: if limit is negative
         limit = limit - (res.data?.length || 0);
         remainingRows = res.meta?.rowCount
             ? Math.min(res.meta.rowCount - start - models.length, limit)
