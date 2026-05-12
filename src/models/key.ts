@@ -15,13 +15,10 @@ export class Key extends JsonApiModel<Key> {
     label?: string;
 
     @Attribute()
-    type?: 'login' | 'api' | 'email';
+    type?: 'login' | 'api' | 'email' | 'code';
 
     @Attribute()
     value?: string;
-
-    @Attribute()
-    hash?: string;
 
     @Attribute()
     meta?: {

@@ -31,6 +31,9 @@ export class Account extends JsonApiModel<Account> {
     locale?: string;
 
     @Attribute()
+    twoFactorAuth?: boolean;
+
+    @Attribute()
     meta?: {
         timezone?: string;
     };

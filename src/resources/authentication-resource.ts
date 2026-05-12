@@ -32,9 +32,12 @@ export class AuthenticationResource {
             `${this.bulbthings.options.coreUrl}/authentication/login`,
             { body: { email, password } }
         );
-        this.loginKey = parseResource({ resource: res.data, type: Key });
-        this.bulbthings.setToken(this.loginKey.value);
-        return this.loginKey;
+        const key = parseResource({ resource: res.data, type: Key });
+        if (key?.type === 'login') {
+            this.loginKey = key;
+            this.bulbthings.setToken(this.loginKey.value);
+        }
+        return key;
     }
 
     async logout() {
@@ -46,6 +49,18 @@ export class AuthenticationResource {
             );
         }
         this.bulbthings.setToken(undefined);
+    }
+
+    async validateCode(email: string, code: string): Promise<Key> {
+        const res = await request(
+            this.bulbthings,
+            'POST',
+            `${this.bulbthings.options.coreUrl}/authentication/validateCode`,
+            { body: { email, code } }
+        );
+        this.loginKey = parseResource({ resource: res.data, type: Key });
+        this.bulbthings.setToken(this.loginKey.value);
+        return this.loginKey;
     }
 
     async resetPassword(email: string) {
