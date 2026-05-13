@@ -2,6 +2,7 @@ import { JSONSchema7 } from 'json-schema';
 
 export interface JsonSchema extends JSONSchema7 {
     inputType?: 'file' | 'files' | 'entity' | 'entityType' | 'signature';
+    inputParams?: any;
     mediaTypes?: string[];
     propertyOrder?: string[];
     enumNames?: string[];
