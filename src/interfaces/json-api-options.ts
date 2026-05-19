@@ -12,5 +12,6 @@ export interface JsonApiOptions<T = any> extends RequestOptions {
     page?: {
         limit: number;
         offset?: number;
+        total?: boolean;
     };
 }

@@ -28,6 +28,9 @@ export class ReadonlyResource<T extends JsonApiModel<T>> {
     }>;
 
     async findAll(options?: JsonApiOptions<T>, withMeta = false) {
+        if (options?.page && !withMeta) {
+            options.page.total = false;
+        }
         const res = await findAll(this.bulbthings, this.modelType, options);
         return withMeta ? res : res.data;
     }
