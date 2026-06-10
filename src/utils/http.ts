@@ -70,7 +70,7 @@ export const request = async (
 
     let res: Response;
 
-    const executeRequest = async (retries = 3) => {
+    const executeRequest = async (retries = 4, retryAfter = 1000) => {
         try {
             res = await fetch(url, {
                 method,
@@ -95,26 +95,39 @@ export const request = async (
             const text = await res.text();
             return text.length ? JSON.parse(text) : {};
         } catch (error) {
-            if (isNetworkError(error)) {
-                bulb.listeners
-                    .filter((l) => l.events.includes('networkError'))
-                    .forEach((l) =>
-                        l.callback({
-                            id: null,
-                            type: 'networkError',
-                            data: {
-                                environmentId,
-                                resource: { message: error.message },
-                            },
-                        })
-                    );
+            const networkError = isNetworkError(error);
+            const rateLimitError = res.status === 429;
+
+            if (networkError || rateLimitError) {
+                if (isNetworkError) {
+                    bulb.listeners
+                        .filter((l) => l.events.includes('networkError'))
+                        .forEach((l) =>
+                            l.callback({
+                                id: null,
+                                type: 'networkError',
+                                data: {
+                                    environmentId,
+                                    resource: { message: error.message },
+                                },
+                            })
+                        );
+                }
                 if (retries > 0) {
-                    const delay = Math.floor(Math.max(3000, 9000 / retries));
                     console.warn(
-                        `[bulbthings][${method} ${url}] Network error, retrying in ${delay} ms...`
+                        `[bulbthings][${method} ${url}] ${
+                            isNetworkError
+                                ? `Network error`
+                                : 'Rate limit reached'
+                        }, retrying in ${retryAfter}ms...`
                     );
-                    await new Promise((resolve) => setTimeout(resolve, delay));
-                    return await executeRequest(retries - 1);
+                    await new Promise((resolve) =>
+                        setTimeout(resolve, retryAfter)
+                    );
+                    return await executeRequest(
+                        isNetworkError ? retries - 1 : 4,
+                        isNetworkError ? retryAfter * 3 : 1000
+                    );
                 }
             }
             throw error;
