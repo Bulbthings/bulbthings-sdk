@@ -99,7 +99,7 @@ export const request = async (
             const rateLimitError = res.status === 429;
 
             if (networkError || rateLimitError) {
-                if (isNetworkError) {
+                if (networkError) {
                     bulb.listeners
                         .filter((l) => l.events.includes('networkError'))
                         .forEach((l) =>
@@ -116,7 +116,7 @@ export const request = async (
                 if (retries > 0) {
                     console.warn(
                         `[bulbthings][${method} ${url}] ${
-                            isNetworkError
+                            networkError
                                 ? `Network error`
                                 : 'Rate limit reached'
                         }, retrying in ${retryAfter}ms...`
@@ -125,8 +125,8 @@ export const request = async (
                         setTimeout(resolve, retryAfter)
                     );
                     return await executeRequest(
-                        isNetworkError ? retries - 1 : 4,
-                        isNetworkError ? retryAfter * 3 : 1000
+                        networkError ? retries - 1 : 4,
+                        networkError ? retryAfter * 3 : 1000
                     );
                 }
             }
