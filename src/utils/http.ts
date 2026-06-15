@@ -1,7 +1,7 @@
 import fetch from 'cross-fetch';
 import * as JSONAPI from 'jsonapi-typescript';
 import qs from 'qs';
-import { Bulbthings } from '../../src';
+import { ApiError, Bulbthings } from '../../src';
 import { JsonApiOptions } from '../interfaces/json-api-options';
 import { TimeSeriesOptions } from '../interfaces/time-series-options';
 
@@ -70,7 +70,7 @@ export const request = async (
 
     let res: Response;
 
-    const executeRequest = async (retries = 3) => {
+    const executeRequest = async (retries = 4, retryAfter = 1000) => {
         try {
             res = await fetch(url, {
                 method,
@@ -95,26 +95,49 @@ export const request = async (
             const text = await res.text();
             return text.length ? JSON.parse(text) : {};
         } catch (error) {
-            if (isNetworkError(error)) {
+            const networkError = isNetworkError(error);
+            const rateLimitError = res?.status === 429;
+
+            if (networkError || rateLimitError) {
                 bulb.listeners
-                    .filter((l) => l.events.includes('networkError'))
+                    .filter((l) =>
+                        networkError
+                            ? l.events.includes('networkError')
+                            : l.events.includes('rateLimitError')
+                    )
                     .forEach((l) =>
                         l.callback({
                             id: null,
-                            type: 'networkError',
+                            type: networkError
+                                ? 'networkError'
+                                : 'rateLimitError',
                             data: {
                                 environmentId,
-                                resource: { message: error.message },
+                                resource: {
+                                    message: networkError
+                                        ? error.message
+                                        : (error as ApiError)?.errors?.[0]
+                                              ?.detail,
+                                },
                             },
                         })
                     );
+
                 if (retries > 0) {
-                    const delay = Math.floor(Math.max(3000, 9000 / retries));
                     console.warn(
-                        `[bulbthings][${method} ${url}] Network error, retrying in ${delay} ms...`
+                        `[bulbthings][${method} ${url}] ${
+                            networkError
+                                ? `Network error`
+                                : 'Rate limit reached'
+                        }, retrying in ${retryAfter}ms...`
                     );
-                    await new Promise((resolve) => setTimeout(resolve, delay));
-                    return await executeRequest(retries - 1);
+                    await new Promise((resolve) =>
+                        setTimeout(resolve, retryAfter)
+                    );
+                    return await executeRequest(
+                        networkError ? retries - 1 : 4,
+                        networkError ? retryAfter * 3 : 1000
+                    );
                 }
             }
             throw error;
