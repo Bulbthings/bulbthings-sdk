@@ -96,7 +96,7 @@ export const request = async (
             return text.length ? JSON.parse(text) : {};
         } catch (error) {
             const networkError = isNetworkError(error);
-            const rateLimitError = res.status === 429;
+            const rateLimitError = res?.status === 429;
 
             if (networkError || rateLimitError) {
                 bulb.listeners
