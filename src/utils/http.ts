@@ -1,7 +1,7 @@
 import fetch from 'cross-fetch';
 import * as JSONAPI from 'jsonapi-typescript';
 import qs from 'qs';
-import { Bulbthings } from '../../src';
+import { ApiError, Bulbthings } from '../../src';
 import { JsonApiOptions } from '../interfaces/json-api-options';
 import { TimeSeriesOptions } from '../interfaces/time-series-options';
 
@@ -99,20 +99,30 @@ export const request = async (
             const rateLimitError = res.status === 429;
 
             if (networkError || rateLimitError) {
-                if (networkError) {
-                    bulb.listeners
-                        .filter((l) => l.events.includes('networkError'))
-                        .forEach((l) =>
-                            l.callback({
-                                id: null,
-                                type: 'networkError',
-                                data: {
-                                    environmentId,
-                                    resource: { message: error.message },
+                bulb.listeners
+                    .filter((l) =>
+                        networkError
+                            ? l.events.includes('networkError')
+                            : l.events.includes('rateLimitError')
+                    )
+                    .forEach((l) =>
+                        l.callback({
+                            id: null,
+                            type: networkError
+                                ? 'networkError'
+                                : 'rateLimitError',
+                            data: {
+                                environmentId,
+                                resource: {
+                                    message: networkError
+                                        ? error.message
+                                        : (error as ApiError)?.errors?.[0]
+                                              ?.detail,
                                 },
-                            })
-                        );
-                }
+                            },
+                        })
+                    );
+
                 if (retries > 0) {
                     console.warn(
                         `[bulbthings][${method} ${url}] ${

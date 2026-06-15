@@ -90,6 +90,7 @@ export const allEventTypes = [
     'unitDeleted',
     'unitUpdated',
     'networkError',
+    'rateLimitError',
 ] as const;
 
-export type CoreEventType = typeof allEventTypes[number];
+export type CoreEventType = (typeof allEventTypes)[number];
