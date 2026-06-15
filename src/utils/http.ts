@@ -9,7 +9,7 @@ interface HttpHeaders {
     [header: string]: string | string[];
 }
 
-const isNetworkError = (error: any) => {
+export const isNetworkError = (error: any) => {
     const networkErrorMessages = [
         'Failed to fetch', // Chrome
         'NetworkError when attempting to fetch resource.', // Firefox
@@ -144,5 +144,5 @@ export const request = async (
         }
     };
 
-    return await executeRequest(3);
+    return await executeRequest();
 };
