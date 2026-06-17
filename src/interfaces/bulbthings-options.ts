@@ -4,6 +4,7 @@ export interface BulbthingsOptions {
     eventsUrl?: string;
     companyId?: string;
     environment?: string;
+    clientId?: string;
     geoPosition?: { lat: number; lng: number };
     log?: boolean;
     disableEvents?: boolean;

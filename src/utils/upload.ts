@@ -16,6 +16,7 @@ export const upload = async (
         bulb.options.companyId
             ? { companyId: bulb.options.companyId }
             : undefined,
+        bulb.options.clientId ? { clientId: bulb.options.clientId } : undefined,
         options.params
     );
 
@@ -48,7 +49,13 @@ export const upload = async (
             res = await fetch(url, {
                 method: 'POST',
                 body,
-                headers: { Authorization: `Bearer ${apiToken}` },
+                headers: {
+                    Authorization: `Bearer ${apiToken}`,
+                    'Bulbthings-Environment': environmentId,
+                    'Geo-Position': bulb.options.geoPosition
+                        ? `${bulb.options.geoPosition.lat};${bulb.options.geoPosition.lng}`
+                        : undefined,
+                },
             });
 
             if (res.status >= 400) {

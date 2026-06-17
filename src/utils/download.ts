@@ -1,5 +1,6 @@
 import fetch from 'cross-fetch';
 import * as JSONAPI from 'jsonapi-typescript';
+import qs from 'qs';
 import { ApiError, Bulbthings } from '../index';
 import { JsonApiModelConfig } from '../interfaces/json-api-model-config';
 import { RequestOptions } from '../interfaces/request-options';
@@ -20,9 +21,27 @@ export async function download<T extends JsonApiModel<T>>(
         ) as JsonApiModelConfig
     ).endpoint;
 
+    options = Object.assign(
+        {},
+        bulb.options.companyId
+            ? { companyId: bulb.options.companyId }
+            : undefined,
+        bulb.options.clientId ? { clientId: bulb.options.clientId } : undefined,
+        options
+    );
+
     const apiToken = options.apiToken || bulb.options.apiToken;
-    const url = `${bulb.options.coreUrl}/${endpoint}/${id}/download`;
     const environmentId = bulb.options.environment || 'app.bulbthings.com';
+    let url = `${bulb.options.coreUrl}/${endpoint}/${id}/download`;
+
+    // Avoid leaking the token in the URL
+    delete options.apiToken;
+
+    if (Object.keys(options).length) {
+        url = `${url}?${qs.stringify(options, {
+            arrayFormat: 'comma',
+        })}`;
+    }
 
     if (bulb.options.log) {
         console.log(`[bulbthings][GET ${url}]`);
@@ -34,7 +53,13 @@ export async function download<T extends JsonApiModel<T>>(
         try {
             res = await fetch(url, {
                 method: 'GET',
-                headers: { Authorization: `Bearer ${apiToken}` },
+                headers: {
+                    Authorization: `Bearer ${apiToken}`,
+                    'Bulbthings-Environment': environmentId,
+                    'Geo-Position': bulb.options.geoPosition
+                        ? `${bulb.options.geoPosition.lat};${bulb.options.geoPosition.lng}`
+                        : undefined,
+                },
             });
 
             if (res.status >= 400) {

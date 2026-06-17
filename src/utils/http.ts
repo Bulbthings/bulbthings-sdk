@@ -49,6 +49,7 @@ export const request = async (
         bulb.options.companyId
             ? { companyId: bulb.options.companyId }
             : undefined,
+        bulb.options.clientId ? { clientId: bulb.options.clientId } : undefined,
         options.params
     );
 
