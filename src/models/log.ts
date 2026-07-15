@@ -23,7 +23,7 @@ export class Log extends JsonApiModel<Log> {
         environmentId?: string;
         keyId?: string;
         previousData?: { [key: string]: any };
-        resource?: { [key: string]: any };
+        resource?: any;
     };
 
     @Attribute()
