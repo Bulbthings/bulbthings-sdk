@@ -17,6 +17,7 @@ export * from './file';
 export * from './company';
 export * from './account';
 export * from './key';
+export * from './log';
 export * from './membership';
 export * from './permission';
 export * from './role';
