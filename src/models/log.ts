@@ -30,10 +30,10 @@ export class Log extends JsonApiModel<Log> {
     meta?: { [key: string]: any };
 
     @Attribute()
-    sourceEntityId?: null | string;
+    sourceEntityId?: string;
 
     @Attribute()
-    targetEntityId?: null | string;
+    targetEntityId?: string;
 
     @Attribute()
     time?: Date;
