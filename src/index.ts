@@ -24,6 +24,7 @@ import {
     Grant,
     Hook,
     Key,
+    Log,
     Measurement,
     Membership,
     Permission,
@@ -43,6 +44,7 @@ import { ReadonlyResource } from './resources/readonly-resource';
 import { Resource } from './resources/resource';
 import { TimeSeriesResource } from './resources/time-series';
 import { allEventTypes, CoreEventType } from './types/core-event-type';
+import { LogResource } from './types/log-resource';
 
 // Export JSONAPI Error class to parse errors
 export { DocWithErrors as ApiError } from 'jsonapi-typescript';
@@ -81,6 +83,7 @@ export class Bulbthings {
     grants = new Resource<Grant>(this, Grant);
     hooks = new Resource<Hook>(this, Hook);
     keys = new Resource<Key>(this, Key);
+    logs: LogResource = new Resource<Log>(this, Log);
     measurements = new Resource<Measurement>(this, Measurement);
     memberships = new Resource<Membership>(this, Membership);
     paths = new PathResource(this);
