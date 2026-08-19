@@ -40,6 +40,10 @@ export class EntityType extends JsonApiModel<EntityType> {
          */
         isAbstract?: boolean;
         /**
+         * Specifies if entities of this type are consumable assets.
+         */
+        isConsumable?: boolean;
+        /**
          * Specifies if entities of this type should only be visible to their creator.
          */
         isPrivate?: boolean;
