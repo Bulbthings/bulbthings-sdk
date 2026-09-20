@@ -101,6 +101,7 @@ export class Bulbthings {
         coreUrl: 'https://api.bulbthings.com',
         eventsUrl: 'https://events.bulbthings.com',
     };
+    isRateLimited = false;
 
     // Server-Sent Events (SSE)
     listeners: EventSourceListener[] = [];
