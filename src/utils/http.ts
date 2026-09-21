@@ -71,8 +71,17 @@ export const request = async (
 
     let res: Response;
 
-    const executeRequest = async (retries = 4, retryAfter = 1000) => {
+    const executeRequest = async (
+        retries = 4,
+        retryAfter = 1000,
+        ignoreRateLimit = false
+    ) => {
+        while (bulb.isRateLimited && !ignoreRateLimit) {
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+        }
+
         try {
+            res = null; // Clear previous res object
             res = await fetch(url, {
                 method,
                 body: options.body && JSON.stringify(options.body),
@@ -91,6 +100,7 @@ export const request = async (
             if (res.status >= 400) {
                 throw (await res.json()) as JSONAPI.DocWithErrors;
             }
+            bulb.isRateLimited = false;
 
             // Check if body is empty or not
             const text = await res.text();
@@ -98,6 +108,7 @@ export const request = async (
         } catch (error) {
             const networkError = isNetworkError(error);
             const rateLimitError = res?.status === 429;
+            bulb.isRateLimited = rateLimitError;
 
             if (networkError || rateLimitError) {
                 bulb.listeners
@@ -124,7 +135,7 @@ export const request = async (
                         })
                     );
 
-                if (retries > 0) {
+                if (rateLimitError || retries > 0) {
                     console.warn(
                         `[bulbthings][${method} ${url}] ${
                             networkError
@@ -137,7 +148,8 @@ export const request = async (
                     );
                     return await executeRequest(
                         networkError ? retries - 1 : 4,
-                        networkError ? retryAfter * 3 : 1000
+                        networkError ? retryAfter * 3 : 1000,
+                        rateLimitError
                     );
                 }
             }
