@@ -1,6 +1,6 @@
 {
     "name": "@bulbthings/bulbthings-sdk",
-    "version": "1.5.0",
+    "version": "1.6.0",
     "description": "Isomorphic JavaScript/TypeScript SDK for the Bulbthings API",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
