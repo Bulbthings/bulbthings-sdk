@@ -36,6 +36,10 @@ export class ActionType extends JsonApiModel<ActionType> {
          */
         requireScan?: boolean;
         /**
+         * If provided, users are asked to confirm this message before the action is submitted.
+         */
+        confirmationMessage?: string;
+        /**
          * If true, the action should try to provide geoposition coordinates as metadata when
          * submitted.
          */
