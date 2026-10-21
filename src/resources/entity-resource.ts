@@ -14,7 +14,8 @@ export class EntityResource extends Resource<Entity> {
     }
 
     /**
-     * Accounts with access to the entity. Core only honours `filter`, on account fields.
+     * Accounts with access to the entity. You may use the `filter` option to filter the accounts
+     * on `id`, `email`, `label`, `locale`, `isBot` or `isVerified`.
      */
     async getAccounts(id: string, options?: JsonApiOptions<Account>) {
         return (
