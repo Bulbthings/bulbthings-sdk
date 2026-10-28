@@ -62,6 +62,14 @@ export class EntityTypeMapping extends JsonApiModel<EntityTypeMapping> {
          * Numeric value used to sort attribute types for display purposes.
          */
         order?: number;
+        /**
+         * For association type mappings, override the `associationType.meta.sourceSectionLabel` value
+         */
+        sourceSectionLabel?: string;
+        /**
+         * For association type mappings, override the `associationType.meta.targetSectionLabel` value
+         */
+        targetSectionLabel?: string;
     };
 
     @Attribute()
