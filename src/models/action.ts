@@ -50,6 +50,11 @@ export class Action extends JsonApiModel<Action> {
          */
         isPublic?: boolean;
         timezone?: string;
+        /**
+         * Shared by the actions created together on several entities (one
+         * action per entity), so handlers can process them as one batch
+         */
+        batchId?: string;
     };
 
     @Relation('BelongsTo', () => Company)
