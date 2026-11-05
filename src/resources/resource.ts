@@ -54,6 +54,10 @@ export class Resource<T extends JsonApiModel<T>> {
                     this.bulbthings.cache.get(endpoint, id) ??
                     // findById will update the cache value
                     (await this.findById(id, options));
+                // findById caches by the returned id: also keep aliases such as 'self'
+                if (cached?.id && cached.id !== id) {
+                    this.bulbthings.cache.set(endpoint, id, cached);
+                }
             } catch (err) {
                 const status = (err as ApiError)?.errors?.[0]?.status;
                 if (status === '404') {
