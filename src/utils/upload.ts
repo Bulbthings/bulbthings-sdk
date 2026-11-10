@@ -36,16 +36,26 @@ export const upload = async (
         console.log(`[bulbthings][POST ${url}]`);
     }
 
-    const body: FormData = <any>new formData();
-    // Important: `data` should come first so that it can be
-    // parsed before `file` by Express middlewares
-    body.append('data', JSON.stringify(options.data));
-    body.append('file', options.file);
+    // A bare stream is consumed by the first attempt, so it can't be sent
+    // again. A factory (`() => fs.createReadStream(path)`) opens a fresh one.
+    const isFileStream = typeof options.file?.pipe === 'function';
 
     let res: Response;
 
     const executeRequest = async (retries = 4, retryAfter = 1000) => {
         try {
+            // Built on each attempt: a multipart body can only be sent once
+            const body: FormData = <any>new formData();
+            // Important: `data` should come first so that it can be
+            // parsed before `file` by Express middlewares
+            body.append('data', JSON.stringify(options.data));
+            body.append(
+                'file',
+                typeof options.file === 'function'
+                    ? options.file()
+                    : options.file
+            );
+
             res = await fetch(url, {
                 method: 'POST',
                 body,
@@ -94,7 +104,7 @@ export const upload = async (
                         })
                     );
 
-                if (retries > 0) {
+                if (retries > 0 && !isFileStream) {
                     console.warn(
                         `[bulbthings][POST ${url}] ${
                             networkError
