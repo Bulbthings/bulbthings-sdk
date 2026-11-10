@@ -10,6 +10,12 @@ export class FileResource extends Resource<File> {
         super(bulbthings, File);
     }
 
+    /**
+     * @param file a Blob/File (browser), a `{ uri, name, type }` object (React
+     * Native), a Buffer, a stream, or a function returning one of those. A
+     * stream can only be sent once, so pass `() => fs.createReadStream(path)`
+     * for uploads to be retried after a network error.
+     */
     async create(
         data: Omit<File, 'getRelationMetadata' | 'getAttributeMetadata'>,
         file?: any,
