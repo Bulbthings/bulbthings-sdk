@@ -76,14 +76,14 @@ export const request = async (
     const executeRequest = async (
         retries = 4,
         retryAfter = 1000,
-        hasTurn = false
+        hasLock = false
     ) => {
         // A retry runs inside the turn of the attempt that called it: taking
         // the mutex again would wait on itself forever
-        const mustTakeTurn =
-            !hasTurn &&
+        const mustTakeLock =
+            !hasLock &&
             (bulb.rateLimitQueue.size > 0 || bulb.rateLimitMutex.isLocked());
-        const release = mustTakeTurn
+        const release = mustTakeLock
             ? await bulb.rateLimitMutex.acquire()
             : () => {};
 
@@ -161,7 +161,7 @@ export const request = async (
                     return await executeRequest(
                         networkError ? retries - 1 : 4,
                         networkError ? retryAfter * 3 : 1000,
-                        hasTurn || mustTakeTurn
+                        hasLock || mustTakeLock
                     );
                 }
             }
