@@ -5,9 +5,10 @@ import { after, before, beforeEach, describe, it } from 'node:test';
 import { Bulbthings } from '../src';
 
 /**
- * Invariants under test: whenever `isRateLimited` is true, exactly one request
- * of that instance is retrying (never zero, or every other request waits
- * forever; never several, or the 429s grow with the number of waiting requests).
+ * Invariants under test: while an instance has rate-limited requests queued,
+ * exactly one of its requests is being sent or retried at a time (never zero,
+ * or every other request waits forever; never several, or the 429s grow with
+ * the number of waiting requests).
  */
 describe('rate limit gate', () => {
     const realSetTimeout = global.setTimeout;
@@ -71,7 +72,7 @@ describe('rate limit gate', () => {
         await bulbthings.entities.findAll();
 
         assert.strictEqual(requestedPaths.length, 6);
-        assert.strictEqual(bulbthings.isRateLimited, false);
+        assert.strictEqual(bulbthings.rateLimitQueue.size, 0);
         await bulbthings.entities.findAll();
     });
 
@@ -82,7 +83,7 @@ describe('rate limit gate', () => {
 
         const retrying = bulbthings.entities.findAll();
         await waitFor(50);
-        assert.strictEqual(bulbthings.isRateLimited, true);
+        assert.strictEqual(bulbthings.rateLimitQueue.size > 0, true);
 
         const held = [
             bulbthings.associations.findAll(),
@@ -100,7 +101,7 @@ describe('rate limit gate', () => {
 
         isLimited = false;
         await Promise.all([retrying, ...held]);
-        assert.strictEqual(bulbthings.isRateLimited, false);
+        assert.strictEqual(bulbthings.rateLimitQueue.size, 0);
     });
 
     it('retries one request at a time however many got a 429', async () => {
@@ -122,7 +123,7 @@ describe('rate limit gate', () => {
 
         isLimited = false;
         await Promise.all(burst);
-        assert.strictEqual(bulbthings.isRateLimited, false);
+        assert.strictEqual(bulbthings.rateLimitQueue.size, 0);
         assert.strictEqual(bulbthings.rateLimitMutex.isLocked(), false);
     });
 
@@ -138,10 +139,10 @@ describe('rate limit gate', () => {
 
         const retrying = limited.entities.findAll();
         await waitFor(50);
-        assert.strictEqual(limited.isRateLimited, true);
+        assert.strictEqual(limited.rateLimitQueue.size > 0, true);
 
         await other.entities.findAll();
-        assert.strictEqual(other.isRateLimited, false);
+        assert.strictEqual(other.rateLimitQueue.size, 0);
 
         isLimited = false;
         await retrying;

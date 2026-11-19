@@ -1,6 +1,7 @@
 import fetch from 'cross-fetch';
 import * as JSONAPI from 'jsonapi-typescript';
 import qs from 'qs';
+import { v4 as uuidv4 } from 'uuid';
 import { ApiError, Bulbthings } from '../../src';
 import { JsonApiOptions } from '../interfaces/json-api-options';
 import { TimeSeriesOptions } from '../interfaces/time-series-options';
@@ -70,11 +71,22 @@ export const request = async (
     }
 
     let res: Response;
+    const requestId = uuidv4();
 
     const executeRequest = async (
         retries = 4,
-        retryAfter = 1000
-    ): Promise<any> => {
+        retryAfter = 1000,
+        hasTurn = false
+    ) => {
+        // A retry runs inside the turn of the attempt that called it: taking
+        // the mutex again would wait on itself forever
+        const mustTakeTurn =
+            !hasTurn &&
+            (bulb.rateLimitQueue.size > 0 || bulb.rateLimitMutex.isLocked());
+        const release = mustTakeTurn
+            ? await bulb.rateLimitMutex.acquire()
+            : () => {};
+
         try {
             res = null; // Clear previous res object
             res = await fetch(url, {
@@ -95,6 +107,7 @@ export const request = async (
             if (res.status >= 400) {
                 throw (await res.json()) as JSONAPI.DocWithErrors;
             }
+            bulb.rateLimitQueue.delete(requestId);
 
             // Check if body is empty or not
             const text = await res.text();
@@ -102,6 +115,12 @@ export const request = async (
         } catch (error) {
             const networkError = isNetworkError(error);
             const rateLimitError = res?.status === 429;
+
+            if (rateLimitError) {
+                bulb.rateLimitQueue.add(requestId);
+            } else {
+                bulb.rateLimitQueue.delete(requestId);
+            }
 
             if (networkError || rateLimitError) {
                 bulb.listeners
@@ -127,58 +146,30 @@ export const request = async (
                             },
                         })
                     );
-            }
 
-            if (networkError && retries > 0) {
-                console.warn(
-                    `[bulbthings][${method} ${url}] Network error, retrying in ${retryAfter}ms...`
-                );
-                await new Promise((resolve) => setTimeout(resolve, retryAfter));
-                return await executeRequest(retries - 1, retryAfter * 3);
+                if (rateLimitError || retries > 0) {
+                    console.warn(
+                        `[bulbthings][${method} ${url}] ${
+                            networkError
+                                ? `Network error`
+                                : 'Rate limit reached'
+                        }, retrying in ${retryAfter}ms...`
+                    );
+                    await new Promise((resolve) =>
+                        setTimeout(resolve, retryAfter)
+                    );
+                    return await executeRequest(
+                        networkError ? retries - 1 : 4,
+                        networkError ? retryAfter * 3 : 1000,
+                        hasTurn || mustTakeTurn
+                    );
+                }
             }
             throw error;
-        }
-    };
-
-    // While the instance is rate-limited, its requests take turns: only the one
-    // holding the mutex is sent, and it retries alone until it gets through.
-    // However many requests are waiting, at most one 429 per second comes back.
-    const executeInTurn = async () => {
-        try {
-            return await bulb.rateLimitMutex.runExclusive(async () => {
-                for (;;) {
-                    try {
-                        return await executeRequest();
-                    } catch (error) {
-                        if (res?.status === 429) {
-                            console.warn(
-                                `[bulbthings][${method} ${url}] Rate limit reached, retrying in 1000ms...`
-                            );
-                            await new Promise((resolve) =>
-                                setTimeout(resolve, 1000)
-                            );
-                        } else {
-                            throw error;
-                        }
-                    }
-                }
-            });
         } finally {
-            if (!bulb.rateLimitMutex.isLocked()) {
-                bulb.isRateLimited = false;
-            }
+            release();
         }
     };
 
-    try {
-        return bulb.isRateLimited
-            ? await executeInTurn()
-            : await executeRequest();
-    } catch (error) {
-        if (res?.status === 429) {
-            bulb.isRateLimited = true;
-            return await executeInTurn();
-        }
-        throw error;
-    }
+    return await executeRequest();
 };
