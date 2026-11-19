@@ -1,6 +1,7 @@
 import fetch from 'cross-fetch';
 import * as JSONAPI from 'jsonapi-typescript';
 import qs from 'qs';
+import { v4 as uuidv4 } from 'uuid';
 import { ApiError, Bulbthings } from '../../src';
 import { JsonApiOptions } from '../interfaces/json-api-options';
 import { TimeSeriesOptions } from '../interfaces/time-series-options';
@@ -70,15 +71,21 @@ export const request = async (
     }
 
     let res: Response;
+    const requestId = uuidv4();
 
     const executeRequest = async (
         retries = 4,
         retryAfter = 1000,
-        ignoreRateLimit = false
+        hasLock = false
     ) => {
-        while (bulb.isRateLimited && !ignoreRateLimit) {
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-        }
+        // A retry runs inside the turn of the attempt that called it: taking
+        // the mutex again would wait on itself forever
+        const mustTakeLock =
+            !hasLock &&
+            (bulb.rateLimitQueue.size > 0 || bulb.rateLimitMutex.isLocked());
+        const release = mustTakeLock
+            ? await bulb.rateLimitMutex.acquire()
+            : () => {};
 
         try {
             res = null; // Clear previous res object
@@ -100,7 +107,7 @@ export const request = async (
             if (res.status >= 400) {
                 throw (await res.json()) as JSONAPI.DocWithErrors;
             }
-            bulb.isRateLimited = false;
+            bulb.rateLimitQueue.delete(requestId);
 
             // Check if body is empty or not
             const text = await res.text();
@@ -108,7 +115,12 @@ export const request = async (
         } catch (error) {
             const networkError = isNetworkError(error);
             const rateLimitError = res?.status === 429;
-            bulb.isRateLimited = rateLimitError;
+
+            if (rateLimitError) {
+                bulb.rateLimitQueue.add(requestId);
+            } else {
+                bulb.rateLimitQueue.delete(requestId);
+            }
 
             if (networkError || rateLimitError) {
                 bulb.listeners
@@ -149,11 +161,13 @@ export const request = async (
                     return await executeRequest(
                         networkError ? retries - 1 : 4,
                         networkError ? retryAfter * 3 : 1000,
-                        rateLimitError
+                        hasLock || mustTakeLock
                     );
                 }
             }
             throw error;
+        } finally {
+            release();
         }
     };
 
