@@ -102,6 +102,7 @@ export class Bulbthings {
         eventsUrl: 'https://events.bulbthings.com',
     };
     isRateLimited = false;
+    rateLimitMutex = new Mutex();
 
     // Server-Sent Events (SSE)
     listeners: EventSourceListener[] = [];

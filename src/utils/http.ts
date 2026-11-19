@@ -73,13 +73,8 @@ export const request = async (
 
     const executeRequest = async (
         retries = 4,
-        retryAfter = 1000,
-        ignoreRateLimit = false
-    ) => {
-        while (bulb.isRateLimited && !ignoreRateLimit) {
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-        }
-
+        retryAfter = 1000
+    ): Promise<any> => {
         try {
             res = null; // Clear previous res object
             res = await fetch(url, {
@@ -100,7 +95,6 @@ export const request = async (
             if (res.status >= 400) {
                 throw (await res.json()) as JSONAPI.DocWithErrors;
             }
-            bulb.isRateLimited = false;
 
             // Check if body is empty or not
             const text = await res.text();
@@ -108,7 +102,6 @@ export const request = async (
         } catch (error) {
             const networkError = isNetworkError(error);
             const rateLimitError = res?.status === 429;
-            bulb.isRateLimited = rateLimitError;
 
             if (networkError || rateLimitError) {
                 bulb.listeners
@@ -134,28 +127,58 @@ export const request = async (
                             },
                         })
                     );
+            }
 
-                if (rateLimitError || retries > 0) {
-                    console.warn(
-                        `[bulbthings][${method} ${url}] ${
-                            networkError
-                                ? `Network error`
-                                : 'Rate limit reached'
-                        }, retrying in ${retryAfter}ms...`
-                    );
-                    await new Promise((resolve) =>
-                        setTimeout(resolve, retryAfter)
-                    );
-                    return await executeRequest(
-                        networkError ? retries - 1 : 4,
-                        networkError ? retryAfter * 3 : 1000,
-                        rateLimitError
-                    );
-                }
+            if (networkError && retries > 0) {
+                console.warn(
+                    `[bulbthings][${method} ${url}] Network error, retrying in ${retryAfter}ms...`
+                );
+                await new Promise((resolve) => setTimeout(resolve, retryAfter));
+                return await executeRequest(retries - 1, retryAfter * 3);
             }
             throw error;
         }
     };
 
-    return await executeRequest();
+    // While the instance is rate-limited, its requests take turns: only the one
+    // holding the mutex is sent, and it retries alone until it gets through.
+    // However many requests are waiting, at most one 429 per second comes back.
+    const executeInTurn = async () => {
+        try {
+            return await bulb.rateLimitMutex.runExclusive(async () => {
+                for (;;) {
+                    try {
+                        return await executeRequest();
+                    } catch (error) {
+                        if (res?.status === 429) {
+                            console.warn(
+                                `[bulbthings][${method} ${url}] Rate limit reached, retrying in 1000ms...`
+                            );
+                            await new Promise((resolve) =>
+                                setTimeout(resolve, 1000)
+                            );
+                        } else {
+                            throw error;
+                        }
+                    }
+                }
+            });
+        } finally {
+            if (!bulb.rateLimitMutex.isLocked()) {
+                bulb.isRateLimited = false;
+            }
+        }
+    };
+
+    try {
+        return bulb.isRateLimited
+            ? await executeInTurn()
+            : await executeRequest();
+    } catch (error) {
+        if (res?.status === 429) {
+            bulb.isRateLimited = true;
+            return await executeInTurn();
+        }
+        throw error;
+    }
 };
